@@ -1,0 +1,16 @@
+{
+    "name": "Lemmy Instance Assistant",
+    "description": "Ensure that the Lemmy instance you are on is the one you want to be on",
+    "version": "1.0.0",
+    "manifest_version": 2,
+    "background": { "scripts": ["background.js"] },
+    "icons": {
+      "48": "img/lemming48.png",
+      "128": "img/lemming128.png"
+    },
+    "permissions": [
+      "webRequest",
+      "webRequestBlocking",
+      "*://lemmy.ml/c/*"
+    ]
+  }
