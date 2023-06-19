@@ -1,0 +1,80 @@
+body {
+    background:#242424;
+    width: 400px;
+    min-height: 150px;
+    padding: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, sans-serif;
+  }
+  
+  h1 {
+    color:#e0e0e0;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  p {
+    color:#e0e0e0;
+    font-size: 14px;
+  }
+  
+  ul#instance-list {
+    list-style-type: none;
+    padding-left: 0;
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+  }
+
+  #change-instance {
+    background-color: #501919;
+    color: #e0e0e0;
+    padding: .375rem .75rem;
+    margin: 0rem 0rem 1rem 0rem;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  .instance-button {
+    background-color: #3a3a3a;
+    color: white;
+    padding: .375rem .75rem;
+    padding-left: 36px;
+    margin-bottom: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 400;
+    text-align: left;
+    transition: background-color 0.2s;
+    background-image: url("../img/copy.png");
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 24px 16px;
+  }
+  
+  .instance-button.selected {
+    background-color: #ffdede;
+  }
+  
+  .instance-button:active {
+    animation: buttonClick 0.05s;
+  }
+  
+  @keyframes buttonClick {
+    0% {
+      background-color: #ffe3e3;
+    }
+    50% {
+      background-color: #333333;
+    }
+    100% {
+      background-color: #fffbca;
+    }
+  }
+  
+  
