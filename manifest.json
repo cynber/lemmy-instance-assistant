@@ -27,6 +27,6 @@
     }
   ],
   "host_permissions": [
-    "https://*/*", "tabs"
+    "https://*/*"
   ]
 }

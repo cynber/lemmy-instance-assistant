@@ -63,12 +63,25 @@ document.addEventListener("DOMContentLoaded", function () {
     const { selectedInstance } = await browser.storage.local.get('selectedInstance');
     const queryOptions = { active: true, currentWindow: true };
     const [tab] = await browser.tabs.query(queryOptions);
-    
+
     const currentUrl = tab.url;
     const currentHost = new URL(currentUrl).hostname;
-    const redirectURL = selectedInstance + '/c/@' + currentHost;
-  
-    alert('Redirecting to selected instance...' + redirectURL);
-    await browser.tabs.update(tab.id, { url: redirectURL });
+    const currentPath = new URL(currentUrl).pathname;
+
+    const selectedInstanceHostname = new URL(selectedInstance).hostname;
+    const communityName = currentPath.match(/\/[cm]\/([^/@]+)/)[1];
+    const sourceInstance = currentPath.includes("@") ?
+      currentPath.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : currentHost;
+
+    const urlPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
+
+    if (selectedInstanceHostname != currentHost) { // run if not on home instance
+      if (selectedInstance && urlPattern.test(selectedInstance)) {
+
+        const redirectURL = selectedInstance + '/c/' + communityName + '@' + sourceInstance;
+        await browser.tabs.update(tab.id, { url: redirectURL });
+
+      } else { alert('You have not selected a valid instance. Please select an instance by clicking the extension popup.'); }
+    } else { alert('You are already on your home instance.'); }
   });
 });

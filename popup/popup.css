@@ -29,7 +29,20 @@ body {
     background-color: #501919;
     color: #e0e0e0;
     padding: .375rem .75rem;
-    margin: 0rem 0rem 1rem 0rem;
+    margin: 0rem 0rem 0rem 0rem;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  #redirect-instance {
+    background-color: #151347;
+    color: #e0e0e0;
+    padding: .375rem .75rem;
+    margin: 0rem 0rem 0rem 0rem;
     width: 100%;
     border: none;
     border-radius: 5px;

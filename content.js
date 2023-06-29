@@ -8,9 +8,11 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
     const sourceInstance = currentPath.includes("@") ?
         currentPath.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : currentHost;
 
+    const selectedInstanceHostname = new URL(selectedInstance).hostname;
+
     const urlPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
 
-    if (selectedInstance != currentHost) { // run if not on home instance
+    if (selectedInstanceHostname != currentHost) { // run if not on home instance
 
         const targetElement = document.querySelector('.card-body');
 
@@ -18,10 +20,10 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
         const message = document.createElement('p');
 
         goButton.setAttribute('type', 'button');
-        goButton.textContent = 'Open this community in my instance CARROT';
+        goButton.textContent = 'Open community in my home instance';
         goButton.style.cssText = `
             padding: .375rem .75rem;
-            margin: .5rem 0rem .5rem 0rem;
+            margin: 1rem 0rem .5rem 0rem;
             width: 100%;
             border: none;
             border-radius: 5px;
@@ -52,7 +54,7 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
                 font-size: 0.8rem;
                 color: #666;
             `;
-        message.textContent = 'To change your selected instance, click on the extension icon in the top right corner of your browser.';
+        message.textContent = 'To change your home instance, click on the extension icon in the top right corner of your browser.';
 
 
 
