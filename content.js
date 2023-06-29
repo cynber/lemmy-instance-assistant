@@ -1,39 +1,62 @@
-const targetElement = document.querySelector('.card-body');
-const communityName = targetElement.querySelector('.overflow-wrap-anywhere').textContent;
+browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
 
-if (communityName.includes('!') && !communityName.includes('@')) {
+    const currentUrl = window.location.href;
+    const currentHost = new URL(currentUrl).hostname;
+    const currentPath = new URL(currentUrl).pathname;
 
-    const goButton = document.createElement('button');
-    const message = document.createElement('p');
+    const communityName = currentPath.match(/\/[cm]\/([^/@]+)/)[1];
+    const sourceInstance = currentPath.includes("@") ?
+        currentPath.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : currentHost;
 
-    goButton.setAttribute('type', 'button');
-    goButton.textContent = 'Open this community in my instance';
-    goButton.style.cssText = `
-        padding: .375rem .75rem;
-        margin: .5rem 0rem .5rem 0rem;
-        width: 100%;
-        border: none;
-        border-radius: 5px;
-        font-weight: 400;
-        text-align: center;
-        color: white;
-    `;
-    goButton.style.backgroundColor = '#151347';
-    goButton.addEventListener('click', async () => {
-        const { selectedInstance } = await browser.storage.local.get('selectedInstance');
-        const currentUrl = window.location.href;
-        const currentHost = new URL(currentUrl).hostname;
-        const redirectURL = selectedInstance + '/c/' + communityName.slice(1) + '@' + currentHost;
-        window.location.href = redirectURL;
-    });
+    const urlPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
 
-    message.style.cssText = `
-        font-size: 0.8rem;
-        color: #666;
-    `;
-    message.textContent = 'To change your selected instance, click on the extension icon in the top right corner of your browser.';
+    if (selectedInstance != currentHost) { // run if not on home instance
 
-    targetElement.appendChild(goButton);
-    targetElement.appendChild(message);
+        const targetElement = document.querySelector('.card-body');
 
-}
+        const goButton = document.createElement('button');
+        const message = document.createElement('p');
+
+        goButton.setAttribute('type', 'button');
+        goButton.textContent = 'Open this community in my instance CARROT';
+        goButton.style.cssText = `
+            padding: .375rem .75rem;
+            margin: .5rem 0rem .5rem 0rem;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            font-weight: 400;
+            text-align: center;
+            color: white;
+      `;
+        goButton.style.backgroundColor = '#151347';
+
+        if (selectedInstance && urlPattern.test(selectedInstance)) {
+
+            goButton.addEventListener('click', () => {
+                browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
+                    const redirectURL = selectedInstance + '/c/' + communityName + '@' + sourceInstance;
+                    window.location.href = redirectURL;
+                });
+            });
+
+
+        } else {
+            goButton.addEventListener('click', () => {
+                //popup a message telling user that they did not select an instance
+                alert('You have not selected a valid instance. Please select an instance by clicking the extension popup.');
+            });
+        }
+
+        message.style.cssText = `
+                font-size: 0.8rem;
+                color: #666;
+            `;
+        message.textContent = 'To change your selected instance, click on the extension icon in the top right corner of your browser.';
+
+
+
+        targetElement.appendChild(goButton);
+        targetElement.appendChild(message);
+    }
+});
