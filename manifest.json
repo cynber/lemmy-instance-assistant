@@ -1,25 +1,20 @@
 {
   "name": "Lemmy Instance Assistant",
   "description": "Ensure that the Lemmy instance you are on is the one you want to be on",
-  "version": "1.0.0",
-  "manifest_version": 2,
-  "browser_action": {
+  "version": "1.0.1",
+  "manifest_version": 3,
+  "icons": {
+    "48": "img/lemming48.png",
+    "128": "img/lemming128.png"
+  },
+  "permissions": [ "storage" ],
+  "action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
       "16": "img/lemming16.png",
       "32": "img/lemming32.png"
     }
   },
-  "icons": {
-    "48": "img/lemming48.png",
-    "128": "img/lemming128.png"
-  },
-  "permissions": [
-    "webRequest",
-    "webRequestBlocking",
-    "https://*/*",
-    "storage"
-  ],
   "content_scripts": [
     {
       "matches": [
@@ -30,6 +25,8 @@
         "content.js"
       ]
     }
+  ],
+  "host_permissions": [
+    "https://*/*", "tabs"
   ]
-  
 }
