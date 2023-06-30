@@ -24,5 +24,10 @@
         "content.js"
       ]
     }
-  ]
+  ],
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": false,
+    "browser_style": false
+  }
 }
