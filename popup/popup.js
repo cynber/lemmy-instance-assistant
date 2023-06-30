@@ -15,16 +15,22 @@ document.addEventListener("DOMContentLoaded", function () {
   const instanceList = document.getElementById("instance-list");
   const redirectInstanceButton = document.getElementById("redirect-instance");
 
+  const urlPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
+
   // Update home instance address when button is clicked
   changeInstanceButton.addEventListener("click", () => {
     const inputInstance = prompt(
-      "Enter your instance URL, then click anywhere on the page:"
+      "Enter your instance URL:"
     );
-    if (inputInstance) {
+    if (inputInstance && urlPattern.test(inputInstance)) {
       browser.storage.local.set({
         selectedInstance: inputInstance.trim(),
       });
       selectedInstanceElement.textContent = inputInstance.trim();
+    } else {
+      alert(
+        "Invalid URL format, please enter a valid URL. \n (e.g. https://lemmy.ca)"
+      );
     }
   });
 
@@ -72,8 +78,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const communityName = currentPath.match(/\/[cm]\/([^/@]+)/)[1];
     const sourceInstance = currentPath.includes("@") ?
       currentPath.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : currentHost;
-
-    const urlPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
 
     if (selectedInstanceHostname != currentHost) { // run if not on home instance
       if (selectedInstance && urlPattern.test(selectedInstance)) {
