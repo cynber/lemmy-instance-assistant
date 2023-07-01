@@ -39,6 +39,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectedInstance = result.selectedInstance;
     if (selectedInstance) {
       selectedInstanceElement.textContent = selectedInstance;
+    } else {
+      selectedInstanceElement.textContent = "Not set";
     }
   });
 
@@ -74,18 +76,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentHost = new URL(currentUrl).hostname;
     const currentPath = new URL(currentUrl).pathname;
 
-    const selectedInstanceHostname = new URL(selectedInstance).hostname;
-    const communityName = currentPath.match(/\/[cm]\/([^/@]+)/)[1];
-    const sourceInstance = currentPath.includes("@") ?
-      currentPath.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : currentHost;
-
-    if (selectedInstanceHostname != currentHost) { // run if not on home instance
+    if (currentPath.includes("/c/") || currentPath.includes("/m/")) {
       if (selectedInstance && urlPattern.test(selectedInstance)) {
+        const selectedInstanceHostname = new URL(selectedInstance).hostname;
+        const communityName = currentPath.match(/\/[cm]\/([^/@]+)/)[1];
+        const sourceInstance = currentPath.includes("@") ?
+          currentPath.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : currentHost;
 
-        const redirectURL = selectedInstance + '/c/' + communityName + '@' + sourceInstance;
-        await browser.tabs.update(tab.id, { url: redirectURL });
+        if (selectedInstanceHostname != currentHost) { // run if not on home instance
 
+          const redirectURL = selectedInstance + '/c/' + communityName + '@' + sourceInstance;
+          await browser.tabs.update(tab.id, { url: redirectURL });
+
+        } else { alert('You are already on your home instance.'); }
       } else { alert('You have not selected a valid instance. Please select an instance by clicking the extension popup.'); }
-    } else { alert('You are already on your home instance.'); }
+    } else { alert('You are not on a Lemmy or Kbin community. Please navigate to a community or a post and try again.'); }
   });
 });

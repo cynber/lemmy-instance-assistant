@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Lemmy Instance Selector</title>
   <link rel="stylesheet" href="popup.css">
   <script src="../node_modules/webextension-polyfill/dist/browser-polyfill.js"></script>
   <script src="popup.js"></script>
 </head>
+
 <body>
-  <h1>Lemmy Instance Assistant</h1>
-  <button id="redirect-instance">Open this community in my home instance</button>
-  <br/>
-  <br/>
-  <p><b>Home Instance:</b> <span id="selected-instance"></span></p>
-  <button id="change-instance">Change my home instance</button>
-  <p>If your home instance is one of the following, you can quickly copy the address to your clipboard:</p>
-  <ul id="instance-list"></ul>
+  <p style="text-align: center;"><b>Home Instance:</b> <span id="selected-instance"></span></p>
+  <button id="redirect-instance" class="button">Open this community in my home instance</button>
+  <p class="message">If you are using this extension for the first time, please see the <a
+    href="https://github.com/cynber/lemmy-instance-assistant#instructions"> recommended set-up instructions here.</a>
+</p>
+  <div class="popup-section">
+    <button id="change-instance" class="button">Change my home instance</button>
+    <p>If your home instance is one of the following, you can quickly copy the address to your clipboard:</p>
+    <ul id="instance-list"></ul>
+  </div>
+
 </body>
+
 </html>

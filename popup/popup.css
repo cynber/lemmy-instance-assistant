@@ -1,5 +1,5 @@
 body {
-  background: #242424;
+  background: #1f1f1f ;
   width: 400px;
   min-height: 150px;
   padding: 10px;
@@ -17,6 +17,10 @@ p {
   font-size: 14px;
 }
 
+a {
+  color: #e0e0e0;
+}
+
 ul#instance-list {
   list-style-type: none;
   padding-left: 0;
@@ -25,8 +29,7 @@ ul#instance-list {
   -moz-columns: 2;
 }
 
-#change-instance {
-  background-color: #501919;
+.button {
   color: #e0e0e0;
   padding: .375rem .75rem;
   margin: 0rem 0rem 0rem 0rem;
@@ -39,26 +42,22 @@ ul#instance-list {
 }
 
 #redirect-instance {
-  background-color: #151347;
-  color: #e0e0e0;
-  padding: .375rem .75rem;
-  margin: 0rem 0rem 0rem 0rem;
-  width: 100%;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: 400;
-  text-align: center;
+  padding: 1rem .75rem;
+  background-color: #17305a;
+}
+
+#change-instance {
+  background-color: #571a1a;
 }
 
 .instance-button {
-  background-color: #3a3a3a;
+  background-color: #363636;
   color: white;
   padding: .375rem .75rem;
   padding-left: 36px;
   margin-bottom: 10px;
   width: 100%;
-  border: none;
+  border: 2px;
   border-radius: 5px;
   cursor: pointer;
   font-weight: 400;
@@ -90,4 +89,17 @@ ul#instance-list {
   100% {
     background-color: #fffbca;
   }
+}
+
+.popup-section {
+  background: #252525;
+  padding: 10px 10px 0px 10px;
+  border-radius: 5px;
+}
+
+.message {
+  background: #252525;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }

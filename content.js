@@ -31,7 +31,7 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
             text-align: center;
             color: white;
       `;
-        goButton.style.backgroundColor = '#151347';
+        goButton.style.backgroundColor = '#17305a';
 
         if (selectedInstance && urlPattern.test(selectedInstance)) {
 
