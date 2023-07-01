@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Set selected instance in popup
+  // Display home instance in popup
   browser.storage.local.get("selectedInstance").then((result) => {
     const selectedInstance = result.selectedInstance;
     if (selectedInstance) {

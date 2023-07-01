@@ -2,6 +2,7 @@
   "name": "Lemmy Instance Assistant",
   "author": "Cynber",
   "description": "Ensure that the Lemmy instance you are on is the one you want to be on",
+  "homepage_url": "https://github.com/cynber/lemmy-instance-assistant",
   "version": "1.0.1",
   "manifest_version": 3,
   "icons": {
