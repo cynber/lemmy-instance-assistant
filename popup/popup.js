@@ -10,16 +10,41 @@ document.addEventListener("DOMContentLoaded", function () {
     { name: "lemmy.blahaj.zone", url: "https://lemmy.blahaj.zone" },
   ];
 
-  const instanceList = document.getElementById("instance-list");
+  const changeInstanceButton = document.getElementById("change-instance");
   const selectedInstanceElement = document.getElementById("selected-instance");
+  const instanceList = document.getElementById("instance-list");
+  const redirectInstanceButton = document.getElementById("redirect-instance");
 
+  const urlPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
+
+  // Update home instance address when button is clicked
+  changeInstanceButton.addEventListener("click", () => {
+    const inputInstance = prompt(
+      "Enter your instance URL:"
+    );
+    if (inputInstance && urlPattern.test(inputInstance)) {
+      browser.storage.local.set({
+        selectedInstance: inputInstance.trim(),
+      });
+      selectedInstanceElement.textContent = inputInstance.trim();
+    } else {
+      alert(
+        "Invalid URL format, please enter a valid URL. \n (e.g. https://lemmy.ca)"
+      );
+    }
+  });
+
+  // Display home instance in popup
   browser.storage.local.get("selectedInstance").then((result) => {
     const selectedInstance = result.selectedInstance;
     if (selectedInstance) {
       selectedInstanceElement.textContent = selectedInstance;
+    } else {
+      selectedInstanceElement.textContent = "Not set";
     }
   });
 
+  // Populate instance list
   lemmyInstances.forEach((instance) => {
     const listItem = document.createElement("li");
     const button = document.createElement("button");
@@ -28,21 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
     button.className = "instance-button";
     listItem.appendChild(button);
     instanceList.appendChild(listItem);
-  });
-
-  const changeInstanceButton = document.getElementById("change-instance");
-
-  // Update instance address when button is clicked
-  changeInstanceButton.addEventListener("click", () => {
-    const inputInstance = prompt(
-      "Enter your instance URL, then click anywhere on the page:"
-    );
-    if (inputInstance) {
-      browser.storage.local.set({
-        selectedInstance: inputInstance.trim(),
-      });
-      selectedInstanceElement.textContent = inputInstance.trim();
-    }
   });
 
   // Copy URL when instance button is clicked
@@ -54,5 +64,32 @@ document.addEventListener("DOMContentLoaded", function () {
       ).url;
       navigator.clipboard.writeText(url);
     }
+  });
+
+  // Alternative redirect button for when the redirect button doesn't show up
+  redirectInstanceButton.addEventListener('click', async () => {
+    const { selectedInstance } = await browser.storage.local.get('selectedInstance');
+    const queryOptions = { active: true, currentWindow: true };
+    const [tab] = await browser.tabs.query(queryOptions);
+
+    const currentUrl = tab.url;
+    const currentHost = new URL(currentUrl).hostname;
+    const currentPath = new URL(currentUrl).pathname;
+
+    if (currentPath.includes("/c/") || currentPath.includes("/m/")) {
+      if (selectedInstance && urlPattern.test(selectedInstance)) {
+        const selectedInstanceHostname = new URL(selectedInstance).hostname;
+        const communityName = currentPath.match(/\/[cm]\/([^/@]+)/)[1];
+        const sourceInstance = currentPath.includes("@") ?
+          currentPath.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : currentHost;
+
+        if (selectedInstanceHostname != currentHost) { // run if not on home instance
+
+          const redirectURL = selectedInstance + '/c/' + communityName + '@' + sourceInstance;
+          await browser.tabs.update(tab.id, { url: redirectURL });
+
+        } else { alert('You are already on your home instance.'); }
+      } else { alert('You have not selected a valid instance. Please select an instance by clicking the extension popup.'); }
+    } else { alert('You are not on a Lemmy or Kbin community. Please navigate to a community or a post and try again.'); }
   });
 });
