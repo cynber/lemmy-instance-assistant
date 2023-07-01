@@ -90,6 +90,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } else { alert('You are already on your home instance.'); }
       } else { alert('You have not selected a valid instance. Please select an instance by clicking the extension popup.'); }
-    } else { alert('You are not on a Lemmy or Kbin community. Please navigate to a community or a post and try again.'); }
+    } else { alert('You are not on a Lemmy or Kbin community. Please navigate to a community or a post and try again.\n\nNote: You must be on a specific community, and not just on the instance homepage (ex. "lemmy.ca/c/Canada").'); }
   });
 });
