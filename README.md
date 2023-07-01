@@ -2,9 +2,9 @@
 
 Say that you have an account on "https://lemmy.ca".
 
-After looking for a community on Google, you may end up on an instance that is different from your own (https://lemmy.ml/c/technology). If you want to subscribe to the community, you need to copy the code (`!technology@lemmy.ml`), open your own instance, and then paste it into the search page.
+After looking for a community on Google, you may end up on an instance that is different from your own (https://lemmy.ml/c/technology). If you want to subscribe to the community, you need to copy the code (`!technology@lemmy.ml`), open your home instance, and then paste it into the search page.
 
-This extension will redirect that link to the version on your instance (ex. "https://lemmy.ca/c/technology@lemmy.ml"), allowing you to subscribe and participate immediately.
+This extension will redirect that link to the version on your home instance (ex. "https://lemmy.ca/c/technology@lemmy.ml"), allowing you to subscribe and participate immediately.
 
 # Get the Extension
 
