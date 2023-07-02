@@ -11,7 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   const changeInstanceButton = document.getElementById("change-instance");
+  const changeTypeButton = document.getElementById("change-type");
   const selectedInstanceElement = document.getElementById("selected-instance");
+  const selectedInstanceType = document.getElementById("instance-type");
   const instanceList = document.getElementById("instance-list");
   const redirectInstanceButton = document.getElementById("redirect-instance");
 
@@ -34,6 +36,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  // Toggle home instance type when button is clicked
+  changeTypeButton.addEventListener("click", () => {
+    browser.storage.local.get("selectedType").then((result) => {
+      const selectedType = result.selectedType;
+      if (selectedType) {
+        if (selectedType === "lemmy") {
+          browser.storage.local.set({selectedType: "kbin",});
+          selectedInstanceType.textContent = "kbin";
+        } else {
+          browser.storage.local.set({selectedType: "lemmy",});
+          selectedInstanceType.textContent = "lemmy";
+        }
+      } else {
+        browser.storage.local.set({selectedType: "lemmy",});
+      }
+    });
+  });
+
   // Display home instance in popup
   browser.storage.local.get("selectedInstance").then((result) => {
     const selectedInstance = result.selectedInstance;
@@ -41,6 +61,16 @@ document.addEventListener("DOMContentLoaded", function () {
       selectedInstanceElement.textContent = selectedInstance;
     } else {
       selectedInstanceElement.textContent = "Not set";
+    }
+  });
+
+  // Display home instance in popup
+  browser.storage.local.get("selectedType").then((result) => {
+    const selectedType = result.selectedType;
+    if (selectedType) {
+      selectedInstanceType.textContent = selectedType;
+    } else {
+      selectedInstanceType.textContent = "Not set";
     }
   });
 
@@ -68,6 +98,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Alternative redirect button for when the redirect button doesn't show up
   redirectInstanceButton.addEventListener('click', async () => {
+
+    // Default to lemmy communities
+    browser.storage.local.get("selectedType").then((result) => {
+      const selectedType = result.selectedType;
+      if (selectedType) {
+        communityPrefix = selectedType === "lemmy" ? "/c/" : "/m/";
+      } else {
+        communityPrefix = "/c/";
+      }
+    });
+
     const { selectedInstance } = await browser.storage.local.get('selectedInstance');
     const queryOptions = { active: true, currentWindow: true };
     const [tab] = await browser.tabs.query(queryOptions);
@@ -85,11 +126,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (selectedInstanceHostname != currentHost) { // run if not on home instance
 
-          const redirectURL = selectedInstance + '/c/' + communityName + '@' + sourceInstance;
+          const redirectURL = selectedInstance + communityPrefix + communityName + '@' + sourceInstance;
           await browser.tabs.update(tab.id, { url: redirectURL });
 
         } else { alert('You are already on your home instance.'); }
       } else { alert('You have not selected a valid instance. Please select an instance by clicking the extension popup.'); }
-    } else { alert('You are not on a Lemmy or Kbin community. Please navigate to a community or a post and try again.\n\nNote: You must be on a specific community, and not just on the instance homepage (ex. "lemmy.ca/c/Canada").'); }
+    } else { alert('You are not on a Lemmy or Kbin community. Please navigate to a community and try again.\n\nYou must be on a community (ex. "lemmy.ca/c/Canada"), and not on the instance homepage / on a post.'); }
   });
 });

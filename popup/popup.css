@@ -43,11 +43,17 @@ ul#instance-list {
 
 #redirect-instance {
   padding: 1rem .75rem;
+  margin: 0.5rem 0rem .5rem 0rem;
   background-color: #17305a;
 }
 
 #change-instance {
   background-color: #571a1a;
+}
+
+#change-type {
+  margin: 0.25rem 0rem 0rem 0rem;
+  background-color: #363636;
 }
 
 .instance-button {
@@ -102,4 +108,11 @@ ul#instance-list {
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 10px;
+}
+
+.info-icon {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 14px;
+  cursor: help;
 }
