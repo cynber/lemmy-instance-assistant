@@ -5,11 +5,27 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
     // Check if on a community page
     if (CURRENT_PATH.includes("/c/") || CURRENT_PATH.includes("/m/") || CURRENT_PATH.includes("/post/")) {
 
-        // Create home instance button
         let homeInstanceButton = document.createElement('button');
         homeInstanceButton.setAttribute('type', 'button');
         homeInstanceButton.textContent = 'Open community in my home instance';
-        homeInstanceButton.style.cssText = `
+
+        // Create home instance button
+        if (CURRENT_PATH.includes("/m/")) {
+            homeInstanceButton.style.cssText = `
+            padding: 0.75rem;
+            margin: 1rem 0rem .5rem 0rem;
+            width: 100%;
+            height: 100%;
+            display: block;
+            border: var(--kbin-button-secondary-border);
+            text-align: center;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 400;
+            cursor: pointer;
+        `;
+        } else {
+            homeInstanceButton.style.cssText = `
             padding: .375rem .75rem;
             margin: 1rem 0rem .5rem 0rem;
             width: 100%;
@@ -19,6 +35,7 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
             text-align: center;
             color: white;
         `;
+        }
         homeInstanceButton.style.backgroundColor = '#17305a';
 
         // Create home post button
@@ -52,7 +69,18 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
         let displayInstanceMessage = true;  // default true: append home instance message
         let displayPostButton = false;      // default false: do not append home post button
         let displayPostMessage = false;     // default false: do not append home post message
-        const TARGET_ELEMENT = document.querySelector('#sidebarMain .card-body');
+// 
+        let TARGET_ELEMENT = '';
+        if (CURRENT_PATH.includes("/m/")) {
+            if (document.querySelector('.section.intro')) {
+                TARGET_ELEMENT = document.querySelector('.section.intro');
+            } else {
+                TARGET_ELEMENT = document.querySelector('#sidebar .magazine .row');
+            }
+        } else {
+            TARGET_ELEMENT = document.querySelector('#sidebarMain .card-body');
+        }
+
         const URL_PATTERN = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
         let communityName = '';
         let sourceInstance = '';
