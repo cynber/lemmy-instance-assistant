@@ -57,19 +57,20 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
         // Create instance message
         let instanceMessage = document.createElement('p');
         instanceMessage.style.cssText = `font-size: 0.8rem; color: #666;`;
-        instanceMessage.textContent = 'To change your home instance, click on the extension icon in the top right corner of your browser.';
+        instanceMessage.innerHTML = 'To change your home instance, click on the extension icon. (<a href="https://github.com/cynber/lemmy-instance-assistant/wiki/Removing-sidebar-button-and-keeping-popup-option-only" target="_blank">This button may be removed in a future update<a/>)';
 
         // Create post message
         let myPostMessage = document.createElement('p');
         myPostMessage.style.cssText = `font-size: 0.8rem; color: #666;`;
-        myPostMessage.innerHTML = `Warning: <a href="https://github.com/cynber/lemmy-instance-assistant/wiki/Why-can't-I-jump-to-the-same-post-on-my-home-instance%3F">You are currently on a post page.</a>`;
+        myPostMessage.innerHTML = `Warning: <a href="https://github.com/cynber/lemmy-instance-assistant/wiki/Why-can't-I-jump-to-the-same-post-on-my-home-instance%3F" target="_blank">You are currently on a post page.</a>`;
 
         // Set up variables
         let displayInstanceButton = true;   // default true: append home instance button
         let displayInstanceMessage = true;  // default true: append home instance message
         let displayPostButton = false;      // default false: do not append home post button
         let displayPostMessage = false;     // default false: do not append home post message
-// 
+        let isPost = false;                 // default false: not on a post page
+        // 
         let TARGET_ELEMENT = '';
         if (CURRENT_PATH.includes("/m/")) {
             if (document.querySelector('.section.intro')) {
@@ -88,6 +89,7 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
         // Get community name and source instance, depending on if on a post or community page
         if (CURRENT_PATH.includes("/post/")) {
 
+            isPost = true;
             displayPostMessage = true;
 
             // If post is from a different foreign community
@@ -100,13 +102,13 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
                 // This will grab the community of the ORIGINAL post, currently not being used
                 // sourceInstance = COMMUNITY_LINK.getAttribute('href').substring(3).match(/@([^/]+)/)[1]
 
-            // If post is on the current instance
+                // If post is on the current instance
             } else {
                 communityName = COMMUNITY_LINK.getAttribute('href').substring(3)
                 sourceInstance = CURRENT_HOST
             }
 
-        // If on a community page (/c/ or /m/)
+            // If on a community page (/c/ or /m/)
         } else {
             communityName = CURRENT_PATH.match(/\/[cm]\/([^/@]+)/)[1];
             sourceInstance = CURRENT_PATH.includes("@") ?
@@ -127,7 +129,7 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
                 });
             });
 
-            
+
             const FEDI_BUTTON = document.querySelector('a.btn.btn-sm.btn-animate.text-muted.py-0');
             if (FEDI_BUTTON && FEDI_BUTTON.hasAttribute('href')) {
                 const HOME_POST_URL = new URL(FEDI_BUTTON.getAttribute('href'));
@@ -146,16 +148,16 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
         }
 
         // Append button and message if selected instance is not the same as current instance
-        if (displayPostButton) {
-            TARGET_ELEMENT.appendChild(homePostButton);
-        }
+        // if (displayPostButton || isPost) {
+        //     TARGET_ELEMENT.appendChild(homePostButton);
+        // } // temporarily disabled
         if (displayInstanceButton) {
             TARGET_ELEMENT.appendChild(homeInstanceButton);
         }
         if (displayInstanceMessage) {
             TARGET_ELEMENT.appendChild(instanceMessage);
         }
-        if (displayPostMessage) {
+        if (displayPostMessage || isPost) {
             TARGET_ELEMENT.appendChild(myPostMessage);
         }
     }
