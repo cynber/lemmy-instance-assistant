@@ -9,9 +9,24 @@
 </head>
 
 <body>
-    <label for="instance-input">Set your home instance (ex. 'https://lemmy.ca'):</label>
-    <input type="text" id="instance-input">
-    <button id="save-button">Save</button>
+    <h1 style="text-align: center;"><b>Home Instance:</b> <span id="selected-instance"></span> (Type: <span
+            id="instance-type"></span>)</h1>
+
+    <div class="region">
+        <label for="instance-input">Set your home instance (ex. 'https://lemmy.ca'):</label>
+        <input type="text" id="instance-input">
+        <button id="save-button">Save</button>
+    </div>
+
+    <div class="region">
+      
+        <label for="change-type">Change between instance type (Lemmy vs. Kbin):</label>
+        <button id="change-type">Toggle Instance Type</button>
+    </div>
+
+    <div class="region">
+        <p>If you are using this extension for the first time, please see the <a href="https://github.com/cynber/lemmy-instance-assistant#instructions" target="_blank"> recommended set-up instructions here</a>. It doesn't take long and it will make your experience much smoother.</p>
+    </div>
 </body>
 
 </html>

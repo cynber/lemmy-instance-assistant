@@ -67,17 +67,17 @@ document.addEventListener("DOMContentLoaded", function () {
     if (selectedInstance) {
       selectedInstanceElement.textContent = selectedInstance;
     } else {
-      selectedInstanceElement.textContent = "Not set";
+      selectedInstanceElement.textContent = "unknown";
     }
   });
 
-  // Display home instance in popup
+  // Display home instance type in popup
   browser.storage.local.get("selectedType").then((result) => {
     const selectedType = result.selectedType;
     if (selectedType) {
       selectedInstanceType.textContent = selectedType;
     } else {
-      selectedInstanceType.textContent = "Not set";
+      selectedInstanceType.textContent = "unknown";
     }
   });
 
