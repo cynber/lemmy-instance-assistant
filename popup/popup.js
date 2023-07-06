@@ -138,6 +138,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } else { alert('You are already on your home instance.'); }
       } else { alert('You have not selected a valid instance. Please select an instance by clicking the extension popup.'); }
-    } else { alert('You are not on a Lemmy or Kbin community. \n\n Please navigate to a community page and try again.\n\n(T)he extension checks for links that have "/c/" or "/m/" in the URL'); }
+    } else { alert('You are not on a Lemmy or Kbin community. Please navigate to a community page and try again.\n\nThe extension checks for links that have "/c/" or "/m/" in the URL'); }
   });
 });
