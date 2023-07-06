@@ -12,7 +12,7 @@ This extension will redirect that link to the version on your home instance (ex.
 
 | Firefox | Chrome | Safari / Edge / Opera / Other |
 |---------|--------|-------|
-|<a href="https://addons.mozilla.org/addon/lemmy-instance-assistant"><img src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/f1b923af-dfe5-48a9-a477-2f01945c28f6" alt="Get Lemmy Instance Assistant for Firefox"></a>|<img src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/a44b162d-6eb3-4ad6-9c7e-eace95731027" alt="Get Lemmy Instance Assistant for Chrome">|<img src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/db0406c9-6f21-4b7d-a9b8-1d267f39de2c" alt="Get Lemmy Instance Assistant - Coming Soon">|
+|<a href="https://addons.mozilla.org/addon/lemmy-instance-assistant"><img src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/f1b923af-dfe5-48a9-a477-2f01945c28f6" alt="Get 'Instance Assistant for Lemmy & Kbin' on Firefox"></a>|<img src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/a44b162d-6eb3-4ad6-9c7e-eace95731027" alt="Get 'Instance Assistant for Lemmy & Kbin' on Chrome">|<img src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/db0406c9-6f21-4b7d-a9b8-1d267f39de2c" alt="Get 'Instance Assistant for Lemmy & Kbin' - Other Browsers">|
 |Direct Link: <br/> <a href="https://addons.mozilla.org/addon/lemmy-instance-assistant">https://addons.mozilla.org/addon/lemmy-instance-assistant</a> |Coming soon! Submitted for approval|Being worked on and tested|
 
 When will it be on **Edge**/**Opera**/**Safari**/**Other**?: I will try to get the extension onto the other browsers as soon as I can. The extension should be compatible with all of them, it's just a matter of setting up accounts and paying fees. If you would like a particular browser, let me know and I will get to that one sooner.
@@ -47,17 +47,15 @@ Once your home instance is set, you can redirect to it using one of two methods:
 
 <br/> 
 
-# Latest Updates
-- Support added for Kbin instances
-- Added redirect functionality to popup & did redesigns
-- Refactored code to remove extra permissions and only request what is necessary
-- Added checks to prevent bad URL entry
-- Clarified instructions throughout
+# <a href="https://github.com/cynber/lemmy-instance-assistant/wiki/Latest-Updates-&-Future-Plans">Latest Updates & Future Plans</a>
 
-## Future Plans
-- Option to add your own instances to the popup, for those that have more than one home instance
-- Developing chrome extension separately to get around compatibility issues
-- Potentially removing [sidebar button entirely](https://github.com/cynber/lemmy-instance-assistant/wiki/Removing-sidebar-button-and-keeping-popup-option-only)
+<br/> 
+
+# FAQ
+
+* [Why can't I jump to a POST on my home instance?](https://github.com/cynber/lemmy-instance-assistant/wiki/Why-can't-I-jump-to-the-same-post-on-my-home-instance%3F)
+
+* [The sidebar button is not working right](https://github.com/cynber/lemmy-instance-assistant/wiki/Removing-sidebar-button-and-keeping-popup-option-only)
 
 <br/> 
 
