@@ -7,11 +7,11 @@ body {
 
 h1 {
     color: #e0e0e0;
-    margin-bottom: 20px;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: normal;
 }
 
-p {
+p, a, label, input[type="text"] {
     color: #e0e0e0;
     font-size: 14px;
 }
@@ -20,9 +20,20 @@ p {
 label {
     display: block;
     margin-bottom: 10px;
-    color: #e0e0e0;
 }
 
 input[type="text"] {
     width: 300px;
+}
+
+.region {
+    background: #333;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+.message {
+    color:#afafaf;
+    
 }

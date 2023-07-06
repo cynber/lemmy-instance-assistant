@@ -1,13 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
   const lemmyInstances = [
     { name: "lemmy.world", url: "https://lemmy.world" },
-    { name: "lemmy.ml", url: "https://lemmy.ml" },
-    { name: "beehaw.org", url: "https://beehaw.org" },
-    { name: "feddit.de", url: "https://feddit.de" },
-    { name: "sh.itjust.works", url: "https://sh.itjust.works" },
-    { name: "lemmy.one", url: "https://lemmy.one" },
     { name: "lemmy.ca", url: "https://lemmy.ca" },
+    { name: "feddit.de", url: "https://feddit.de" },
+    { name: "beehaw.org", url: "https://beehaw.org" },
+    { name: "lemmy.one", url: "https://lemmy.one" },
+    { name: "lemmy.ml", url: "https://lemmy.ml" },
+    { name: "sh.itjust.works", url: "https://sh.itjust.works" },
+    { name: "lemm.ee", url: "https://lemm.ee" },
     { name: "lemmy.blahaj.zone", url: "https://lemmy.blahaj.zone" },
+    { name: "kbin.social", url: "https://kbin.social" },
   ];
 
   const changeInstanceButton = document.getElementById("change-instance");
@@ -24,6 +26,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const inputInstance = prompt(
       "Enter your instance URL:"
     );
+
+    if (inputInstance === null) {
+      return; // Exit the function without further execution
+    }
+
     if (inputInstance && urlPattern.test(inputInstance)) {
       browser.storage.local.set({
         selectedInstance: inputInstance.trim(),
@@ -42,14 +49,14 @@ document.addEventListener("DOMContentLoaded", function () {
       const selectedType = result.selectedType;
       if (selectedType) {
         if (selectedType === "lemmy") {
-          browser.storage.local.set({selectedType: "kbin",});
+          browser.storage.local.set({ selectedType: "kbin", });
           selectedInstanceType.textContent = "kbin";
         } else {
-          browser.storage.local.set({selectedType: "lemmy",});
+          browser.storage.local.set({ selectedType: "lemmy", });
           selectedInstanceType.textContent = "lemmy";
         }
       } else {
-        browser.storage.local.set({selectedType: "lemmy",});
+        browser.storage.local.set({ selectedType: "lemmy", });
       }
     });
   });
@@ -60,17 +67,17 @@ document.addEventListener("DOMContentLoaded", function () {
     if (selectedInstance) {
       selectedInstanceElement.textContent = selectedInstance;
     } else {
-      selectedInstanceElement.textContent = "Not set";
+      selectedInstanceElement.textContent = "unknown";
     }
   });
 
-  // Display home instance in popup
+  // Display home instance type in popup
   browser.storage.local.get("selectedType").then((result) => {
     const selectedType = result.selectedType;
     if (selectedType) {
       selectedInstanceType.textContent = selectedType;
     } else {
-      selectedInstanceType.textContent = "Not set";
+      selectedInstanceType.textContent = "unknown";
     }
   });
 
@@ -131,6 +138,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } else { alert('You are already on your home instance.'); }
       } else { alert('You have not selected a valid instance. Please select an instance by clicking the extension popup.'); }
-    } else { alert('You are not on a Lemmy or Kbin community. Please navigate to a community and try again.\n\nYou must be on a community (ex. "lemmy.ca/c/Canada"), and not on the instance homepage / on a post.'); }
+    } else { alert('You are not on a Lemmy or Kbin community. Please navigate to a community page and try again.\n\nThe extension checks for links that have "/c/" or "/m/" in the URL'); }
   });
 });

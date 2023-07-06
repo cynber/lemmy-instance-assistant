@@ -1,9 +1,9 @@
 {
-  "name": "Lemmy Instance Assistant",
+  "name": "Instance Assistant for Lemmy & Kbin",
   "author": "Cynber",
-  "description": "Ensure that the Lemmy instance you are on is the one you want to be on",
+  "description": "Ensure that the Lemmy/Kbin instance you are on is the one you want to be on",
   "homepage_url": "https://github.com/cynber/lemmy-instance-assistant",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "manifest_version": 3,
   "icons": {
     "48": "img/lemming48.png",
