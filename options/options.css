@@ -11,22 +11,15 @@ h1 {
     font-weight: normal;
 }
 
-p {
-    color: #e0e0e0;
-    font-size: 14px;
-}
-
-a {
+p, a, label, input[type="text"] {
     color: #e0e0e0;
     font-size: 14px;
 }
 
 
 label {
-    font-size: 14px;
     display: block;
     margin-bottom: 10px;
-    color: #e0e0e0;
 }
 
 input[type="text"] {
@@ -38,4 +31,9 @@ input[type="text"] {
     padding: 20px;
     margin: 10px;
     border-radius: 5px;
+}
+
+.message {
+    color:#afafaf;
+    
 }
