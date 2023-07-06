@@ -8,7 +8,7 @@ This extension will create a button on any foreign instance, which will redirect
 
 # Get the Extension
 
-<a href="https://addons.mozilla.org/addon/lemmy-instance-assistant"><img src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/1f7ad6e6-2c57-4000-9b96-287d1c7b68d1" width="25%" alt="Get Lemmy Instance Assistant for Firefox"></a>
+<a href="https://addons.mozilla.org/addon/lemmy-instance-assistant"><img src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/1f7ad6e6-2c57-4000-9b96-287d1c7b68d1" width="25%" alt="Get Instance Assistant for Lemmy & Kbin on Firefox"></a>
 
 If the buttons above don't work, here are direct links
 * **Firefox:** <a href="https://addons.mozilla.org/addon/lemmy-instance-assistant">https://addons.mozilla.org/addon/lemmy-instance-assistant</a>
@@ -30,7 +30,7 @@ Set your home instance:
 3. On the new page that opens, go to "Permissions"
 4. Click the toggle on "Access your data for all websites"
 
-> EXPLANATION: In order to see a button on the community you are using, you will need to allow the extension to access that site. However, since a lemmy instance can have any URL, you will need to keep doing this for any new instance you come across. If you "Allow access to all sites", it will let you skip this annoyance. The extension is not collecting any data and everything is running locally so there shouldn't be a risk from enabling this. However if you don't want to enable this, you can also use the button in the extension itself (option 2 below) as it does not require permissions.
+> EXPLANATION: In order to see a button on the community you are using, you will need to allow the extension to access that site. However, since a lemmy / kbin instance can have any URL, you will need to keep doing this for any new instance you come across. If you "Allow access to all sites", it will let you skip this annoyance. The extension is not collecting any data and everything is running locally so there shouldn't be a risk from enabling this. However if you don't want to enable this, you can also use the button in the extension itself (option 2 below) as it does not require permissions.
 
 ## Usage
 Once your home instance is set, you can redirect to it using one of two methods:
