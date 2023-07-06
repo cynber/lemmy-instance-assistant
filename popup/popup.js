@@ -26,6 +26,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const inputInstance = prompt(
       "Enter your instance URL:"
     );
+
+    if (inputInstance === null) {
+      return; // Exit the function without further execution
+    }
+
     if (inputInstance && urlPattern.test(inputInstance)) {
       browser.storage.local.set({
         selectedInstance: inputInstance.trim(),
