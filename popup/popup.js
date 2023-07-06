@@ -1,13 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
   const lemmyInstances = [
     { name: "lemmy.world", url: "https://lemmy.world" },
-    { name: "lemmy.ml", url: "https://lemmy.ml" },
-    { name: "beehaw.org", url: "https://beehaw.org" },
-    { name: "feddit.de", url: "https://feddit.de" },
-    { name: "sh.itjust.works", url: "https://sh.itjust.works" },
-    { name: "lemmy.one", url: "https://lemmy.one" },
     { name: "lemmy.ca", url: "https://lemmy.ca" },
+    { name: "feddit.de", url: "https://feddit.de" },
+    { name: "beehaw.org", url: "https://beehaw.org" },
+    { name: "lemmy.one", url: "https://lemmy.one" },
+    { name: "lemmy.ml", url: "https://lemmy.ml" },
+    { name: "sh.itjust.works", url: "https://sh.itjust.works" },
+    { name: "lemm.ee", url: "https://lemm.ee" },
     { name: "lemmy.blahaj.zone", url: "https://lemmy.blahaj.zone" },
+    { name: "kbin.social", url: "https://kbin.social" },
   ];
 
   const changeInstanceButton = document.getElementById("change-instance");
@@ -42,14 +44,14 @@ document.addEventListener("DOMContentLoaded", function () {
       const selectedType = result.selectedType;
       if (selectedType) {
         if (selectedType === "lemmy") {
-          browser.storage.local.set({selectedType: "kbin",});
+          browser.storage.local.set({ selectedType: "kbin", });
           selectedInstanceType.textContent = "kbin";
         } else {
-          browser.storage.local.set({selectedType: "lemmy",});
+          browser.storage.local.set({ selectedType: "lemmy", });
           selectedInstanceType.textContent = "lemmy";
         }
       } else {
-        browser.storage.local.set({selectedType: "lemmy",});
+        browser.storage.local.set({ selectedType: "lemmy", });
       }
     });
   });
