@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       } else {
         browser.storage.local.set({ selectedType: "lemmy", });
+        selectedInstanceType.textContent = "lemmy";
       }
     });
   });
@@ -124,8 +125,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentHost = new URL(currentUrl).hostname;
     const currentPath = new URL(currentUrl).pathname;
 
-    if (currentPath.includes("/c/") || currentPath.includes("/m/")) {
-      if (selectedInstance && urlPattern.test(selectedInstance)) {
+    if (selectedInstance && urlPattern.test(selectedInstance)) {
+      if (currentPath.includes("/c/") || currentPath.includes("/m/")) {
+      
         const selectedInstanceHostname = new URL(selectedInstance).hostname;
         const communityName = currentPath.match(/\/[cm]\/([^/@]+)/)[1];
         const sourceInstance = currentPath.includes("@") ?
@@ -137,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
           await browser.tabs.update(tab.id, { url: redirectURL });
 
         } else { alert('You are already on your home instance.'); }
-      } else { alert('You have not selected a valid instance. Please select an instance by clicking the extension popup.'); }
-    } else { alert('You are not on a Lemmy or Kbin community. Please navigate to a community page and try again.\n\nThe extension checks for links that have "/c/" or "/m/" in the URL'); }
+      } else { alert('You are not on a Lemmy or Kbin community. Please navigate to a community page and try again.\n\nThe extension checks for links that have "/c/" or "/m/" in the URL'); }
+    } else { alert('You have not selected a valid instance. Please select an instance in the popup using "Change my home instance".'); }
   });
 });
