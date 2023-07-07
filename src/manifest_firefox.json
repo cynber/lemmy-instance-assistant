@@ -4,17 +4,17 @@
     "description": "Ensure that the Lemmy/Kbin instance you are on is the one you want to be on",
     "homepage_url": "https://github.com/cynber/lemmy-instance-assistant",
     "version": "1.1.0",
-    "manifest_version": 3,
+    "manifest_version": 2,
     "icons": {
-      "48": "img/lemming48.png",
-      "128": "img/lemming128.png"
+      "48": "img/lemming48_dev.png",
+      "128": "img/lemming128_dev.png"
     },
     "permissions": [ "storage", "activeTab" ],
-    "action": {
+    "browser_action": {
       "default_popup": "popup/popup.html",
       "default_icon": {
-        "16": "img/lemming16.png",
-        "32": "img/lemming32.png"
+        "16": "img/lemming16_dev.png",
+        "32": "img/lemming32_dev.png"
       }
     },
     "content_scripts": [

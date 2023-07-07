@@ -5,11 +5,15 @@ function init_build() {
 
     echo "Building $1 version $version"
 
-    directory="build/$1/instance-assistant-$version"
+    directory="build/$1/instance-assistant-$version-DEV"
+
+    if [ -d "$directory" ]; then
+        rm -rf $directory
+    fi
+
     mkdir -p $directory
 
     cp src/manifest_$1.json $directory/manifest.json
-    sed -i 's/_dev.png/.png/' $directory/manifest.json
     
     cp -r src/img $directory/img
     cp -r src/options $directory/options
@@ -18,11 +22,11 @@ function init_build() {
     cp -r node_modules $directory/node_modules
     cp LICENSE $directory/LICENSE
 
-    cd build/$1/instance-assistant-$version
-    zip -r ../instance-assistant-$1-$version.zip *
+    cd build/$1/instance-assistant-$version-DEV
+    zip -r ../instance-assistant-$1-$version-DEV.zip *
     cd ../../..
 
-    rm -rf $directory
+    # rm -rf $directory
 
     echo "Done building $1 version $version"
 }
