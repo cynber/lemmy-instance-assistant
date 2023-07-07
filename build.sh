@@ -14,6 +14,9 @@ function init_build() {
     cp -r src/img $directory/img
     cp -r src/options $directory/options
     cp -r src/popup $directory/popup
+    cp -r src/settings $directory/settings
+    cp -r src/_locales $directory/_locales
+    cp -r src/styles.css $directory/styles.css
     cp src/content.js $directory/content.js
     cp -r node_modules $directory/node_modules
     cp LICENSE $directory/LICENSE
