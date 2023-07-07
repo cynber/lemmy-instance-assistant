@@ -1,29 +1,5 @@
 body {
-    background: #242424;
     min-height: 400px;
-    padding: 10px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, sans-serif;
-}
-
-h1 {
-    color: #e0e0e0;
-    font-size: 20px;
-    font-weight: normal;
-}
-
-p, a, label, input[type="text"] {
-    color: #e0e0e0;
-    font-size: 14px;
-}
-
-
-label {
-    display: block;
-    margin-bottom: 10px;
-}
-
-input[type="text"] {
-    width: 300px;
 }
 
 .region {
@@ -34,6 +10,5 @@ input[type="text"] {
 }
 
 .message {
-    color:#afafaf;
-    
+    color:#afafaf; 
 }
