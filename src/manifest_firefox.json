@@ -5,6 +5,7 @@
     "homepage_url": "https://github.com/cynber/lemmy-instance-assistant",
     "version": "1.1.0",
     "manifest_version": 2,
+    "default_locale": "en",
     "icons": {
       "48": "img/lemming48_dev.png",
       "128": "img/lemming128_dev.png"
