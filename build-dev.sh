@@ -22,6 +22,7 @@ function init_build() {
     cp -r src/_locales $directory/_locales
     cp -r src/styles.css $directory/styles.css
     cp src/sidebar.js $directory/sidebar.js
+    cp src/background.js $directory/background.js
     cp -r node_modules $directory/node_modules
     cp LICENSE $directory/LICENSE
 

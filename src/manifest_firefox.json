@@ -33,6 +33,10 @@
         "run_at": "document_end"
       }
     ],
+    "background": {
+      "scripts": ["background.js"],
+      "persistent": false
+    },
     "options_ui": {
       "page": "options/options.html",
       "open_in_tab": false,

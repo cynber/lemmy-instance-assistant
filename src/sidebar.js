@@ -1,7 +1,9 @@
-browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
+
+setTimeout(() => {
 
     const CURRENT_HOST = new URL(window.location.href).hostname;
     const CURRENT_PATH = new URL(window.location.href).pathname;
+    let HOME_INSTANCE_HOST = null;
 
     // Only run on community pages (/c/ or /m/) and post pages (/post/)
     if (CURRENT_PATH.includes("/c/") || CURRENT_PATH.includes("/m/") || CURRENT_PATH.includes("/post/")) {
@@ -9,8 +11,10 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
         // -------------------------------------- //
         // ------ Set up general variables ------ //
         // -------------------------------------- //
+        browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
 
-        const HOME_INSTANCE_HOST = selectedInstance ? new URL(selectedInstance).hostname : null;
+            HOME_INSTANCE_HOST = selectedInstance ? new URL(selectedInstance).hostname : null;
+        });
 
         let isHomeInstance = HOME_INSTANCE_HOST === CURRENT_HOST;
         let isLemmy = CURRENT_PATH.includes("/c/");
@@ -35,6 +39,7 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
             const button = document.createElement('button');
             button.setAttribute('type', 'button');
             button.textContent = text;
+            button.setAttribute('id', 'instance-assistant-sidebar');
             return button;
         };
 
@@ -42,6 +47,7 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
             const paragraph = document.createElement('p');
             paragraph.style.cssText = `font-size: 0.8rem; color: #666;`;
             paragraph.innerHTML = text;
+            paragraph.setAttribute('id', 'instance-assistant-sidebar');
             return paragraph;
         };
 
@@ -87,7 +93,7 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
         `;
         btnToPostLemmy.style.backgroundColor = '#27175a';
 
-        const txtChangeInstance = createMessage('To change your home instance, click on the extension icon. (<a href="https://github.com/cynber/lemmy-instance-assistant/wiki/Removing-sidebar-button-and-keeping-popup-option-only" target="_blank">This button may be removed in a future update<a/>)');
+        const txtChangeInstance = createMessage('To change your home instance, click on the extension icon.');
 
         const myPostMessage = createMessage(`Warning: <a href="https://github.com/cynber/lemmy-instance-assistant/wiki/Why-can't-I-jump-to-the-same-post-on-my-home-instance%3F" target="_blank">You are currently on a post page.</a>`)
 
@@ -98,7 +104,10 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
         // -------------------------------------- //
 
         const URL_PATTERN = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
-        let hasSelectedInstance = (selectedInstance && URL_PATTERN.test(selectedInstance));
+        let hasSelectedInstance = false;
+        browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
+            hasSelectedInstance = (selectedInstance && URL_PATTERN.test(selectedInstance));
+        });
         let TARGET_ELEMENT = '';
         let communityName = '';
         let sourceInstance = '';
@@ -107,7 +116,7 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
         if (isKbin) {
             TARGET_ELEMENT = document.querySelector('.section.intro') || document.querySelector('#sidebar .magazine .row');
         } else if (isLemmy || isLemmyPost) {
-            TARGET_ELEMENT = document.querySelector('#sidebarMain .card-body');
+            TARGET_ELEMENT = document.querySelector('.card-body');
         }
 
 
@@ -170,19 +179,22 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
         // -------------------------------------- //
         // ---------- Append elements ----------- //
         // -------------------------------------- //
-        
 
-        if ((isLemmy || isLemmyPost) && !isHomeInstance) {
-            TARGET_ELEMENT.appendChild(btnRedirectLemmy);
-        }
-        if (isKbin && !isHomeInstance) {
-            TARGET_ELEMENT.appendChild(btnRedirectKbin);
-        }
-        if ((isLemmy || isLemmyPost || isKbin) && !isHomeInstance) {
-            TARGET_ELEMENT.appendChild(txtChangeInstance);
-        }
-        if (showPostMessage || isLemmyPost) {
-            TARGET_ELEMENT.appendChild(myPostMessage);
+
+        if (!document.querySelector('#instance-assistant-sidebar')) {
+            if ((isLemmy || isLemmyPost) && !isHomeInstance) {
+                TARGET_ELEMENT.appendChild(btnRedirectLemmy);
+            }
+            if (isKbin && !isHomeInstance) {
+                TARGET_ELEMENT.appendChild(btnRedirectKbin);
+            }
+            if ((isLemmy || isLemmyPost || isKbin) && !isHomeInstance) {
+                TARGET_ELEMENT.appendChild(txtChangeInstance);
+            }
+            if (showPostMessage || isLemmyPost) {
+                TARGET_ELEMENT.appendChild(myPostMessage);
+            }
         }
     }
-});
+
+}, "500");
