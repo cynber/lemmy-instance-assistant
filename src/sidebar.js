@@ -17,13 +17,13 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
         let isLemmyPost = CURRENT_PATH.includes("/post/");
         let isKbin = CURRENT_PATH.includes("/m/");
 
-        let showBtnToLemmy = true;   // default true: append home instance button    // TODO: check defaults
-        let showBtnToKbin = true;   // default true: append home instance button    // TODO: check defaults
-        let showRedirectMessage = true;  // default true: append home instance message   // TODO: check defaults
+        let showBtnToLemmy = true;   // default true: append home instance button
+        let showBtnToKbin = true;   // default true: append home instance button
+        let showRedirectMessage = true;  // default true: append home instance message
 
-        let showBtnToPostLemmy = false;      // default false: do not append home post button// TODO: check defaults
-        let showBtnToPostKbin = false;      // default false: do not append home post button// TODO: check defaults
-        let showPostMessage = false;     // default false: do not append home post message/ TODO: check defaults
+        let showBtnToPostLemmy = false;      // default false: do not append home post button
+        let showBtnToPostKbin = false;      // default false: do not append home post button
+        let showPostMessage = false;     // default false: do not append home post message
 
 
 
@@ -143,6 +143,11 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
         }
 
 
+
+        // -------------------------------------- //
+        // --------- Add Event Listeners -------- //
+        // -------------------------------------- //
+
         btnRedirectLemmy.addEventListener('click', () => {
             if (hasSelectedInstance) {
                 browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
@@ -162,7 +167,11 @@ browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
             } else { alert('You have not selected a valid instance. Please select an instance by clicking the extension popup.') }
         });
 
-        // Append button and message if selected instance is not the same as current instance
+        // -------------------------------------- //
+        // ---------- Append elements ----------- //
+        // -------------------------------------- //
+        
+
         if ((isLemmy || isLemmyPost) && !isHomeInstance) {
             TARGET_ELEMENT.appendChild(btnRedirectLemmy);
         }
