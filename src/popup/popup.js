@@ -12,77 +12,27 @@ document.addEventListener("DOMContentLoaded", function () {
     { name: "kbin.social", url: "https://kbin.social" },
   ];
 
-  const changeInstanceButton = document.getElementById("change-instance");
-  const changeTypeButton = document.getElementById("change-type");
-  const selectedInstanceElement = document.getElementById("selected-instance");
-  const selectedInstanceType = document.getElementById("instance-type");
-  const instanceList = document.getElementById("instance-list");
-  const redirectInstanceButton = document.getElementById("redirect-instance");
-
+  const instanceList = document.getElementById("instance-list"),
+    btnChangeInstance = document.getElementById("change-instance"),
+    btnChangeType = document.getElementById("change-type"),
+    btnRedirect = document.getElementById("redirect-instance"),
+    btnOpenSettings = document.getElementById("open-settings"),
+    txtHomeInstance = document.getElementById("selected-instance"),
+    txtInstanceType = document.getElementById("instance-type");
+    
   const urlPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
 
-  // Update home instance address when button is clicked
-  changeInstanceButton.addEventListener("click", () => {
-    const inputInstance = prompt(
-      "Enter your instance URL:"
-    );
-
-    if (inputInstance === null) {
-      return; // Exit the function without further execution
-    }
-
-    if (inputInstance && urlPattern.test(inputInstance)) {
-      browser.storage.local.set({
-        selectedInstance: inputInstance.trim(),
-      });
-      selectedInstanceElement.textContent = inputInstance.trim();
-    } else {
-      alert(
-        "Invalid URL format, please enter a valid URL. \n (e.g. https://lemmy.ca)"
-      );
-    }
-  });
-
-  // Toggle home instance type when button is clicked
-  changeTypeButton.addEventListener("click", () => {
-    browser.storage.local.get("selectedType").then((result) => {
-      const selectedType = result.selectedType;
-      if (selectedType) {
-        if (selectedType === "lemmy") {
-          browser.storage.local.set({ selectedType: "kbin", });
-          selectedInstanceType.textContent = "kbin";
-        } else {
-          browser.storage.local.set({ selectedType: "lemmy", });
-          selectedInstanceType.textContent = "lemmy";
-        }
-      } else {
-        browser.storage.local.set({ selectedType: "lemmy", });
-        selectedInstanceType.textContent = "lemmy";
-      }
-    });
-  });
-
-  // Display home instance in popup
+  // Display home instance, instance type, and populate instance list on load
   browser.storage.local.get("selectedInstance").then((result) => {
     const selectedInstance = result.selectedInstance;
-    if (selectedInstance) {
-      selectedInstanceElement.textContent = selectedInstance;
-    } else {
-      selectedInstanceElement.textContent = "unknown";
-    }
+    txtHomeInstance.textContent = selectedInstance ? selectedInstance : "unknown";
   });
 
-  // Display home instance type in popup
   browser.storage.local.get("selectedType").then((result) => {
     const selectedType = result.selectedType;
-    if (selectedType) {
-      selectedInstanceType.textContent = selectedType;
-    } else {
-      selectedInstanceType.textContent = "unknown";
-    }
+    txtInstanceType.textContent = selectedType ? selectedType : "unknown";
   });
 
-  // Populate instance list
   lemmyInstances.forEach((instance) => {
     const listItem = document.createElement("li");
     const button = document.createElement("button");
@@ -93,37 +43,61 @@ document.addEventListener("DOMContentLoaded", function () {
     instanceList.appendChild(listItem);
   });
 
-  // Copy URL when instance button is clicked
+  // ----------------- BUTTONS ----------------- //
+
+  // Update home instance address
+  btnChangeInstance.addEventListener("click", () => {
+    const inputInstance = prompt("Enter your instance URL: (ex. 'https://lemmy.ca')");
+
+    if (inputInstance === null) { return; } // exit without alerting if user cancels
+    
+    if (inputInstance && urlPattern.test(inputInstance)) {
+      browser.storage.local.set({ selectedInstance: inputInstance.trim(), });
+      txtHomeInstance.textContent = inputInstance.trim();
+    } else { alert( "Invalid URL format, please follow this format: \n 'https://lemmy.ca'"); }
+  });
+
+  // Toggle home instance type
+  btnChangeType.addEventListener("click", () => {
+    browser.storage.local.get("selectedType").then((result) => {
+      const selectedType = result.selectedType;
+      const newType = selectedType === "lemmy" ? "kbin" : "lemmy";
+      
+      browser.storage.local.set({ selectedType: newType });
+      txtInstanceType.textContent = newType;
+    });
+  });
+
+  // Copy URL
   instanceList.addEventListener("click", (event) => {
     const target = event.target;
     if (target.classList.contains("instance-button")) {
-      const url = lemmyInstances.find((instance) =>
-        instance.name === target.textContent
-      ).url;
+      const url = lemmyInstances.find((instance) => instance.name === target.textContent).url;
       navigator.clipboard.writeText(url);
     }
   });
 
-  // Alternative redirect button for when the redirect button doesn't show up
-  redirectInstanceButton.addEventListener('click', async () => {
+  // Open settings page
+  btnOpenSettings.addEventListener("click", (event) => {
+    browser.tabs.create({ url: '../settings/settings.html' });
+  });
 
-    // Default to lemmy communities
-    browser.storage.local.get("selectedType").then((result) => {
-      const selectedType = result.selectedType;
-      if (selectedType) {
-        communityPrefix = selectedType === "lemmy" ? "/c/" : "/m/";
-      } else {
-        communityPrefix = "/c/";
-      }
-    });
+  // Redirect to selected instance
+  btnRedirect.addEventListener('click', async () => {
 
-    const { selectedInstance } = await browser.storage.local.get('selectedInstance');
     const queryOptions = { active: true, currentWindow: true };
     const [tab] = await browser.tabs.query(queryOptions);
-
-    const currentUrl = tab.url;
-    const currentHost = new URL(currentUrl).hostname;
-    const currentPath = new URL(currentUrl).pathname;
+    
+    const currentHost = new URL(tab.url).hostname;
+    const currentPath = new URL(tab.url).pathname;
+    const { selectedInstance } = await browser.storage.local.get('selectedInstance');
+    let communityPrefix = "/c/";
+    
+    browser.storage.local.get("selectedType").then((result) => {
+      const selectedType = result.selectedType;
+      // Default to lemmy communities if no type is selected
+      communityPrefix = selectedType ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
+    });
 
     if (selectedInstance && urlPattern.test(selectedInstance)) {
       if (currentPath.includes("/c/") || currentPath.includes("/m/")) {
