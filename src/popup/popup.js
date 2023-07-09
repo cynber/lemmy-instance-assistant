@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (inputInstance && urlPattern.test(inputInstance)) {
       browser.storage.local.set({ selectedInstance: inputInstance.trim(), });
       txtHomeInstance.textContent = inputInstance.trim();
+
     } else { alert( "Invalid URL format, please follow this format: \n 'https://lemmy.ca'"); }
   });
 
@@ -114,6 +115,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } else { alert('You are already on your home instance.'); }
       } else { alert('You are not on a Lemmy or Kbin community. Please navigate to a community page and try again.\n\nThe extension checks for links that have "/c/" or "/m/" in the URL'); }
-    } else { alert('You have not selected a valid instance. Please select an instance in the popup using "Change my home instance".'); }
+    } else { alert('No valid instance has been set. Please select an instance in the popup using "Change my home instance".'); }
   });
 });
