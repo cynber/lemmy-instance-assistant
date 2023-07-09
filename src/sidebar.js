@@ -6,7 +6,9 @@ setTimeout(() => {
     let myHomeInstance = null;
 
     // Only run on community pages (/c/ or /m/) and post pages (/post/)
-    if (CURRENT_PATH.includes("/c/") || CURRENT_PATH.includes("/m/") || CURRENT_PATH.includes("/post/")) {
+    if (CURRENT_PATH.includes("/c/") || CURRENT_PATH.includes("/m/") 
+    //|| CURRENT_PATH.includes("/post/")
+    ) {
 
         // -------------------------------------- //
         // ------ Set up general variables ------ //
@@ -153,20 +155,20 @@ setTimeout(() => {
             //    - If on a community page, get from the URL
             if (isLemmyPost) {
 
-                // If post is not on the current instance
-                const COMMUNITY_LINK = TARGET_ELEMENT.querySelector('a.community-link');
-                if (COMMUNITY_LINK && COMMUNITY_LINK.getAttribute('title').includes('@')) {
-                    communityName = COMMUNITY_LINK.substring(3).match(/([^@]+)/)[0]
-                    sourceInstance = CURRENT_HOST
+                // // If post is not on the current instance
+                // const COMMUNITY_LINK = TARGET_ELEMENT.querySelector('a.community-link');
+                // if (COMMUNITY_LINK && COMMUNITY_LINK.getAttribute('title').includes('@')) {
+                //     communityName = COMMUNITY_LINK.match(/([^@]+)/)[0]
+                //     sourceInstance = CURRENT_HOST
 
-                    // TODO: Look into grabbing community name & source instance of original post
-                    // sourceInstance = COMMUNITY_LINK.getAttribute('href').substring(3).match(/@([^/]+)/)[1]
+                //     // TODO: Look into grabbing community name & source instance of original post
+                //     // sourceInstance = COMMUNITY_LINK.getAttribute('href').substring(3).match(/@([^/]+)/)[1]
 
-                    // If post is on the current instance
-                } else {
-                    communityName = COMMUNITY_LINK.getAttribute('href').substring(3)
-                    sourceInstance = CURRENT_HOST
-                }
+                //     // If post is on the current instance
+                // } else {
+                //     communityName = COMMUNITY_LINK.getAttribute('href').substring(3)
+                //     sourceInstance = CURRENT_HOST
+                // }
             } else if (isLemmy || isKbin) {
                 communityName = CURRENT_PATH.match(/\/[cm]\/([^/@]+)/)[1];
                 sourceInstance = CURRENT_PATH.includes("@") ?
@@ -204,19 +206,19 @@ setTimeout(() => {
 
             /// if nothing has been appended yet (to prevent double appending)
             if (!document.querySelector('#instance-assistant-sidebar')) {
-                if ((isLemmy || isLemmyPost) && !isHomeInstance) {
+                if ((isLemmy) && !isHomeInstance) {
                     TARGET_ELEMENT.appendChild(btnRedirectLemmy);
                 }
                 if (isKbin && !isHomeInstance) {
                     TARGET_ELEMENT.appendChild(btnRedirectKbin);
                 }
-                if ((isLemmyPost || isLemmy || isKbin) && !isHomeInstance) {
+                if ((isLemmy || isKbin) && !isHomeInstance) {
                     TARGET_ELEMENT.appendChild(txtHomeInstance);
                 }
-                if (isLemmyPost) {
-                    TARGET_ELEMENT.appendChild(myPostMessage);
-                }
-                if ((isLemmy || isLemmyPost || isKbin) && !isHomeInstance) {
+                // if (isLemmyPost) {
+                //     TARGET_ELEMENT.appendChild(myPostMessage);
+                // }
+                if ((isLemmy || isKbin) && !isHomeInstance) {
                     TARGET_ELEMENT.appendChild(txtChangeInstance);
                 }
             }
