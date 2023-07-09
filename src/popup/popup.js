@@ -92,14 +92,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentHost = new URL(tab.url).hostname;
     const currentPath = new URL(tab.url).pathname;
     const { selectedInstance } = await browser.storage.local.get('selectedInstance');
-    let communityPrefix = "/c/";
+    const { selectedType } = await browser.storage.local.get('selectedType');
+    let communityPrefix = (selectedType) ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
     
-    browser.storage.local.get("selectedType").then((result) => {
-      const selectedType = result.selectedType;
-      // Default to lemmy communities if no type is selected
-      communityPrefix = selectedType ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
-    });
-
     if (selectedInstance && urlPattern.test(selectedInstance)) {
       if (currentPath.includes("/c/") || currentPath.includes("/m/")) {
       

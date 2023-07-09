@@ -27,11 +27,11 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
 
             communityPrefix = selectedType ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
 
-            let sourceHost =  new URL(info.linkUrl).hostname;
-            let sourcePath =  new URL(info.linkUrl).pathname;
+            let sourceHost = new URL(info.linkUrl).hostname;
+            let sourcePath = new URL(info.linkUrl).pathname;
             const communityName = sourcePath.match(/\/[cm]\/([^/@]+)/)[1];
             const sourceInstance = sourcePath.includes("@") ?
-            sourcePath.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : sourceHost;
+                sourcePath.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : sourceHost;
 
             if (sourcePath.includes("/c/") || sourcePath.includes("/m/")) {
                 const redirectURL = selectedInstance + communityPrefix + communityName + '@' + sourceInstance;

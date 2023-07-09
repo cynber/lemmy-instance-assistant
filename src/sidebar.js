@@ -13,24 +13,15 @@ setTimeout(() => {
         // -------------------------------------- //
         async function loadSelectedInstance() {
             const { selectedInstance } = await browser.storage.local.get('selectedInstance');
+            const { selectedType } = await browser.storage.local.get('selectedType');
+            let communityPrefix = (selectedType) ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
             HOME_INSTANCE_HOST = selectedInstance ? new URL(selectedInstance).hostname : null;
             myHomeInstance = selectedInstance;
-            console.log(HOME_INSTANCE_HOST, myHomeInstance);
-
 
             let isHomeInstance = HOME_INSTANCE_HOST === CURRENT_HOST;
             let isLemmy = CURRENT_PATH.includes("/c/");
             let isLemmyPost = CURRENT_PATH.includes("/post/");
             let isKbin = CURRENT_PATH.includes("/m/");
-
-            let showBtnToLemmy = true;   // default true: append home instance button
-            let showBtnToKbin = true;   // default true: append home instance button
-            let showRedirectMessage = true;  // default true: append home instance message
-
-            let showBtnToPostLemmy = false;      // default false: do not append home post button
-            let showBtnToPostKbin = false;      // default false: do not append home post button
-            let showPostMessage = false;     // default false: do not append home post message
-
 
 
             // -------------------------------------- //
@@ -132,7 +123,7 @@ setTimeout(() => {
 
             const txtChangeInstance = createDropdown('How to change home instance', changeInstanceInstructions);
 
-            const myPostMessage = createMessage(`Warning: <a href="https://github.com/cynber/lemmy-instance-assistant/wiki/Why-can't-I-jump-to-the-same-post-on-my-home-instance%3F" target="_blank">You are currently on a post page.</a>`)
+            const myPostMessage = createMessage(`Warning: You are on a post page and will be redirected to the main community. (<a href="https://github.com/cynber/lemmy-instance-assistant/wiki/Why-can't-I-jump-to-the-same-post-on-my-home-instance%3F" target="_blank">more information</a>)`)
 
 
 
@@ -190,7 +181,7 @@ setTimeout(() => {
             btnRedirectLemmy.addEventListener('click', () => {
                 if (hasSelectedInstance) {
                     browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
-                        const redirectURL = selectedInstance + '/c/' + communityName + '@' + sourceInstance;
+                        const redirectURL = selectedInstance + communityPrefix + communityName + '@' + sourceInstance;
                         window.location.href = redirectURL;
                     });
                 } else { alert('No valid instance has been set.') }
@@ -200,7 +191,7 @@ setTimeout(() => {
                 if (hasSelectedInstance) {
 
                     browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
-                        const redirectURL = selectedInstance + '/c/' + communityName + '@' + sourceInstance;
+                        const redirectURL = selectedInstance + communityPrefix + communityName + '@' + sourceInstance;
                         window.location.href = redirectURL;
                     });
                 } else { alert('No valid instance has been set.') }
@@ -222,7 +213,7 @@ setTimeout(() => {
                 if ((isLemmyPost || isLemmy || isKbin) && !isHomeInstance) {
                     TARGET_ELEMENT.appendChild(txtHomeInstance);
                 }
-                if (showPostMessage || isLemmyPost) {
+                if (isLemmyPost) {
                     TARGET_ELEMENT.appendChild(myPostMessage);
                 }
                 if ((isLemmy || isLemmyPost || isKbin) && !isHomeInstance) {
