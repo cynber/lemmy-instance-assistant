@@ -1,4 +1,3 @@
-
 setTimeout(() => {
 
     const CURRENT_HOST = new URL(window.location.href).hostname;
@@ -64,22 +63,22 @@ setTimeout(() => {
 
                 dropdownList.style.display = 'none';
                 dropdownText.addEventListener('click', () => {
-                  dropdownList.style.display = dropdownList.style.display === 'none' ? 'block' : 'none';
-                  dropdownText.innerHTML = dropdownList.style.display === 'none' ? "▼ " + text + " ▼" : "▲ " + text + " ▲";
+                    dropdownList.style.display = dropdownList.style.display === 'none' ? 'block' : 'none';
+                    dropdownText.innerHTML = dropdownList.style.display === 'none' ? "▼ " + text + " ▼" : "▲ " + text + " ▲";
 
                 });
 
                 options.forEach((option) => {
-                  const listItem = document.createElement('li');
-                  listItem.innerHTML = option;
-                  listItem.style.cssText = `padding: 0.5rem 0rem;`;
-                  dropdownList.appendChild(listItem);
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = option;
+                    listItem.style.cssText = `padding: 0.5rem 0rem;`;
+                    dropdownList.appendChild(listItem);
                 });
-              
+
                 container.appendChild(dropdownText);
                 container.appendChild(dropdownList);
                 return container;
-              };
+            };
 
             let btnRedirectKbin = createButton('Open in my home instance');
             btnRedirectKbin.style.cssText = `
@@ -129,7 +128,7 @@ setTimeout(() => {
                 '1) Click on the extension icon in the browser toolbar',
                 '2) Press "Change my home instance" and type in your home instance URL',
                 '3) Press "Toggle home instance type" to switch between "Lemmy" and "Kbin". (default is "Lemmy")',
-              ];
+            ];
 
             const txtChangeInstance = createDropdown('How to change home instance', changeInstanceInstructions);
 
@@ -158,15 +157,9 @@ setTimeout(() => {
             }
 
 
-
-
-            // Get community name and source instance, depending on if on a post or community page
-            //    - If on a post page, get community name & source instance from the sidebar
-            //    - If on a community page
-            //          - get community name from the URL
-
-            //    - If on a community page, get source instance from the URL
-
+            // Get community name and source instance
+            //    - If on a post page, get from the sidebar
+            //    - If on a community page, get from the URL
             if (isLemmyPost) {
 
                 // If post is not on the current instance
@@ -188,7 +181,6 @@ setTimeout(() => {
                 sourceInstance = CURRENT_PATH.includes("@") ?
                     CURRENT_PATH.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : CURRENT_HOST;
             }
-
 
 
             // -------------------------------------- //
@@ -214,11 +206,12 @@ setTimeout(() => {
                 } else { alert('No valid instance has been set.') }
             });
 
+
             // -------------------------------------- //
             // ---------- Append elements ----------- //
             // -------------------------------------- //
 
-
+            /// if nothing has been appended yet (to prevent double appending)
             if (!document.querySelector('#instance-assistant-sidebar')) {
                 if ((isLemmy || isLemmyPost) && !isHomeInstance) {
                     TARGET_ELEMENT.appendChild(btnRedirectLemmy);
@@ -229,17 +222,14 @@ setTimeout(() => {
                 if ((isLemmyPost || isLemmy || isKbin) && !isHomeInstance) {
                     TARGET_ELEMENT.appendChild(txtHomeInstance);
                 }
-
-                if ((isLemmy || isLemmyPost || isKbin) && !isHomeInstance) {
-                    TARGET_ELEMENT.appendChild(txtChangeInstance);
-                }
                 if (showPostMessage || isLemmyPost) {
                     TARGET_ELEMENT.appendChild(myPostMessage);
                 }
+                if ((isLemmy || isLemmyPost || isKbin) && !isHomeInstance) {
+                    TARGET_ELEMENT.appendChild(txtChangeInstance);
+                }
             }
         }
-
         loadSelectedInstance();
     }
-
 }, "500");
