@@ -23,7 +23,6 @@ setTimeout(() => {
                 // TARGET_ELEMENT = document.querySelector('.section.intro') || document.querySelector('#sidebar .magazine .row');
             } else if (isLemmy || isLemmyPost) {
                 TARGET_ELEMENT = document.querySelector('.error-page');
-                console.log(TARGET_ELEMENT);
             }
 
             const targetCommunity = CURRENT_PATH.match(/\/c\/(.+?)@/)[1];
@@ -75,9 +74,6 @@ setTimeout(() => {
                 return container;
             };
 
-
-
-
             const container = document.createElement('div');
             container.setAttribute('id', 'instance-assistant-sidebar');
             container.style.cssText = `
@@ -88,7 +84,7 @@ setTimeout(() => {
                 margin-bottom: 10px;
                 `;
 
-            const txtErrorPage = createMessage(`Did you arrive here from <b>Instance Assistant</b>?  <p style="text-align:left; padding:2rem">The community `+targetCommunity+` does not exist on this instance (yet). This can happen if you are the first person to try and open it in this instance. Someone will need to prompt this instance to fetch the community from the original instance. This task can be trigerred by entering the community URL (ex. <code>`+targetInstance+`/c/`+targetCommunity+`</code>) or identifier (ex. <code>!`+targetCommunity+`@`+targetInstance+`</code>) into the search page (<a href="https://join-lemmy.org/docs/users/01-getting-started.html#following-communities">reference</a>). <br/><br/> You can do this by clicking on the button below, and then coming back after some time. Don't worry about the error page, the instance should still pull the community after some time. Alternatively, you can copy one of the codes above and do the search manually at <a href=""></a>\n\n You can also just view the community on the foreign instance.</p>`)
+            const txtErrorPage = createMessage(`Did you arrive here from <b>Instance Assistant</b>?  <p style="text-align:left; padding:2rem">The community `+targetCommunity+` does not exist on this instance (yet). This can happen if you are the first person to try and open it in this instance. Someone will need to prompt this instance to fetch the community from the original instance. This task can be trigerred by entering the community URL (ex. <code>`+targetInstance+`/c/`+targetCommunity+`</code>) or identifier (ex. <code>!`+targetCommunity+`@`+targetInstance+`</code>) into the search page (<a href="https://join-lemmy.org/docs/users/01-getting-started.html#following-communities">reference</a>). <br/><br/> You can do this by clicking on the button below, and then coming back after some time. Don't worry about the "No results" message, the fetch process would have started in the background. Alternatively, you can copy one of the codes above and do the search manually at <a href="https://`+CURRENT_HOST+`">https://`+CURRENT_HOST+`/search</a>.\n\n You can also just view the community on the foreign instance.</p>`)
 
             let btnOpenSearchKbin = createButton('Open Search Page');
             btnOpenSearchKbin.style.cssText = `
@@ -173,15 +169,7 @@ setTimeout(() => {
                 '3) Press "Toggle home instance type" to switch between "Lemmy" and "Kbin". (default is "Lemmy")',
             ];
 
-            const txtChangeInstance = createDropdown('How to change home instance', changeInstanceInstructions);
-
-
-
-            // -------------------------------------- //
-            // ---------- Set up functions ---------- //
-            // -------------------------------------- //
-
-            
+            const txtChangeInstance = createDropdown('How to change home instance', changeInstanceInstructions);          
 
 
             // -------------------------------------- //
@@ -203,7 +191,6 @@ setTimeout(() => {
 
             btnOpenSearchLemmy.addEventListener('click', () => {
                 window.location.href = 'https://'+CURRENT_HOST+'/search?q='+targetCommunity+'!'+targetCommunity+'%40'+targetInstance+'&type=All&listingType=All&page=1&sort=TopAll';
-                console.log('searching for '+CURRENT_HOST+'/search?q='+targetCommunity+'!'+targetCommunity+'%40'+targetInstance+'&type=All&listingType=All&page=1&sort=TopAll')
             });
 
             btnOpenSearchKbin.addEventListener('click', () => {
@@ -214,9 +201,6 @@ setTimeout(() => {
             btnCommunityLemmy.addEventListener('click', () => {
                 window.location.href = 'https://'+targetInstance+'/c/'+targetCommunity;
             });
-
-
-
 
             // -------------------------------------- //
             // ---------- Append elements ----------- //

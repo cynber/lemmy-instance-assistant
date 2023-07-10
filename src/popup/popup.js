@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     btnChangeInstance = document.getElementById("change-instance"),
     btnChangeType = document.getElementById("change-type"),
     btnRedirect = document.getElementById("redirect-instance"),
-    btnOpenSettings = document.getElementById("open-settings"),
+    //btnOpenSettings = document.getElementById("open-settings"),
     txtHomeInstance = document.getElementById("selected-instance"),
     txtInstanceType = document.getElementById("instance-type");
     
@@ -79,12 +79,14 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Open settings page
-  btnOpenSettings.addEventListener("click", (event) => {
-    browser.tabs.create({ url: '../settings/settings.html' });
-  });
+  // btnOpenSettings.addEventListener("click", (event) => {
+  //   browser.tabs.create({ url: '../settings/settings.html' });
+  // });
 
   // Redirect to selected instance
   btnRedirect.addEventListener('click', async () => {
+
+    console.log('Redirecting to selected instance...');
 
     const queryOptions = { active: true, currentWindow: true };
     const [tab] = await browser.tabs.query(queryOptions);

@@ -39,7 +39,6 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
             }
             loadStorage();
         } else {
-            console.log('This is not a valid Lemmy or Kbin link. Please click on a link to a Lemmy or Kbin community.\n\n Lemmy post links can not be redirected because of how Lemmy works. See project GitHub for more information.')
             browser.tabs.update(tab.id, { url: 'https://github.com/cynber/lemmy-instance-assistant/wiki/Sorry-that-didn\'t-work...' });
             // TODO: Add a popup to explain this
         }
