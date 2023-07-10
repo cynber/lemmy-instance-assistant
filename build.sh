@@ -18,6 +18,8 @@ function init_build() {
     cp -r src/_locales $directory/_locales
     cp -r src/styles.css $directory/styles.css
     cp src/sidebar.js $directory/sidebar.js
+    cp src/communityNotFound.js $directory/communityNotFound.js
+    cp src/background.js $directory/background.js
     cp -r node_modules $directory/node_modules
     cp LICENSE $directory/LICENSE
 
@@ -25,10 +27,18 @@ function init_build() {
     zip -r ../instance-assistant-$1-$version.zip *
     cd ../../..
 
-    rm -rf $directory
+    # rm -rf $directory
 
     echo "Done building $1 version $version"
 }
+read -p "Have you updated the manifest version number? This will overwrite your current builds (y/n): " confirm
 
-init_build "chrome"
-init_build "firefox"
+if [[ $confirm == "y" ]]; then
+    init_build "chrome"
+    init_build "firefox"
+    init_build "edge"
+    init_build "opera"
+    init_build "safari"
+else
+    echo "Build process canceled."
+fi

@@ -38,3 +38,6 @@ function init_build() {
 
 init_build "chrome"
 init_build "firefox"
+init_build "edge"
+init_build "opera"
+init_build "safari"
