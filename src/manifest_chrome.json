@@ -1,6 +1,6 @@
 {
   "name": "Instance Assistant for Lemmy & Kbin",
-  "short_name": "Instance Assistant",
+  "short_name": "Inst. Assist",
   "author": "Cynber",
   "description": "Ensure that the Lemmy/Kbin instance you are on is the one you want to be on",
   "homepage_url": "https://github.com/cynber/lemmy-instance-assistant",
@@ -13,6 +13,11 @@
   "permissions": [
     "storage",
     "activeTab"
+  ],
+  "host_permissions": [
+    "*://*/c/*",
+    "*://*/m/*",
+    "*://*/post/*"
   ],
   "action": {
     "default_popup": "popup/popup.html",
@@ -36,6 +41,10 @@
       "run_at": "document_end"
     }
   ],
+  "background": {
+    "service_worker": "service_worker.js",
+    "type": "module"
+  },
   "options_ui": {
     "page": "options/options.html",
     "open_in_tab": false,
