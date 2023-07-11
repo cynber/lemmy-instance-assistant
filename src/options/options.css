@@ -1,0 +1,14 @@
+body {
+    min-height: 400px;
+}
+
+.region {
+    background: #333;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+.message {
+    color:#afafaf; 
+}

@@ -8,11 +8,33 @@ This extension will redirect that link to the version on your home instance (ex.
 
 <br/> 
 
+<table>
+  <tr>
+    <th>Firefox                      </th>
+    <th>Chrome                       </th>
+    <th>Safari / Edge / Opera / Other</th>
+  </tr>
+  <tr>
+    <td>
+      <a href="https://addons.mozilla.org/addon/lemmy-instance-assistant"><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/26402139/251341913-3a74bafc-0ff6-4bff-83c1-532a7307e1f4.png" alt="Get 'Instance Assistant for Lemmy & Kbin' on Firefox"></a>
+    </td>
+    <td>
+      <a href="https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related">
+        <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/26402139/251502726-24f9ef83-e061-4408-be03-d0b48b3bd9af.png" alt="Get 'Instance Assistant for Lemmy & Kbin' on Chrome">
+      </a>
+    </td>
+    <td>
+      <img src="https://user-images.githubusercontent.com/26402139/251330411-db0406c9-6f21-4b7d-a9b8-1d267f39de2c.png" alt="Get 'Instance Assistant for Lemmy & Kbin' - Other Browsers">
+    </td>
+  </tr>
+  <tr>
+  </tr>
+</table>
 
-| Firefox | Chrome | Safari / Edge / Opera / Other |
-|---------|--------|-------|
-|<a href="https://addons.mozilla.org/addon/lemmy-instance-assistant"><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/26402139/251341913-3a74bafc-0ff6-4bff-83c1-532a7307e1f4.png" alt="Get 'Instance Assistant for Lemmy & Kbin' on Firefox"></a>|<a href="https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related"><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/26402139/251502726-24f9ef83-e061-4408-be03-d0b48b3bd9af.png" alt="Get 'Instance Assistant for Lemmy & Kbin' on Chrome"></a>|<img src="https://user-images.githubusercontent.com/26402139/251330411-db0406c9-6f21-4b7d-a9b8-1d267f39de2c.png" alt="Get 'Instance Assistant for Lemmy & Kbin' - Other Browsers">|
-|Direct Link: <br/> <a href="https://addons.mozilla.org/addon/lemmy-instance-assistant">https://addons.mozilla.org/addon/lemmy-instance-assistant</a> |Direct Link: <br/> <a href="https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related">https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related</a>|Being worked on and tested|
+Direct Links:
+* Firefox: <a href="https://addons.mozilla.org/addon/lemmy-instance-assistant">https://addons.mozilla.org/addon/lemmy-instance-assistant</a>
+* Chrome: <a href="https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related">https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related</a>
+
 
 When will it be on **Edge**/**Opera**/**Safari**/**Other**?: I will try to get the extension onto the other browsers as soon as I can. The extension should be compatible with all of them, it's just a matter of setting up accounts and paying fees. If you would like a particular browser, let me know and I will get to that one sooner.
 

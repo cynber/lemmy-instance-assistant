@@ -1,2 +1,4 @@
 web-ext-artifacts/
 resources/
+build/
+deprecated/

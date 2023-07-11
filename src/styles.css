@@ -1,0 +1,128 @@
+body {
+    background: #1f1f1f;
+    width: 400px;
+    min-height: 150px;
+    padding: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, sans-serif;
+}
+
+h1 {
+    color: #e0e0e0;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+p, a, label, input[type="text"] {
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    width: 300px;
+}
+
+ul#instance-list {
+    list-style-type: none;
+    padding-left: 0;
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+}
+
+.button {
+    color: #e0e0e0;
+    padding: .375rem .75rem;
+    margin: 0rem 0rem 0rem 0rem;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 400;
+    text-align: center;
+}
+
+#redirect-instance {
+    padding: 1rem .75rem;
+    margin: 0.5rem 0rem .5rem 0rem;
+    background-color: #17305a;
+}
+
+#change-instance {
+    background-color: #571a1a;
+}
+
+#change-type {
+    margin: 0.25rem 0rem 0rem 0rem;
+    background-color: #363636;
+}
+
+.instance-button {
+    background-color: #363636;
+    color: white;
+    padding: .375rem .75rem;
+    padding-left: 36px;
+    margin-bottom: 10px;
+    width: 100%;
+    border: 2px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 400;
+    text-align: left;
+    transition: background-color 0.2s;
+    background-image: url("../img/copy.png");
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 24px 16px;
+}
+
+.instance-button.selected {
+    background-color: #ffdede;
+}
+
+.instance-button:active {
+    animation: buttonClick 0.05s;
+}
+
+@keyframes buttonClick {
+    0% {
+        background-color: #ffe3e3;
+    }
+
+    50% {
+        background-color: #333333;
+    }
+
+    100% {
+        background-color: #fffbca;
+    }
+}
+
+.popup-section {
+    background: #252525;
+    padding: 10px 10px 0px 10px;
+    border-radius: 5px;
+}
+
+.message {
+    background: #252525;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.info-icon {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 14px;
+    cursor: help;
+}
+
+#open-settings {
+    margin: 0.25rem 0rem 0rem 0rem;
+    background-color: #363636;
+}

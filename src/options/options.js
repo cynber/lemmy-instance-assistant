@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } else {
         browser.storage.local.set({ selectedType: "lemmy", });
+        selectedInstanceType.textContent = "lemmy";
       }
     });
   });
