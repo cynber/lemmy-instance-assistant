@@ -4,7 +4,7 @@
 // --------------------------------------
 
 function injectContentScript(tabId) {
-    const contentScript = "sidebar.js";
+    const contentScript = "content-sidebar.js";
     browser.tabs.executeScript(tabId, { file: contentScript })
 }
 

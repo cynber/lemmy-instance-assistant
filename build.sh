@@ -1,44 +1,67 @@
 #!/bin/bash
 
 function init_build() {
+    # Get version number from manifest
     version=$(grep -o '"version": "[^"]*' src/manifest_$1.json | cut -d'"' -f4)
 
-    echo "Building $1 version $version"
-
-    directory="build/$1/instance-assistant-$version"
+    # Create build directory
+    echo "Building $1 version $version$suffix"
+    directory="build/$1/instance-assistant-$version$suffix"
+    if [ -d "$directory" ]; then
+        rm -rf $directory
+    fi
     mkdir -p $directory
 
+    # Copy files
     cp src/manifest_$1.json $directory/manifest.json
-    sed -i 's/_dev.png/.png/' $directory/manifest.json
-    
+    cp -r node_modules $directory/node_modules
+    cp LICENSE $directory/LICENSE
+    # cp -r src/_locales $directory/_locales    # TODO: Fix translations
     cp -r src/img $directory/img
     cp -r src/options $directory/options
     cp -r src/popup $directory/popup
     cp -r src/settings $directory/settings
-    cp -r src/_locales $directory/_locales
-    cp -r src/styles.css $directory/styles.css
-    cp src/sidebar.js $directory/sidebar.js
-    cp src/communityNotFound.js $directory/communityNotFound.js
     cp src/background.js $directory/background.js
-    cp -r node_modules $directory/node_modules
-    cp LICENSE $directory/LICENSE
+    cp src/communityNotFound.js $directory/communityNotFound.js
+    cp src/content-sidebar.js $directory/content-sidebar.js
+    cp src/styles.css $directory/styles.css
+    
+    # Replace dev images with production images
+    if [ "$isDev" = false ]; then
+        sed -i 's/_dev.png/.png/' $directory/manifest.json
+    fi
 
-    cd build/$1/instance-assistant-$version
-    zip -r ../instance-assistant-$1-$version.zip *
+    # Check if zip file already exists and if not dev version
+    if [ -f "build/$1/instance-assistant-$1-$version$suffix.zip" ] && [ "$isDev" = false ]; then
+
+        read -p "Zip file already exists. Overwrite? (y/n): " confirm
+
+        if [[ $confirm == "y" ]]; then
+            rm "build/$1/instance-assistant-$1-$version$suffix.zip"
+        else
+            echo "Build process canceled."
+            exit 1
+        fi
+    fi
+
+    # Zip files, remove build directory, and print success message
+    cd build/$1/instance-assistant-$version$suffix
+    zip -r ../instance-assistant-$1-$version$suffix.zip * >/dev/null 2>&1
     cd ../../..
-
     # rm -rf $directory
-
-    echo "Done building $1 version $version"
+    echo -e "\e[32mDone building $1 version $version$suffix\e[0m"
 }
-read -p "Have you updated the manifest version number? This will overwrite your current builds (y/n): " confirm
 
-if [[ $confirm == "y" ]]; then
-    init_build "chrome"
-    init_build "firefox"
-    init_build "edge"
-    init_build "opera"
-    init_build "safari"
-else
-    echo "Build process canceled."
+suffix=""
+isDev=false
+
+if [ "$1" == "-dev" ]; then
+    suffix="-DEV"
+    isDev=true
 fi
+
+init_build "chrome"
+init_build "firefox"
+init_build "edge"
+init_build "opera"
+#init_build "safari"
