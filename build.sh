@@ -3,9 +3,10 @@
 function init_build() {
     # Get version number from manifest
     version=$(grep -o '"version": "[^"]*' src/manifest_$1.json | cut -d'"' -f4)
+    manifest=$(grep -o '"manifest_version": [0-9]*' src/manifest_$1.json | cut -d' ' -f2)
 
     # Create build directory
-    echo "Building $1 version $version$suffix"
+    echo "Building $1 v-$version$suffix (Manifest $manifest)..."
     directory="build/$1/instance-assistant-$version$suffix"
     if [ -d "$directory" ]; then
         rm -rf $directory
@@ -21,10 +22,19 @@ function init_build() {
     cp -r src/options $directory/options
     cp -r src/popup $directory/popup
     cp -r src/settings $directory/settings
-    cp src/background.js $directory/background.js
-    cp src/communityNotFound.js $directory/communityNotFound.js
-    cp src/content-sidebar.js $directory/content-sidebar.js
     cp src/styles.css $directory/styles.css
+
+    if [ "$manifest" = 2 ]; then
+        cp src/background.js $directory/background.js
+        cp src/communityNotFound.js $directory/communityNotFound.js
+        cp src/content-sidebar.js $directory/content-sidebar.js
+    else
+        cp src/service-worker.js $directory/service-worker.js
+        cp src/m3-background.js $directory/background.js
+        cp src/m3-communityNotFound.js $directory/communityNotFound.js
+        cp src/m3-content-sidebar.js $directory/content-sidebar.js
+    fi
+    
     
     # Replace dev images with production images
     if [ "$isDev" = false ]; then
@@ -49,7 +59,7 @@ function init_build() {
     zip -r ../instance-assistant-$1-$version$suffix.zip * >/dev/null 2>&1
     cd ../../..
     # rm -rf $directory
-    echo -e "\e[32mDone building $1 version $version$suffix\e[0m"
+    echo -e "\e[32mDone building $1 v-$version$suffix\e[0m"
 }
 
 suffix=""

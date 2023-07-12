@@ -3,14 +3,9 @@
 // Handle redirects within a Lemmy site
 // --------------------------------------
 
-function injectContentScript(tabId) {
-    const contentScript = "content-sidebar.js";
-    browser.tabs.executeScript(tabId, { file: contentScript })
-}
-
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === "complete") {
-        injectContentScript(tabId);
+        browser.tabs.executeScript(tabId, { file: "content-sidebar.js" })
     }
 });
 

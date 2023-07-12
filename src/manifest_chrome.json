@@ -12,7 +12,8 @@
   },
   "permissions": [
     "storage",
-    "activeTab"
+    "activeTab",
+    "scripting"
   ],
   "host_permissions": [
     "*://*/c/*",
@@ -42,8 +43,7 @@
     }
   ],
   "background": {
-    "service_worker": "service_worker.js",
-    "type": "module"
+    "service_worker": "background.js"
   },
   "options_ui": {
     "page": "options/options.html",
