@@ -2,9 +2,10 @@ setTimeout(() => {
 
     const CURRENT_HOST = new URL(window.location.href).hostname;
     const CURRENT_PATH = new URL(window.location.href).pathname;
+    const hasErrorContainer = document.querySelector('.error-page');
 
     // Only run on community pages (/c/ or /m/) and post pages (/post/)
-    if ((CURRENT_PATH.includes("/c/") && (CURRENT_PATH.includes("@"))) 
+    if ((CURRENT_PATH.includes("/c/") && CURRENT_PATH.includes("@") && hasErrorContainer) 
     //|| CURRENT_PATH.includes("/m/")
     ) {
 
