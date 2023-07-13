@@ -19,7 +19,8 @@ function init_build() {
     cp LICENSE $directory/LICENSE
     # cp -r src/_locales $directory/_locales    # TODO: Fix translations
     cp -r src/img $directory/img
-    cp -r src/options $directory/options
+    cp -r src/page-welcome $directory/page-welcome
+    # cp -r src/options $directory/options
     cp -r src/popup $directory/popup
     cp -r src/settings $directory/settings
     cp src/styles.css $directory/styles.css
