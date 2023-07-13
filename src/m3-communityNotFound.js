@@ -5,7 +5,7 @@ setTimeout(() => {
     const hasErrorContainer = document.querySelector('.error-page');
 
     // Only run on community pages (/c/ or /m/) and post pages (/post/)
-    if ((CURRENT_PATH.includes("/c/") && CURRENT_PATH.includes("@") && hasErrorContainer) 
+    if ((CURRENT_PATH.includes("/c/") && CURRENT_PATH.includes("@") && hasErrorContainer)
     //|| CURRENT_PATH.includes("/m/")
     ) {
 
@@ -13,7 +13,7 @@ setTimeout(() => {
         // ------ Set up general variables ------ //
         // -------------------------------------- //
         async function loadSelectedInstance() {
-            const { selectedInstance } = await browser.storage.local.get('selectedInstance');
+            const { selectedInstance } = await chrome.storage.local.get('selectedInstance');
 
             let isLemmy = CURRENT_PATH.includes("/c/");
             let isLemmyPost = CURRENT_PATH.includes("/post/");

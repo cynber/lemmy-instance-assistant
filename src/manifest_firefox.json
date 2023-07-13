@@ -1,6 +1,6 @@
 {
   "name": "Instance Assistant for Lemmy & Kbin",
-  "short_name": "Instance Assistant",
+  "short_name": "Inst. Assist",
   "author": "Cynber",
   "description": "Ensure that the Lemmy/Kbin instance you are on is the one you want to be on",
   "homepage_url": "https://github.com/cynber/lemmy-instance-assistant",
