@@ -44,7 +44,7 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
 
 browser.contextMenus.create({
   id: "lemmy-sidebar",
-  title: "Instance Assistant",
+  title: "Redirect to home instance",
   contexts: ["link"],
   targetUrlPatterns: ["http://*/c/*", "https://*/c/*", "http://*/p/*", "https://*/p/*"],
 }, () => void browser.runtime.lastError,

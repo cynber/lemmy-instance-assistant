@@ -48,7 +48,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "lemmy-sidebar",
-    title: "Instance Assistant",
+    title: "Redirect to home instance",
     contexts: ["link"],
   });
 });
