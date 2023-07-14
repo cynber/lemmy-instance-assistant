@@ -1,7 +1,6 @@
 // --------------------------------------
 // Handle redirects within a Lemmy site
 // --------------------------------------
-
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (tab.url?.startsWith("chrome://") || tab.url?.startsWith("chrome-extension://")) {
     return undefined;
@@ -20,7 +19,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 // --------------------------------------
 // Handle context menu clicks
 // --------------------------------------
-
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId === "lemmy-sidebar" && info.linkUrl) {
 

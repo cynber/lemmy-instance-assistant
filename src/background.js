@@ -1,8 +1,6 @@
-
 // --------------------------------------
 // Handle redirects within a Lemmy site
 // --------------------------------------
-
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === "complete") {
     if (/^https?:\/\/.*\/c\//.test(tab.url)) {
@@ -15,12 +13,9 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 // --------------------------------------
 // Handle context menu clicks
 // --------------------------------------
-
 browser.contextMenus.onClicked.addListener(async (info, tab) => {
-
-
   if (info.menuItemId === "lemmy-sidebar" && info.linkUrl) {
-
+    
     let sourceHost = new URL(info.linkUrl).hostname;
     let sourcePath = new URL(info.linkUrl).pathname;
 

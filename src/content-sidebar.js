@@ -1,3 +1,7 @@
+// ========================================================================================== //
+// Injects buttons and links into the sidebar of Lemmy communities and posts.                 //
+// ========================================================================================== //
+
 setTimeout(() => {
 
     const CURRENT_HOST = new URL(window.location.href).hostname;
@@ -10,10 +14,9 @@ setTimeout(() => {
     //|| CURRENT_PATH.includes("/post/")
     ) {
 
-        // -------------------------------------- //
-        // ------ Set up general variables ------ //
-        // -------------------------------------- //
         async function loadSelectedInstance() {
+
+            // ------ Set up general variables ------ //
             const { selectedInstance } = await browser.storage.local.get('selectedInstance');
             const { selectedType } = await browser.storage.local.get('selectedType');
             let communityPrefix = (selectedType) ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
@@ -25,11 +28,7 @@ setTimeout(() => {
             let isLemmyPost = CURRENT_PATH.includes("/post/");
             let isKbin = CURRENT_PATH.includes("/m/");
 
-
-            // -------------------------------------- //
             // --------- Set up injectables --------- //
-            // -------------------------------------- //
-
             let createButton = (text) => {
                 const button = document.createElement('button');
                 button.setAttribute('type', 'button');
@@ -58,7 +57,6 @@ setTimeout(() => {
                 dropdownText.addEventListener('click', () => {
                     dropdownList.style.display = dropdownList.style.display === 'none' ? 'block' : 'none';
                     dropdownText.innerHTML = dropdownList.style.display === 'none' ? "▼ " + text + " ▼" : "▲ " + text + " ▲";
-
                 });
 
                 options.forEach((option) => {
@@ -128,11 +126,7 @@ setTimeout(() => {
             const myPostMessage = createMessage(`Warning: You are on a post page and will be redirected to the main community. (<a href="https://github.com/cynber/lemmy-instance-assistant/wiki/Why-can't-I-jump-to-the-same-post-on-my-home-instance%3F" target="_blank">more information</a>)`)
 
 
-
-            // -------------------------------------- //
             // ---------- Set up functions ---------- //
-            // -------------------------------------- //
-
             const URL_PATTERN = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
             let hasSelectedInstance = false;
             browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
@@ -149,12 +143,10 @@ setTimeout(() => {
                 TARGET_ELEMENT = document.querySelector('.card-body');
             }
 
-
             // Get community name and source instance
             //    - If on a post page, get from the sidebar
             //    - If on a community page, get from the URL
             if (isLemmyPost) {
-
                 // // If post is not on the current instance
                 // const COMMUNITY_LINK = TARGET_ELEMENT.querySelector('a.community-link');
                 // if (COMMUNITY_LINK && COMMUNITY_LINK.getAttribute('title').includes('@')) {
@@ -176,10 +168,7 @@ setTimeout(() => {
             }
 
 
-            // -------------------------------------- //
             // --------- Add Event Listeners -------- //
-            // -------------------------------------- //
-
             btnRedirectLemmy.addEventListener('click', () => {
                 if (hasSelectedInstance) {
                     browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
@@ -191,7 +180,6 @@ setTimeout(() => {
 
             btnRedirectKbin.addEventListener('click', () => {
                 if (hasSelectedInstance) {
-
                     browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
                         const redirectURL = selectedInstance + communityPrefix + communityName + '@' + sourceInstance;
                         window.location.href = redirectURL;
@@ -200,27 +188,21 @@ setTimeout(() => {
             });
 
 
-            // -------------------------------------- //
             // ---------- Append elements ----------- //
-            // -------------------------------------- //
-
-            /// if nothing has been appended yet (to prevent double appending)
-            if (!document.querySelector('#instance-assistant-sidebar')) {
+            if (!document.querySelector('#instance-assistant-sidebar')) { // Prevent duplicate elements
                 if ((isLemmy) && !isHomeInstance) {
                     TARGET_ELEMENT.appendChild(btnRedirectLemmy);
+                    TARGET_ELEMENT.appendChild(txtHomeInstance);
+                    TARGET_ELEMENT.appendChild(txtChangeInstance);
                 }
                 if (isKbin && !isHomeInstance) {
                     TARGET_ELEMENT.appendChild(btnRedirectKbin);
-                }
-                if ((isLemmy || isKbin) && !isHomeInstance) {
                     TARGET_ELEMENT.appendChild(txtHomeInstance);
+                    TARGET_ELEMENT.appendChild(txtChangeInstance);
                 }
                 // if (isLemmyPost) {
                 //     TARGET_ELEMENT.appendChild(myPostMessage);
                 // }
-                if ((isLemmy || isKbin) && !isHomeInstance) {
-                    TARGET_ELEMENT.appendChild(txtChangeInstance);
-                }
             }
         }
         loadSelectedInstance();
