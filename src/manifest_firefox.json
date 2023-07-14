@@ -1,10 +1,10 @@
 {
   "name": "Instance Assistant for Lemmy & Kbin",
-  "short_name": "Instance Assistant",
+  "short_name": "Inst. Assist",
   "author": "Cynber",
   "description": "Ensure that the Lemmy/Kbin instance you are on is the one you want to be on",
   "homepage_url": "https://github.com/cynber/lemmy-instance-assistant",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "manifest_version": 2,
   "icons": {
     "48": "img/lemming48_dev.png",
@@ -19,7 +19,7 @@
     "*://*/post/*"
   ],
   "browser_action": {
-    "default_popup": "popup/popup.html",
+    "default_popup": "page-popup/popup.html",
     "default_icon": {
       "16": "img/lemming16_dev.png",
       "32": "img/lemming32_dev.png"
@@ -35,7 +35,7 @@
       "js": [
         "node_modules/webextension-polyfill/dist/browser-polyfill.js",
         "content-sidebar.js",
-        "communityNotFound.js"
+        "content-communityNotFound.js"
       ],
       "run_at": "document_end"
     }
@@ -47,7 +47,7 @@
     "persistent": false
   },
   "options_ui": {
-    "page": "options/options.html",
+    "page": "page-options/options.html",
     "open_in_tab": false,
     "browser_style": false
   },

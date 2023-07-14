@@ -10,15 +10,15 @@ setTimeout(() => {
     let myHomeInstance = null;
 
     // Only run on community pages (/c/ or /m/) and post pages (/post/)
-    if (CURRENT_PATH.includes("/c/") || CURRENT_PATH.includes("/m/") 
-    //|| CURRENT_PATH.includes("/post/")
+    if (CURRENT_PATH.includes("/c/") || CURRENT_PATH.includes("/m/")
+        //|| CURRENT_PATH.includes("/post/")
     ) {
 
         async function loadSelectedInstance() {
 
             // ------ Set up general variables ------ //
-            const { selectedInstance } = await browser.storage.local.get('selectedInstance');
-            const { selectedType } = await browser.storage.local.get('selectedType');
+            const { selectedInstance } = await chrome.storage.local.get('selectedInstance');
+            const { selectedType } = await chrome.storage.local.get('selectedType');
             let communityPrefix = (selectedType) ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
             HOME_INSTANCE_HOST = selectedInstance ? new URL(selectedInstance).hostname : null;
             myHomeInstance = selectedInstance;
@@ -129,7 +129,7 @@ setTimeout(() => {
             // ---------- Set up functions ---------- //
             const URL_PATTERN = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
             let hasSelectedInstance = false;
-            browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
+            chrome.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
                 hasSelectedInstance = (selectedInstance && URL_PATTERN.test(selectedInstance));
             });
             let TARGET_ELEMENT = '';
@@ -171,7 +171,7 @@ setTimeout(() => {
             // --------- Add Event Listeners -------- //
             btnRedirectLemmy.addEventListener('click', () => {
                 if (hasSelectedInstance) {
-                    browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
+                    chrome.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
                         const redirectURL = selectedInstance + communityPrefix + communityName + '@' + sourceInstance;
                         window.location.href = redirectURL;
                     });
@@ -180,7 +180,7 @@ setTimeout(() => {
 
             btnRedirectKbin.addEventListener('click', () => {
                 if (hasSelectedInstance) {
-                    browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
+                    chrome.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
                         const redirectURL = selectedInstance + communityPrefix + communityName + '@' + sourceInstance;
                         window.location.href = redirectURL;
                     });

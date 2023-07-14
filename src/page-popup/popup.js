@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Open settings page
   // btnOpenSettings.addEventListener("click", (event) => {
-  //   browser.tabs.create({ url: '../settings/settings.html' });
+  //   browser.tabs.create({ url: '../page-settings/settings.html' });
   // });
 
   // Redirect to selected instance

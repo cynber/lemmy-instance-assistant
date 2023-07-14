@@ -1,4 +1,4 @@
-web-ext-artifacts/
-resources/
 build/
-deprecated/
+dev-resources/
+dev-deprecated/
+web-ext-artifacts/

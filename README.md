@@ -6,17 +6,22 @@ After looking for a community on Google, you may end up on a Lemmy or Kbin insta
 
 This extension will redirect that link to the version on your home instance (ex. "https://lemmy.ca/c/technology@lemmy.ml"), allowing you to subscribe and participate immediately.
 
-<br/> 
+</br>
+
+# Downloads
 
 <table>
   <tr>
     <th>Firefox                      </th>
-    <th>Chrome                       </th>
-    <th>Safari / Edge / Opera / Other</th>
+    <th>Google Chrome                </th>
+    <th>Microsoft Edge               </th>
+    <th>Opera                        </th>
   </tr>
   <tr>
     <td>
-      <a href="https://addons.mozilla.org/addon/lemmy-instance-assistant"><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/26402139/251341913-3a74bafc-0ff6-4bff-83c1-532a7307e1f4.png" alt="Get 'Instance Assistant for Lemmy & Kbin' on Firefox"></a>
+      <a href="https://addons.mozilla.org/addon/lemmy-instance-assistant">
+        <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/26402139/251341913-3a74bafc-0ff6-4bff-83c1-532a7307e1f4.png" alt="Get 'Instance Assistant for Lemmy & Kbin' on Firefox">
+      </a>
     </td>
     <td>
       <a href="https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related">
@@ -24,19 +29,34 @@ This extension will redirect that link to the version on your home instance (ex.
       </a>
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/26402139/251330411-db0406c9-6f21-4b7d-a9b8-1d267f39de2c.png" alt="Get 'Instance Assistant for Lemmy & Kbin' - Other Browsers">
+      <p>Coming soon.</p>
+      <a href="#" onclick="return false;">
+        <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/26402139/252613780-21b8d61e-831b-459a-b45b-50190afb9cd2.png" alt="Get 'Instance Assistant for Lemmy & Kbin' - Edge">
+      </a>
+    </td>
+    <td>
+      <p>Coming soon.</p>
+      <a href="#" onclick="return false;">
+        <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/26402139/252613528-85a804d6-0dd0-4fd9-bc0e-26da3a436fbe.png" alt="Get 'Instance Assistant for Lemmy & Kbin' - Opera">
+      </a>
     </td>
   </tr>
   <tr>
   </tr>
 </table>
 
-Direct Links:
-* Firefox: <a href="https://addons.mozilla.org/addon/lemmy-instance-assistant">https://addons.mozilla.org/addon/lemmy-instance-assistant</a>
-* Chrome: <a href="https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related">https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related</a>
+#### Direct Links:
 
+* **Firefox:** <a href="https://addons.mozilla.org/addon/lemmy-instance-assistant">https://addons.mozilla.org/addon/lemmy-instance-assistant</a>
+* **Chrome:** <a href="https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related">https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related</a>
+* **Edge:** Version 1.2.0 is currently under review. Once that is approved, I will upload the most recent version.
+* **Opera:** Version 1.2.1 is currently under review. Once that is approved, I will upload the most recent version.
 
-When will it be on **Edge**/**Opera**/**Safari**/**Other**?: I will try to get the extension onto the other browsers as soon as I can. The extension should be compatible with all of them, it's just a matter of setting up accounts and paying fees. If you would like a particular browser, let me know and I will get to that one sooner.
+#### When will it be on **Safari**?:
+* There are tools available to port the extension over to Safari. Unfortunately, I currently don't have a recent MacOS device to sign the extension. I'm still looking in to this, but in the meantime if you would like to contribute, please let me know!
+
+#### When will it be on **______** browser?
+* Currently there aren't any plans to add it to any other browsers. Most other browsers should be able to download the extension from one of the stores above. I'm open to feedback, and you can contribute to the discussion here: <a href="https://lemmy.ca/c/instance_assistant">https://lemmy.ca/c/instance_assistant</a>
 
 <br/> 
 
