@@ -22,7 +22,7 @@
     "*://*/post/*"
   ],
   "action": {
-    "default_popup": "popup/popup.html",
+    "default_popup": "page-popup/popup.html",
     "default_icon": {
       "16": "img/lemming16_dev.png",
       "32": "img/lemming32_dev.png"
@@ -38,7 +38,7 @@
       "js": [
         "node_modules/webextension-polyfill/dist/browser-polyfill.js",
         "content-sidebar.js",
-        "communityNotFound.js"
+        "content-communityNotFound.js"
       ],
       "run_at": "document_end"
     }

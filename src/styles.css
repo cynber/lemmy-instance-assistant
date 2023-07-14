@@ -74,7 +74,7 @@ ul#instance-list {
     font-weight: 400;
     text-align: left;
     transition: background-color 0.2s;
-    background-image: url("../img/copy.png");
+    background-image: url("../img/icon-copy.png");
     background-repeat: no-repeat;
     background-position: left center;
     background-size: 24px 16px;

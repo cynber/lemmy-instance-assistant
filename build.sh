@@ -19,20 +19,19 @@ function init_build() {
     cp LICENSE $directory/LICENSE
     # cp -r src/_locales $directory/_locales    # TODO: Fix translations
     cp -r src/img $directory/img
-    cp -r src/page-welcome $directory/page-welcome
-    # cp -r src/options $directory/options
-    cp -r src/popup $directory/popup
-    cp -r src/settings $directory/settings
+    # cp -r src/page-welcome $directory/page-welcome
+    # cp -r src/page-options $directory/page-options
+    cp -r src/page-popup $directory/page-popup
+    cp -r src/page-settings $directory/page-settings
     cp src/styles.css $directory/styles.css
 
     if [ "$manifest" = 2 ]; then
         cp src/background.js $directory/background.js
-        cp src/communityNotFound.js $directory/communityNotFound.js
+        cp src/content-communityNotFound.js $directory/content-communityNotFound.js
         cp src/content-sidebar.js $directory/content-sidebar.js
     else
-        cp src/service-worker.js $directory/service-worker.js
         cp src/m3-background.js $directory/background.js
-        cp src/m3-communityNotFound.js $directory/communityNotFound.js
+        cp src/m3-content-communityNotFound.js $directory/content-communityNotFound.js
         cp src/m3-content-sidebar.js $directory/content-sidebar.js
     fi
     

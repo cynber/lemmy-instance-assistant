@@ -6,7 +6,9 @@ After looking for a community on Google, you may end up on a Lemmy or Kbin insta
 
 This extension will redirect that link to the version on your home instance (ex. "https://lemmy.ca/c/technology@lemmy.ml"), allowing you to subscribe and participate immediately.
 
-<br/> 
+</br>
+
+# Downloads
 
 <table>
   <tr>
@@ -43,16 +45,17 @@ This extension will redirect that link to the version on your home instance (ex.
   </tr>
 </table>
 
-Direct Links:
+#### Direct Links:
+
 * **Firefox:** <a href="https://addons.mozilla.org/addon/lemmy-instance-assistant">https://addons.mozilla.org/addon/lemmy-instance-assistant</a>
 * **Chrome:** <a href="https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related">https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related</a>
 * **Edge:** Version 1.2.0 is currently under review. Once that is approved, I will upload the most recent version.
 * **Opera:** Version 1.2.1 is currently under review. Once that is approved, I will upload the most recent version.
 
-When will it be on **Safari**?:
+#### When will it be on **Safari**?:
 * There are tools available to port the extension over to Safari. Unfortunately, I currently don't have a recent MacOS device to sign the extension. I'm still looking in to this, but in the meantime if you would like to contribute, please let me know!
 
-When will it be on **______** browser?
+#### When will it be on **______** browser?
 * Currently there aren't any plans to add it to any other browsers. Most other browsers should be able to download the extension from one of the stores above. I'm open to feedback, and you can contribute to the discussion here: <a href="https://lemmy.ca/c/instance_assistant">https://lemmy.ca/c/instance_assistant</a>
 
 <br/> 
