@@ -32,6 +32,12 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       const sourceInstance = sourcePath.includes("@") ?
         sourcePath.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : sourceHost;
       const { selectedInstance } = await chrome.storage.local.get('selectedInstance');
+
+      if (!selectedInstance) {
+        chrome.tabs.update(tab.id, { url: 'https://github.com/cynber/lemmy-instance-assistant#setup' });
+        return false;
+      }
+
       const { selectedType } = await chrome.storage.local.get('selectedType');
       const communityPrefix = selectedType ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
       const redirectURL = selectedInstance + communityPrefix + communityName + '@' + sourceInstance;

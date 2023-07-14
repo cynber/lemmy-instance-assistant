@@ -17,6 +17,8 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 // --------------------------------------
 
 browser.contextMenus.onClicked.addListener(async (info, tab) => {
+
+
   if (info.menuItemId === "lemmy-sidebar" && info.linkUrl) {
 
     let sourceHost = new URL(info.linkUrl).hostname;
@@ -29,6 +31,12 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
 
       async function loadStorage() {
         const { selectedInstance } = await browser.storage.local.get('selectedInstance');
+
+        if (!selectedInstance) {
+          browser.tabs.update(tab.id, { url: 'https://github.com/cynber/lemmy-instance-assistant#setup' });
+          return false;
+        }
+
         const { selectedType } = await browser.storage.local.get('selectedType');
         communityPrefix = selectedType ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
         const redirectURL = selectedInstance + communityPrefix + communityName + '@' + sourceInstance;
