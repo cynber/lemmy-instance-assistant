@@ -1,11 +1,11 @@
 #!/bin/bash
 
 function init_build() {
-    # Get version number from manifest
+    # GET VERSION AND MANIFEST VERSION ==========================================
     version=$(grep -o '"version": "[^"]*' src/manifest_$1.json | cut -d'"' -f4)
     manifest=$(grep -o '"manifest_version": [0-9]*' src/manifest_$1.json | cut -d' ' -f2)
 
-    # Create build directory
+    # CREATE BUILD DIRECTORY ====================================================
     echo "Building $1 v-$version$suffix (Manifest $manifest)..."
     directory="build/$1/instance-assistant-$version$suffix"
     if [ -d "$directory" ]; then
@@ -13,18 +13,20 @@ function init_build() {
     fi
     mkdir -p $directory
 
-    # Copy files
+    # COPY FILES ================================================================
     cp src/manifest_$1.json $directory/manifest.json
-    cp -r node_modules $directory/node_modules
     cp LICENSE $directory/LICENSE
-    # cp -r src/_locales $directory/_locales    # TODO: Fix translations
-    cp -r src/img $directory/img
-    # cp -r src/page-welcome $directory/page-welcome
-    # cp -r src/page-options $directory/page-options
-    cp -r src/page-popup $directory/page-popup
-    cp -r src/page-settings $directory/page-settings
     cp src/styles.css $directory/styles.css
-
+    cp -r node_modules $directory/node_modules
+    cp -r src/img $directory/img
+    # cp -r src/_locales $directory/_locales            # TODO: Fix translations
+    # cp -r src/page-options $directory/page-options    # TODO: add options page
+    cp -r src/page-popup $directory/page-popup
+    # cp -r src/page-settings $directory/page-settings  # TODO: add settings page
+    # cp -r src/page-sidebar $directory/page-sidebar    # TODO: add sidebar page
+    # cp -r src/page-welcome $directory/page-welcome    # TODO: add welcome page
+    
+    # COPY SCRIPT FILES BASED ON MANIFEST VERSION ================================
     if [ "$manifest" = 2 ]; then
         cp src/background.js $directory/background.js
         cp src/content-communityNotFound.js $directory/content-communityNotFound.js
@@ -35,17 +37,14 @@ function init_build() {
         cp src/m3-content-sidebar.js $directory/content-sidebar.js
     fi
     
-    
-    # Replace dev images with production images
+    # REPLACE DEV IMAGES WITH PRODUCTION IMAGES ==================================
     if [ "$isDev" = false ]; then
         sed -i 's/_dev.png/.png/' $directory/manifest.json
     fi
 
-    # Check if zip file already exists and if not dev version
+    # CHECK IF ZIP FILE ALREADY EXISTS AND CONFIRM OVERWRITE (PRODUCTION ONLY) ===
     if [ -f "build/$1/instance-assistant-$1-$version$suffix.zip" ] && [ "$isDev" = false ]; then
-
         read -p "Zip file already exists. Overwrite? (y/n): " confirm
-
         if [[ $confirm == "y" ]]; then
             rm "build/$1/instance-assistant-$1-$version$suffix.zip"
         else
@@ -54,13 +53,17 @@ function init_build() {
         fi
     fi
 
-    # Zip files, remove build directory, and print success message
+    # ZIP FILES, REMOVE BUILD DIRECTORY, AND PRINT SUCCESS MESSAGE ===============
     cd build/$1/instance-assistant-$version$suffix
     zip -r ../instance-assistant-$1-$version$suffix.zip * >/dev/null 2>&1
     cd ../../..
     # rm -rf $directory
     echo -e "\e[32mDone building $1 v-$version$suffix\e[0m"
 }
+
+# =================================================================================
+# BUILD SCRIPT
+# =================================================================================
 
 suffix=""
 isDev=false
