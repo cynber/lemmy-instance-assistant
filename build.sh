@@ -22,7 +22,7 @@ function init_build() {
     # cp -r src/_locales $directory/_locales            # TODO: Fix translations
     cp -r src/page-options $directory/page-options    # TODO: add options page
     cp -r src/page-popup $directory/page-popup
-    # cp -r src/page-settings $directory/page-settings  # TODO: add settings page
+    cp -r src/page-settings $directory/page-settings  # TODO: add settings page
     # cp -r src/page-sidebar $directory/page-sidebar    # TODO: add sidebar page
     # cp -r src/page-welcome $directory/page-welcome    # TODO: add welcome page
     

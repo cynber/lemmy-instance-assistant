@@ -2,3 +2,21 @@ body {
   width: 400px;
   min-height: 150px;
 }
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#btn-settings {
+  width: auto; 
+  margin-left: 10px;
+  align-items: right;
+}
+
+.truncate-instance {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

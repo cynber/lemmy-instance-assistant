@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     btnChangeInstance = document.getElementById("btn-change-instance"),
     btnChangeType = document.getElementById("btn-change-type"),
     btnRedirect = document.getElementById("btn-redirect-instance"),
-    //btnOpenSettings = document.getElementById("btn-open-settings"),
+    btnOpenSettings = document.getElementById("btn-open-settings"),
     txtHomeInstance = document.getElementById("selected-instance"),
     txtInstanceType = document.getElementById("instance-type");
     
@@ -79,9 +79,9 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Open settings page
-  // btnOpenSettings.addEventListener("click", (event) => {
-  //   browser.tabs.create({ url: '../page-settings/settings.html' });
-  // });
+  btnOpenSettings.addEventListener("click", (event) => {
+    browser.tabs.create({ url: '../page-settings/settings.html' });
+  });
 
   // Redirect to selected instance
   btnRedirect.addEventListener('click', async () => {
