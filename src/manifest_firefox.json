@@ -4,7 +4,7 @@
   "author": "Cynber",
   "description": "Ensure that the Lemmy/Kbin instance you are on is the one you want to be on",
   "homepage_url": "https://github.com/cynber/lemmy-instance-assistant",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "manifest_version": 2,
   "icons": {
     "48": "img/lemming48_dev.png",
