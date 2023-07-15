@@ -13,10 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   const instanceList = document.getElementById("instance-list"),
-    btnChangeInstance = document.getElementById("change-instance"),
-    btnChangeType = document.getElementById("change-type"),
-    btnRedirect = document.getElementById("redirect-instance"),
-    //btnOpenSettings = document.getElementById("open-settings"),
+    btnChangeInstance = document.getElementById("btn-change-instance"),
+    btnChangeType = document.getElementById("btn-change-type"),
+    btnRedirect = document.getElementById("btn-redirect-instance"),
+    //btnOpenSettings = document.getElementById("btn-open-settings"),
     txtHomeInstance = document.getElementById("selected-instance"),
     txtInstanceType = document.getElementById("instance-type");
     
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const button = document.createElement("button");
     button.type = "button";
     button.textContent = instance.name;
-    button.className = "instance-button";
+    button.className = "btn-instance-list";
     listItem.appendChild(button);
     instanceList.appendChild(listItem);
   });
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Copy URL
   instanceList.addEventListener("click", (event) => {
     const target = event.target;
-    if (target.classList.contains("instance-button")) {
+    if (target.classList.contains("btn-instance-list")) {
       const url = lemmyInstances.find((instance) => instance.name === target.textContent).url;
       navigator.clipboard.writeText(url);
     }

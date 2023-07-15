@@ -1,10 +1,12 @@
 body {
     background: #1f1f1f;
-    width: 400px;
-    min-height: 150px;
     padding: 10px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, sans-serif;
 }
+
+/* --------------------- */
+/*   TEXT & TYPOGRAPHY   */
+/* --------------------- */
 
 h1 {
     color: #e0e0e0;
@@ -26,13 +28,9 @@ input[type="text"] {
     width: 300px;
 }
 
-ul#instance-list {
-    list-style-type: none;
-    padding-left: 0;
-    columns: 2;
-    -webkit-columns: 2;
-    -moz-columns: 2;
-}
+/* --------------------- */
+/*        BUTTONS        */
+/* --------------------- */
 
 .button {
     color: #e0e0e0;
@@ -44,24 +42,38 @@ ul#instance-list {
     cursor: pointer;
     font-weight: 400;
     text-align: center;
+    background-color: #313638;
 }
 
-#redirect-instance {
+#btn-redirect-instance {
     padding: 1rem .75rem;
     margin: 0.5rem 0rem .5rem 0rem;
     background-color: #17305a;
 }
 
-#change-instance {
+#btn-change-instance {
     background-color: #571a1a;
 }
 
-#change-type {
+#btn-change-type {
     margin: 0.25rem 0rem 0rem 0rem;
     background-color: #363636;
 }
 
-.instance-button {
+#btn-open-settings {
+    margin: 0.25rem 0rem 0rem 0rem;
+    background-color: #363636;
+}
+
+ul#instance-list {
+    list-style-type: none;
+    padding-left: 0;
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+}
+
+.btn-instance-list {
     background-color: #363636;
     color: white;
     padding: .375rem .75rem;
@@ -80,11 +92,11 @@ ul#instance-list {
     background-size: 24px 16px;
 }
 
-.instance-button.selected {
+.btn-instance-list.selected {
     background-color: #ffdede;
 }
 
-.instance-button:active {
+.btn-instance-list:active {
     animation: buttonClick 0.05s;
 }
 
@@ -102,6 +114,10 @@ ul#instance-list {
     }
 }
 
+/* --------------------- */
+/*         OTHER         */
+/* --------------------- */
+
 .popup-section {
     background: #252525;
     padding: 10px 10px 0px 10px;
@@ -115,14 +131,13 @@ ul#instance-list {
     margin-bottom: 10px;
 }
 
+/* --------------------- */
+/*         ICONS         */
+/* --------------------- */
+
 .info-icon {
     display: inline-block;
     margin-left: 5px;
     font-size: 14px;
     cursor: help;
-}
-
-#open-settings {
-    margin: 0.25rem 0rem 0rem 0rem;
-    background-color: #363636;
 }
