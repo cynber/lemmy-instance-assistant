@@ -1,14 +1,8 @@
 body {
-    min-height: 400px;
+    background: white;
+    width: 80%;
 }
 
-.region {
-    background: #333;
-    padding: 20px;
-    margin: 10px;
-    border-radius: 5px;
-}
-
-.message {
-    color:#afafaf; 
+p {
+    color: black;
 }
