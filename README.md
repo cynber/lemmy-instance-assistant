@@ -48,7 +48,7 @@ This extension will redirect that link to the version on your home instance (ex.
 
 * **Firefox:** <a href="https://addons.mozilla.org/addon/lemmy-instance-assistant">https://addons.mozilla.org/addon/lemmy-instance-assistant</a>
 * **Chrome:** <a href="https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related">https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related</a>
-* **Edge:** Version 1.2.0 is currently under review. Once that is approved, I will upload the most recent version.
+* **Edge:** <a href="https://microsoftedge.microsoft.com/addons/detail/instance-assistant-for-le/hnlndgeokcaocdklkbfjbfjplfnedehb">https://microsoftedge.microsoft.com/addons/detail/instance-assistant-for-le/hnlndgeokcaocdklkbfjbfjplfnedehb</a>
 * **Opera:** Version 1.2.1 is currently under review. Once that is approved, I will upload the most recent version.
 
 #### When will it be on **Safari**?:
