@@ -24,13 +24,12 @@ This extension will redirect that link to the version on your home instance (ex.
       </a>
     </td>
     <td>
-      <a href="https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related">
+      <a href="https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh">
         <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/26402139/251502726-24f9ef83-e061-4408-be03-d0b48b3bd9af.png" alt="Get 'Instance Assistant for Lemmy & Kbin' on Chrome">
       </a>
     </td>
     <td>
-      <p>Coming soon.</p>
-      <a href="#" onclick="return false;">
+      <a href="https://microsoftedge.microsoft.com/addons/detail/instance-assistant-for-le/hnlndgeokcaocdklkbfjbfjplfnedehb" onclick="return false;">
         <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/26402139/252613780-21b8d61e-831b-459a-b45b-50190afb9cd2.png" alt="Get 'Instance Assistant for Lemmy & Kbin' - Edge">
       </a>
     </td>
