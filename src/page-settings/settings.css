@@ -83,7 +83,6 @@ input[type="text"] {
 .radio-field label {
     display: inline-block;
     margin-right: 10px;
-    font-weight: bold;
     color: #e0e0e0;
 }
 
