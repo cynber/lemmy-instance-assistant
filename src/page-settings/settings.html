@@ -1,27 +1,57 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Extension Settings</title>
+  <title>IA Settings</title>
+  <link rel="icon" type="image/png" sizes="16x16" href="../img/lemming16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../img/lemming32.png">
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="settings.css">
   <script src="settings.js"></script>
 </head>
+
 <body>
-  <h1>Extension Settings</h1>
+  <header>
+    <div style="display: inline-flex">
+      <img src="../img/lemming128.png" alt="Logo" class="logo">
+      <h2>Instance Assistant Settings</h2>
+    </div>
+    <nav>
+      <a href="https://github.com/cynber/lemmy-instance-assistant" class="btn-settings-nav">Project GitHub</a>
+      <a href="https://lemmy.ca/c/instance_assistant" class="btn-settings-nav">Community Support</a>
+      <a href="#" class="btn-settings-nav">Contribute</a>
+    </nav>
+  </header>
 
-  <div>
-    <label for="darkModeToggle">Dark Mode:</label>
-    <input type="checkbox" id="darkModeToggle">
-  </div>
+  <div class="settings">
+    <h2>Instance Settings</h2>
+    <div class="text-field">
+      <p>Home Instance:</p>
+      <p>WARNING: this doesn't check if you inputted the right format</p>
+      <input type="text" class="text-field-input" value="" placeholder="https://lemmy.ca">
+    </div>
+    <p>Home Instance Type:</p>
+    <div class="radio-field">
+      <input type="radio" id="radio-lemmy" name="platform" value="lemmy">
+      <label for="radio-lemmy">Lemmy</label>
+    </div>
+    <div class="radio-field">
+      <input type="radio" id="radio-kbin" name="platform" value="kbin">
+      <label for="radio-kbin">Kbin</label>
+    </div>
 
-  <div>
-    <label for="displaySidebarButtonsToggle">Display buttons in sidebar:</label>
-    <input type="checkbox" id="displaySidebarButtonsToggle">
-  </div>
+    <h2>Enable/Disable tools</h2>
+    <div class="checkbox">
+      <input type="checkbox" id="showContextMenu">
+      <label for="checkbox1">Checkbox 1</label>
+    </div>
+    <div class="checkbox">
+      <input type="checkbox" id="checkbox2">
+      <label for="checkbox2">Checkbox 2</label>
+    </div>
 
-  <div>
-    <label for="allowOnAllSitesCheckbox">Allow on all sites:</label>
-    <input type="checkbox" id="allowOnAllSitesCheckbox">
+    <button class="save-btn">Save</button>
   </div>
 </body>
+
 </html>
