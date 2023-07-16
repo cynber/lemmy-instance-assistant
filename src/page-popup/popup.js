@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
     btnChangeType = document.getElementById("btn-change-type"),
     btnRedirect = document.getElementById("btn-redirect-instance"),
     btnOpenSettings = document.getElementById("btn-open-settings"),
-    txtHomeInstance = document.getElementById("selected-instance"),
+    txtHomeInstance = document.getElementById("homeInstance"),
     txtInstanceType = document.getElementById("instance-type");
     
   const urlPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;

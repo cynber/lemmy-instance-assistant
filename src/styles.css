@@ -8,24 +8,9 @@ body {
 /*   TEXT & TYPOGRAPHY   */
 /* --------------------- */
 
-h1 {
-    color: #e0e0e0;
-    margin-bottom: 10px;
-    font-size: 16px;
-}
-
-p, a, label, input[type="text"] {
+p, a {
     color: #e0e0e0;
     font-size: 14px;
-}
-
-label {
-    display: block;
-    margin-bottom: 10px;
-}
-
-input[type="text"] {
-    width: 300px;
 }
 
 /* --------------------- */
@@ -42,76 +27,8 @@ input[type="text"] {
     cursor: pointer;
     font-weight: 400;
     text-align: center;
+    text-decoration: none;
     background-color: #313638;
-}
-
-#btn-redirect-instance {
-    padding: 1rem .75rem;
-    margin: 0.5rem 0rem .5rem 0rem;
-    background-color: #17305a;
-}
-
-#btn-change-instance {
-    background-color: #571a1a;
-}
-
-#btn-change-type {
-    margin: 0.25rem 0rem 0rem 0rem;
-    background-color: #363636;
-}
-
-#btn-open-settings {
-    margin: 0.25rem 0rem 0rem 0rem;
-    background-color: #363636;
-}
-
-ul#instance-list {
-    list-style-type: none;
-    padding-left: 0;
-    columns: 2;
-    -webkit-columns: 2;
-    -moz-columns: 2;
-}
-
-.btn-instance-list {
-    background-color: #363636;
-    color: white;
-    padding: .375rem .75rem;
-    padding-left: 36px;
-    margin-bottom: 10px;
-    width: 100%;
-    border: 2px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 400;
-    text-align: left;
-    transition: background-color 0.2s;
-    background-image: url("../img/icon-copy.png");
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-size: 24px 16px;
-}
-
-.btn-instance-list.selected {
-    background-color: #ffdede;
-}
-
-.btn-instance-list:active {
-    animation: buttonClick 0.05s;
-}
-
-@keyframes buttonClick {
-    0% {
-        background-color: #ffe3e3;
-    }
-
-    50% {
-        background-color: #333333;
-    }
-
-    100% {
-        background-color: #fffbca;
-    }
 }
 
 /* --------------------- */
