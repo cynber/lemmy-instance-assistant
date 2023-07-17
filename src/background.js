@@ -54,26 +54,23 @@ browser.contextMenus.create({
 );
 
 // --------------------------------------
-// Handle stored settings
+// Set default values on install/update
 // --------------------------------------
 
-// Set default values for browser storage on install or update
+function setDefault(condition, settingName, settingValue) {
+  if (condition) {
+    browser.storage.local.set({ [settingName]: settingValue });
+  }
+}
+
 browser.runtime.onInstalled.addListener(({ reason }) => {
   if (reason === 'install' || reason === 'update') {
     browser.storage.local.get().then((result) => {
       // no default set for selectedInstance
-      if (!result.selectedType) {
-        browser.storage.local.set({ selectedType: 'lemmy' });
-      }
-      if (!result.settingShowSidebar) {
-        browser.storage.local.set({ settingShowSidebar: true });
-      }
-      if (!result.settingContextMenu) {
-        browser.storage.local.set({ settingContextMenu: true });
-      }
-      if (!result.settingCommunityNotFound) {
-        browser.storage.local.set({ settingCommunityNotFound: true });
-      }
+      setDefault(!result.selectedType, 'selectedType', 'lemmy');
+      setDefault(result.settingShowSidebar === undefined, 'settingShowSidebar', true);
+      setDefault(result.settingContextMenu === undefined, 'settingContextMenu', true);
+      setDefault(result.settingCommunityNotFound === undefined, 'settingCommunityNotFound', true);
     });
   }
 });

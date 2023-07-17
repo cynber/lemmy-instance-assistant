@@ -15,6 +15,7 @@ setTimeout(() => {
             // ------ Set up general variables ------ //
             const { selectedInstance } = await browser.storage.local.get('selectedInstance');
             const { selectedType } = await chrome.storage.local.get('selectedType');
+            const { settingCommunityNotFound } = await chrome.storage.local.get('settingCommunityNotFound');
             let isLemmy = CURRENT_PATH.includes("/c/");
             let isKbin = CURRENT_PATH.includes("/m/");
             const targetCommunity = CURRENT_PATH.match(/\/c\/(.+?)@/)[1];
@@ -189,7 +190,7 @@ setTimeout(() => {
 
 
             // ---------- Append elements ----------- //
-            if (!document.querySelector('#instance-assistant-sidebar')) { // prevent duplicate elements
+            if (!document.querySelector('#instance-assistant-sidebar') && settingCommunityNotFound) { // prevent duplicate elements
                 if (isLemmy) {
                     container.appendChild(txtErrorPage);
                     container.appendChild(btnOpenSearchLemmy)
@@ -201,8 +202,9 @@ setTimeout(() => {
                 // if (isKbin) {
                 //   container.appendChild(btnHomeKbin);
                 // } 
+                TARGET_ELEMENT.insertBefore(container, TARGET_ELEMENT.firstChild);
             }
-            TARGET_ELEMENT.insertBefore(container, TARGET_ELEMENT.firstChild);
+            
         }
         loadSelectedInstance();
     }

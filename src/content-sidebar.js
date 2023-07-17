@@ -19,6 +19,7 @@ setTimeout(() => {
             // ------ Set up general variables ------ //
             const { selectedInstance } = await browser.storage.local.get('selectedInstance');
             const { selectedType } = await browser.storage.local.get('selectedType');
+            const { settingShowSidebar } = await browser.storage.local.get('settingShowSidebar');
             let communityPrefix = (selectedType) ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
             HOME_INSTANCE_HOST = selectedInstance ? new URL(selectedInstance).hostname : null;
             myHomeInstance = selectedInstance;
@@ -189,7 +190,7 @@ setTimeout(() => {
 
 
             // ---------- Append elements ----------- //
-            if (!document.querySelector('#instance-assistant-sidebar')) { // Prevent duplicate elements
+            if (!document.querySelector('#instance-assistant-sidebar') && settingShowSidebar) { // Prevent duplicate elements
                 if ((isLemmy) && !isHomeInstance) {
                     TARGET_ELEMENT.appendChild(btnRedirectLemmy);
                     TARGET_ELEMENT.appendChild(txtHomeInstance);
