@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const resetButton = document.querySelector('.reset-btn');
   const radioButtons = document.querySelectorAll('input[type="radio"]');
   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  const validationMessage = document.querySelector('.validation-message');
+  const urlPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
 
   // Retrieve stored values and set them to fields
   browser.storage.local.get([
@@ -32,15 +34,53 @@ document.addEventListener('DOMContentLoaded', function () {
     checkboxes[0].checked = settingShowSidebar;
     checkboxes[1].checked = settingContextMenu;
     checkboxes[2].checked = settingCommunityNotFound;
+
+    hideValidationError();
+  });
+
+  // Function to show validation error message
+  const showValidationError = (message) => {
+    validationMessage.textContent = message;
+    validationMessage.style.display = 'block';
+    textFields[0].classList.add('validation-error');
+  };
+
+  // Function to hide validation error message
+  const hideValidationError = () => {
+    validationMessage.style.display = 'none';
+    textFields[0].classList.remove('validation-error');
+  };
+
+  // Event handler for input event on selectedInstance text field
+  textFields[0].addEventListener('input', function () {
+    if (saveClicked) {
+      const instanceValue = this.value.trim();
+      if (!urlPattern.test(instanceValue)) {
+        showValidationError("Please enter a valid URL:   'https://lemmy.ca'");
+      } else {
+        hideValidationError();
+      }
+    }
   });
 
   // Save button click event handler
+  let saveClicked = false;
   saveButton.addEventListener('click', function () {
+    saveClicked = true;
     const instanceValue = textFields[0].value.trim();
     const platformValue = document.querySelector('input[name="platform"]:checked').value;
     const toggleShowSidebarButtons = checkboxes[0].checked;
     const toggleShowContextMenu = checkboxes[1].checked;
     const toggleShowCommunityNotFound = checkboxes[2].checked;
+
+    // Validation check
+    if (!urlPattern.test(instanceValue)) {
+      showValidationError("Please enter a valid URL:   'https://lemmy.ca'");
+      console.error("Please enter a valid URL:   'https://lemmy.ca'");
+      return;
+    } else {
+      hideValidationError();
+    }
 
     // Store values to local storage
     browser.storage.local.set({

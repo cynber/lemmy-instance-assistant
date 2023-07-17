@@ -24,10 +24,11 @@
   </header>
 
   <div class="settings">
+
     <h2>Instance Settings</h2>
     <div class="text-field">
-      <p>Home Instance: WARNING: this doesn't check if you inputted the right format</p>
       <input type="text" class="text-field-input" value="" placeholder="https://lemmy.ca">
+      <div class="validation-message">Please enter a valid URL (ex. 'https://lemmy.ca")</div>
     </div>
     <p>Home Instance Type:</p>
     <div class="radio-field">
@@ -40,12 +41,6 @@
     </div>
 
     <h2>Enable/Disable tools</h2>
-
-
-    <!-- MAYBE MAKE IT SET THESE ON INSTALL IF THEY DON'T HAVE A VALUE ALREADY, ELSE USE THE VALUE THAT EXISTS?? -->
-
-
-
     <div class="checkbox">
       <input type="checkbox" id="showSidebarButtons">
       <label for="showSidebarButtons">Buttons in community sidebar</label>
@@ -58,7 +53,9 @@
       <input type="checkbox" id="showCommunityNotFound">
       <label for="showCommunityNotFound">Improved instructions & buttons on 'Community not found' pages</label>
     </div>
+  </div>
 
+  <div class="footer">
     <button class="save-btn">Save</button>
     <button class="reset-btn">Reset to Default</button>
   </div>

@@ -20,6 +20,14 @@ body {
     color: var(--color-text)
 }
 
+h2 {
+    margin: 30px 0px 10px 0px;
+}
+
+/* ----------------------------------------- */
+/*                  HEADER                   */
+/* ----------------------------------------- */
+
 header {
     margin: 0;
     background-color: var(--color-bg-3);
@@ -55,12 +63,12 @@ nav {
     margin: 10px;
 }
 
+/* ----------------------------------------- */
+/*                  CONTENT                  */
+/* ----------------------------------------- */
+
 .settings {
     padding: 0 40px;
-}
-
-h2 {
-    margin: 30px 0px 10px 0px;
 }
 
 .checkbox {
@@ -112,6 +120,26 @@ input[type="text"] {
 
 .radio-field input[type="radio"] {
     margin-right: 5px;
+}
+
+.validation-error {
+    border-color: red;
+}
+
+.validation-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* ----------------------------------------- */
+/*                  FOOTER                   */
+/* ----------------------------------------- */
+
+.footer {
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
 }
 
 .save-btn {
