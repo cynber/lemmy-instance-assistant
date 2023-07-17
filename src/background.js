@@ -52,3 +52,28 @@ browser.contextMenus.create({
   targetUrlPatterns: ["http://*/c/*", "https://*/c/*", "http://*/p/*", "https://*/p/*"],
 }, () => void browser.runtime.lastError,
 );
+
+// --------------------------------------
+// Handle stored settings
+// --------------------------------------
+
+// Set default values for browser storage on install or update
+browser.runtime.onInstalled.addListener(({ reason }) => {
+  if (reason === 'install' || reason === 'update') {
+    browser.storage.local.get().then((result) => {
+      // no default set for selectedInstance
+      if (!result.selectedType) {
+        browser.storage.local.set({ selectedType: 'lemmy' });
+      }
+      if (!result.settingShowSidebar) {
+        browser.storage.local.set({ settingShowSidebar: true });
+      }
+      if (!result.settingContextMenu) {
+        browser.storage.local.set({ settingContextMenu: true });
+      }
+      if (!result.settingCommunityNotFound) {
+        browser.storage.local.set({ settingCommunityNotFound: true });
+      }
+    });
+  }
+});

@@ -134,3 +134,25 @@ input[type="text"] {
 .save-btn:active {
     animation: buttonClick 0.05s;
 }
+
+.reset-btn {
+    padding: 8px 12px;
+    margin-left: 30px;
+    color: var(--color-text);
+    background-color: var(--color-btn-change);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.reset-btn:hover {
+    background-color: var(--color-btn-change-hover);
+}
+
+.reset-btn.selected {
+    background-color: var(--color-btn-change-active);
+}
+
+.reset-btn:active {
+    animation: buttonClick 0.05s;
+}
