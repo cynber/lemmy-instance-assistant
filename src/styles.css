@@ -1,16 +1,33 @@
+:root {
+  --color-bg-1: #1f1f1f;
+  --color-bg-2: #252525;
+  --color-bg-3: #111111;
+  --color-text: #e0e0e0;
+  --color-btn: #313638;
+  --color-btn-hover: #3e4347;
+  --color-btn-active: #4b5156;
+  --color-btn-redirect: #17305a;
+  --color-btn-redirect-hover: #173565;
+  --color-btn-redirect-active: #1e4380;
+  --color-btn-change: #571a1a;
+  --color-btn-change-hover: #6b1a1a;
+  --color-btn-change-active: #7f1a1a;
+}
+
 body {
-    background: #1f1f1f;
-    padding: 10px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, sans-serif;
+  background: var(--color-bg-1);
+  padding: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, sans-serif;
 }
 
 /* --------------------- */
 /*   TEXT & TYPOGRAPHY   */
 /* --------------------- */
 
-p, a {
-    color: #e0e0e0;
-    font-size: 14px;
+p,
+a {
+  color: var(--color-text);
+  font-size: 14px;
 }
 
 /* --------------------- */
@@ -18,17 +35,17 @@ p, a {
 /* --------------------- */
 
 .button {
-    color: #e0e0e0;
-    padding: .375rem .75rem;
-    margin: 0rem 0rem 0rem 0rem;
-    width: 100%;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 400;
-    text-align: center;
-    text-decoration: none;
-    background-color: #313638;
+  color: var(--color-text);
+  padding: .375rem .75rem;
+  margin: 0rem 0rem 0rem 0rem;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 400;
+  text-align: center;
+  text-decoration: none;
+  background-color: var(--color-btn);
 }
 
 /* --------------------- */
@@ -36,16 +53,16 @@ p, a {
 /* --------------------- */
 
 .popup-section {
-    background: #252525;
-    padding: 10px 10px 0px 10px;
-    border-radius: 5px;
+  background: var(--color-bg-2);
+  padding: 10px 10px 0px 10px;
+  border-radius: 5px;
 }
 
 .message {
-    background: #252525;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
+  background: var(--color-bg-2);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 /* --------------------- */
@@ -53,8 +70,29 @@ p, a {
 /* --------------------- */
 
 .info-icon {
-    display: inline-block;
-    margin-left: 5px;
-    font-size: 14px;
-    cursor: help;
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 14px;
+  cursor: help;
+}
+
+/* --------------------- */
+/*         ANIMS         */
+/* --------------------- */
+
+@keyframes buttonClick {
+  0% {
+    transform: scale(1);
+    box-shadow: none;
+  }
+
+  50% {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: none;
+  }
 }

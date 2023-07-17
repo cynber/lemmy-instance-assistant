@@ -1,12 +1,28 @@
+:root {
+    --color-bg-1: #1f1f1f;
+    --color-bg-2: #252525;
+    --color-bg-3: #111111;
+    --color-text: #e0e0e0;
+    --color-btn: #363636;
+    --color-btn-hover: #3e4347;
+    --color-btn-active: #4b5156;
+    --color-btn-redirect: #17305a;
+    --color-btn-redirect-hover: #173565;
+    --color-btn-redirect-active: #1e4380;
+    --color-btn-change: #571a1a;
+    --color-btn-change-hover: #6b1a1a;
+    --color-btn-change-active: #7f1a1a;
+}
+
 body {
     padding: 0;
     margin: 0;
-    color: #e0e0e0;
+    color: var(--color-text)
 }
 
 header {
     margin: 0;
-    background-color: #111111;
+    background-color: var(--color-bg-3);
     padding: 0 40px;
     display: flex;
     justify-content: space-between;
@@ -21,9 +37,17 @@ nav {
     display: inline-block;
     margin-right: 10px;
     padding: 8px 12px;
-    background-color: #17305a;
+    background-color: var(--color-btn);
     text-decoration: none;
     border-radius: 5px;
+}
+
+.btn-settings-nav:hover {
+    background-color: var(--color-btn-hover);
+}
+
+.btn-settings-nav:active {
+    animation: buttonClick 0.05s;
 }
 
 .logo {
@@ -36,7 +60,7 @@ nav {
 }
 
 h2 {
-    margin-bottom: 10px;
+    margin: 30px 0px 10px 0px;
 }
 
 .checkbox {
@@ -83,7 +107,7 @@ input[type="text"] {
 .radio-field label {
     display: inline-block;
     margin-right: 10px;
-    color: #e0e0e0;
+    color: var(--color-text)
 }
 
 .radio-field input[type="radio"] {
@@ -97,4 +121,16 @@ input[type="text"] {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.save-btn:hover {
+    background-color: #fffbca;
+}
+
+.save-btn.selected {
+    background-color: #ffdede;
+}
+
+.save-btn:active {
+    animation: buttonClick 0.05s;
 }

@@ -1,3 +1,19 @@
+:root {
+  --color-bg-1: #1f1f1f;
+  --color-bg-2: #252525;
+  --color-bg-3: #111111;
+  --color-text: #e0e0e0;
+  --color-btn: #363636;
+  --color-btn-hover: #3e4347;
+  --color-btn-active: #4b5156;
+  --color-btn-redirect: #17305a;
+  --color-btn-redirect-hover: #173565;
+  --color-btn-redirect-active: #1e4380;
+  --color-btn-change: #571a1a;
+  --color-btn-change-hover: #6b1a1a;
+  --color-btn-change-active: #7f1a1a;
+}
+
 body {
   width: 400px;
   min-height: 150px;
@@ -10,7 +26,7 @@ body {
 }
 
 #btn-settings {
-  width: auto; 
+  width: auto;
   margin-left: 10px;
   align-items: right;
 }
@@ -24,21 +40,53 @@ body {
 #btn-redirect-instance {
   padding: 0.7rem .75rem;
   margin: 0.2rem 0rem .2rem 0rem;
-  background-color: #17305a;
+  background-color: var(--color-btn-redirect);
+}
+
+#btn-redirect-instance:hover {
+  background-color: var(--color-btn-redirect-hover);
+}
+
+#btn-redirect-instance:active {
+  animation: buttonClick 0.1s;
 }
 
 #btn-change-instance {
-  background-color: #571a1a;
+  background-color: var(--color-btn-change);
+}
+
+#btn-change-instance:hover {
+  background-color: var(--color-btn-change-hover);
+}
+
+#btn-change-instance:active {
+  animation: buttonClick 0.1s;
 }
 
 #btn-change-type {
   margin: 0.25rem 0rem 0rem 0rem;
-  background-color: #363636;
+  background-color: var(--color-btn)
+}
+
+#btn-change-type:hover {
+  background-color: var(--color-btn-hover);
+}
+
+#btn-change-type:active {
+  animation: buttonClick 0.1s;
 }
 
 #btn-open-settings {
   margin: 0.25rem 0rem 0rem 0rem;
-  background-color: #363636;
+  background-color: var(--color-btn)
+}
+
+#btn-open-settings:hover {
+  background-color: var(--color-btn-hover);
+}
+
+#btn-open-settings:active {
+  animation: buttonClick 0.1s;
 }
 
 ul#instance-list {
@@ -50,8 +98,8 @@ ul#instance-list {
 }
 
 .btn-instance-list {
-  background-color: #363636;
-  color: white;
+  background-color: var(--color-btn);
+  color: var(--color-text);
   padding: .375rem .75rem;
   padding-left: 36px;
   margin-bottom: 10px;
@@ -68,24 +116,10 @@ ul#instance-list {
   background-size: 24px 16px;
 }
 
-.btn-instance-list.selected {
-  background-color: #ffdede;
+.btn-instance-list:hover {
+  background-color: var(--color-btn-hover);
 }
 
 .btn-instance-list:active {
-  animation: buttonClick 0.05s;
-}
-
-@keyframes buttonClick {
-  0% {
-      background-color: #ffe3e3;
-  }
-
-  50% {
-      background-color: #333333;
-  }
-
-  100% {
-      background-color: #fffbca;
-  }
+  animation: buttonClick 0.1s;
 }
