@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const lemmyRadio = document.getElementById('radio-lemmy');
   const kbinRadio = document.getElementById('radio-kbin');
   const showSidebarCheckbox = document.getElementById('showSidebarButtons');
-  const showContextMenuCheckbox = document.getElementById('showContextMenu');
   const showCommunityNotFoundCheckbox = document.getElementById('showCommunityNotFound');
   const validationMessage = document.querySelector('.validation-message');
   const urlPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
@@ -15,13 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
     "selectedInstance",
     "selectedType",
     "settingShowSidebar",
-    "settingContextMenu",
     "settingCommunityNotFound"
   ]).then((result) => {
     const selectedInstance = result.selectedInstance;
     const selectedType = result.selectedType;
     const settingShowSidebar = result.settingShowSidebar;
-    const settingContextMenu = result.settingContextMenu;
     const settingCommunityNotFound = result.settingCommunityNotFound;
 
     instanceField.value = selectedInstance || "";
@@ -35,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     showSidebarCheckbox.checked = settingShowSidebar;
-    showContextMenuCheckbox.checked = settingContextMenu;
     showCommunityNotFoundCheckbox.checked = settingCommunityNotFound;
 
     hideValidationError();
@@ -73,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const instanceValue = instanceField.value.trim();
     const platformValue = lemmyRadio.checked ? "lemmy" : "kbin";
     const toggleShowSidebarButtons = showSidebarCheckbox.checked;
-    const toggleShowContextMenu = showContextMenuCheckbox.checked;
     const toggleShowCommunityNotFound = showCommunityNotFoundCheckbox.checked;
 
     // Validation check
@@ -90,14 +85,12 @@ document.addEventListener('DOMContentLoaded', function () {
       selectedInstance: instanceValue,
       selectedType: platformValue,
       settingShowSidebar: toggleShowSidebarButtons,
-      settingContextMenu: toggleShowContextMenu,
       settingCommunityNotFound: toggleShowCommunityNotFound
     }).then(() => {
       console.log("Values saved successfully!");
       console.log("Instance:", instanceValue);
       console.log("Platform:", platformValue);
       console.log("Show sidebar buttons:", toggleShowSidebarButtons);
-      console.log("Show context menu:", toggleShowContextMenu);
       console.log("Show community not found:", toggleShowCommunityNotFound);
     }).catch((error) => {
       console.error("Error occurred while saving values:", error);
@@ -114,14 +107,12 @@ document.addEventListener('DOMContentLoaded', function () {
       browser.storage.local.set({
         selectedType: 'lemmy',
         settingShowSidebar: true,
-        settingContextMenu: true,
         settingCommunityNotFound: true
       }).then(() => {
         // Update the UI to reflect default values
         lemmyRadio.checked = true;
         kbinRadio.checked = false;
         showSidebarCheckbox.checked = true;
-        showContextMenuCheckbox.checked = true;
         showCommunityNotFoundCheckbox.checked = true;
         instanceField.value = "";
         console.log("Values reset to default.");
