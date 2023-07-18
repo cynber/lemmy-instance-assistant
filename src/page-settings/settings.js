@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const textFields = document.querySelectorAll('.text-field-input');
-  const saveButton = document.querySelector('.save-btn');
-  const resetButton = document.querySelector('.reset-btn');
-  const radioButtons = document.querySelectorAll('input[type="radio"]');
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  const instanceField = document.getElementById('instance-field');
+  const saveButton = document.getElementById('save-btn');
+  const resetButton = document.getElementById('reset-btn');
+  const lemmyRadio = document.getElementById('radio-lemmy');
+  const kbinRadio = document.getElementById('radio-kbin');
+  const showSidebarCheckbox = document.getElementById('showSidebarButtons');
+  const showContextMenuCheckbox = document.getElementById('showContextMenu');
+  const showCommunityNotFoundCheckbox = document.getElementById('showCommunityNotFound');
   const validationMessage = document.querySelector('.validation-message');
   const urlPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
 
@@ -21,19 +24,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const settingContextMenu = result.settingContextMenu;
     const settingCommunityNotFound = result.settingCommunityNotFound;
 
-    textFields[0].value = selectedInstance || "";
+    instanceField.value = selectedInstance || "";
 
     if (selectedType === "lemmy") {
-      radioButtons[0].checked = true;
-      radioButtons[1].checked = false;
+      lemmyRadio.checked = true;
+      kbinRadio.checked = false;
     } else if (selectedType === "kbin") {
-      radioButtons[0].checked = false;
-      radioButtons[1].checked = true;
+      lemmyRadio.checked = false;
+      kbinRadio.checked = true;
     }
 
-    checkboxes[0].checked = settingShowSidebar;
-    checkboxes[1].checked = settingContextMenu;
-    checkboxes[2].checked = settingCommunityNotFound;
+    showSidebarCheckbox.checked = settingShowSidebar;
+    showContextMenuCheckbox.checked = settingContextMenu;
+    showCommunityNotFoundCheckbox.checked = settingCommunityNotFound;
 
     hideValidationError();
   });
@@ -42,17 +45,17 @@ document.addEventListener('DOMContentLoaded', function () {
   const showValidationError = (message) => {
     validationMessage.textContent = message;
     validationMessage.style.display = 'block';
-    textFields[0].classList.add('validation-error');
+    instanceField.classList.add('validation-error');
   };
 
   // Function to hide validation error message
   const hideValidationError = () => {
     validationMessage.style.display = 'none';
-    textFields[0].classList.remove('validation-error');
+    instanceField.classList.remove('validation-error');
   };
 
   // Event handler for input event on selectedInstance text field
-  textFields[0].addEventListener('input', function () {
+  instanceField.addEventListener('input', function () {
     if (saveClicked) {
       const instanceValue = this.value.trim();
       if (!urlPattern.test(instanceValue)) {
@@ -67,11 +70,11 @@ document.addEventListener('DOMContentLoaded', function () {
   let saveClicked = false;
   saveButton.addEventListener('click', function () {
     saveClicked = true;
-    const instanceValue = textFields[0].value.trim();
-    const platformValue = document.querySelector('input[name="platform"]:checked').value;
-    const toggleShowSidebarButtons = checkboxes[0].checked;
-    const toggleShowContextMenu = checkboxes[1].checked;
-    const toggleShowCommunityNotFound = checkboxes[2].checked;
+    const instanceValue = instanceField.value.trim();
+    const platformValue = lemmyRadio.checked ? "lemmy" : "kbin";
+    const toggleShowSidebarButtons = showSidebarCheckbox.checked;
+    const toggleShowContextMenu = showContextMenuCheckbox.checked;
+    const toggleShowCommunityNotFound = showCommunityNotFoundCheckbox.checked;
 
     // Validation check
     if (!urlPattern.test(instanceValue)) {
@@ -115,12 +118,12 @@ document.addEventListener('DOMContentLoaded', function () {
         settingCommunityNotFound: true
       }).then(() => {
         // Update the UI to reflect default values
-        radioButtons[0].checked = true;
-        radioButtons[1].checked = false;
-        checkboxes[0].checked = true;
-        checkboxes[1].checked = true;
-        checkboxes[2].checked = true;
-        textFields[0].value = "";
+        lemmyRadio.checked = true;
+        kbinRadio.checked = false;
+        showSidebarCheckbox.checked = true;
+        showContextMenuCheckbox.checked = true;
+        showCommunityNotFoundCheckbox.checked = true;
+        instanceField.value = "";
         console.log("Values reset to default.");
       }).catch((error) => {
         console.error("Error occurred while resetting values:", error);

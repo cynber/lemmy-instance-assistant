@@ -27,7 +27,7 @@
 
     <h2>Instance Settings</h2>
     <div class="text-field">
-      <input type="text" class="text-field-input" value="" placeholder="https://lemmy.ca">
+      <input type="text" class="text-field-input" id="instance-field" value="" placeholder="https://lemmy.ca">
       <div class="validation-message">Please enter a valid URL (ex. 'https://lemmy.ca")</div>
     </div>
     <p>Home Instance Type:</p>
@@ -45,10 +45,10 @@
       <input type="checkbox" id="showSidebarButtons">
       <label for="showSidebarButtons">Buttons in community sidebar</label>
     </div>
-    <!-- <div class="checkbox">                       // TEMPORARILY DISABLED FOR TESTING
+    <div class="checkbox" >
       <input type="checkbox" id="showContextMenu">
       <label for="showContextMenu">Right click context menu</label>
-    </div> -->
+    </div>
     <div class="checkbox">
       <input type="checkbox" id="showCommunityNotFound">
       <label for="showCommunityNotFound">Improved instructions & buttons on 'Community not found' pages</label>
@@ -56,8 +56,8 @@
   </div>
 
   <div class="footer">
-    <button class="save-btn">Save</button>
-    <button class="reset-btn">Reset to Default</button>
+    <button id="save-btn" class="save-btn">Save</button>
+    <button id="reset-btn" class="reset-btn">Reset to Default</button>
   </div>
 </body>
 
