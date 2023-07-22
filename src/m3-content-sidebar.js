@@ -86,7 +86,7 @@ setTimeout(() => {
             font-weight: 400;
             cursor: pointer;
         `;
-            btnRedirectKbin.style.backgroundColor = '#17305a';
+            btnRedirectKbin.style.backgroundColor = '#5f35ae';
 
             let btnRedirectLemmy = createButton('Open in my home instance');
             btnRedirectLemmy.style.cssText = `
@@ -99,7 +99,7 @@ setTimeout(() => {
             text-align: center;
             color: white;
         `;
-            btnRedirectLemmy.style.backgroundColor = '#17305a';
+            btnRedirectLemmy.style.backgroundColor = '#5f35ae';
 
             let btnToPostLemmy = createButton('Open post in my home instance');
             btnToPostLemmy.style.cssText = `

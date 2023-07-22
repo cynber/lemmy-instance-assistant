@@ -108,3 +108,4 @@ https://github.com/cynber/lemmy-instance-assistant/assets/26402139/d3a12821-9fa6
 # Credits
 * Icon from <a href="https://www.flaticon.com/free-icons/lemming" title="lemming icons">Lemming icons created by Freepik - Flaticon</a>
 * Copy icon from <a href="https://www.flaticon.com/free-icons/ui" title="ui icons">Ui icons created by Radhe Icon - Flaticon</a>
+* External link icon from <a href="https://www.flaticon.com/free-icons/external-link" title="external link icons">External link icons created by Bharat Icons - Flaticon</a>

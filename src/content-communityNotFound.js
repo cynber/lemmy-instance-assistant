@@ -112,7 +112,7 @@ setTimeout(() => {
                 font-weight: 400;
                 cursor: pointer;
             `;
-            btnHomeKbin.style.backgroundColor = '#17305a';
+            btnHomeKbin.style.backgroundColor = '#5f35ae';
 
             let btnOpenSearchLemmy = createButton('Trigger a search');
             btnOpenSearchLemmy.style.cssText = `
@@ -138,7 +138,7 @@ setTimeout(() => {
                 text-align: center;
                 color: white;
             `;
-            btnHomeLemmy.style.backgroundColor = '#17305a';
+            btnHomeLemmy.style.backgroundColor = '#5f35ae';
 
             let btnCommunityLemmy = createButton('Open community on foreign instance');
             btnCommunityLemmy.style.cssText = `

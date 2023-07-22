@@ -6,9 +6,12 @@
   --color-btn: #363636;
   --color-btn-hover: #3e4347;
   --color-btn-active: #4b5156;
-  --color-btn-redirect: #17305a;
-  --color-btn-redirect-hover: #173565;
-  --color-btn-redirect-active: #1e4380;
+  --color-btn-redirect: #472783;
+  --color-btn-redirect-hover: #5a3a9e;
+  --color-btn-redirect-active: #6c4db7;
+  --color-btn-tools: #2e515e;
+  --color-btn-tools-hover: #3a6b7a;
+  --color-btn-tools-active: #468494;
   --color-btn-change: #571a1a;
   --color-btn-change-hover: #6b1a1a;
   --color-btn-change-active: #7f1a1a;
@@ -21,20 +24,43 @@ body {
 
 .popup-header {
   display: flex;
+  margin: 0px 0px 10px 0px;
   justify-content: space-between;
   align-items: center;
 }
 
-#btn-settings {
-  width: auto;
-  margin-left: 10px;
-  align-items: right;
+.popup-header p {
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+.popup-section {
+  background: var(--color-bg-2);
+  padding: 10px 10px 10px 10px;
+  margin: 10px 0px 10px 0px;
+  border-radius: 5px;
 }
 
 .truncate-instance {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.section-header {
+  margin: 0px 0px 5px 0px;
+  padding: 0px 0px 0px 0px;
+  color: var(--color-text);
+}
+
+/* ----------------------------------------- */
+/*                 BUTTONS                   */
+/* ----------------------------------------- */
+
+#btn-settings {
+  width: auto;
+  margin-left: 10px;
+  align-items: right;
 }
 
 #btn-redirect-instance {
@@ -52,6 +78,7 @@ body {
 }
 
 #btn-change-instance {
+  margin: 0.25rem 0rem 0rem 0rem;
   background-color: var(--color-btn-change);
 }
 
@@ -89,7 +116,27 @@ body {
   animation: buttonClick 0.1s;
 }
 
+.popup-tools {
+  margin: 0.25rem 0rem 0rem 0rem;
+  background-color: var(--color-btn-tools);
+}
+
+.popup-tools:hover {
+  background-color: var(--color-btn-tools-hover);
+}
+
+.popup-tools:active {
+  animation: buttonClick 0.1s;
+}
+
+.icon-external {
+  width: 10px;
+  height: 10px;
+  margin-left: 5px;
+}
+
 ul#instance-list {
+  margin-bottom: 0px;
   list-style-type: none;
   padding-left: 0;
   columns: 2;
@@ -102,12 +149,11 @@ ul#instance-list {
   color: var(--color-text);
   padding: .375rem .75rem;
   padding-left: 36px;
-  margin-bottom: 10px;
-  width: 100%;
+  margin: 5px;
+  width: 95%;
   border: 2px;
   border-radius: 5px;
   cursor: pointer;
-  font-weight: 400;
   text-align: left;
   transition: background-color 0.2s;
   background-image: url("../img/icon-copy.png");
