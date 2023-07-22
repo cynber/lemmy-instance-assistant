@@ -7,6 +7,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../img/lemming32.png">
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="settings.css">
+  <script src="../node_modules/webextension-polyfill/dist/browser-polyfill.js"></script>
   <script src="settings.js"></script>
 </head>
 
@@ -25,7 +26,11 @@
 
   <div class="settings">
 
+    <p class="message welcome"> Welcome! Please enter your instance information below.</p>
+
     <h2>Instance Settings</h2>
+    <hr>
+    <p>Home Instance URL:</p>
     <div class="text-field">
       <input type="text" class="text-field-input" id="instance-field" value="" placeholder="https://lemmy.ca">
       <div class="validation-message">Please enter a valid URL (ex. 'https://lemmy.ca")</div>
@@ -40,7 +45,14 @@
       <label for="radio-kbin">Kbin</label>
     </div>
 
+    <h2>Popup Settings</h2>
+    <hr>
+    <p>Modify list of instances</p>
+    <textarea id="instance-list" rows="8" placeholder="Enter instances in the format: name, url"></textarea>
+
+
     <h2>Enable/Disable tools</h2>
+    <hr>
     <div class="checkbox">
       <input type="checkbox" id="showSidebarButtons">
       <label for="showSidebarButtons">Buttons in community sidebar</label>

@@ -6,9 +6,12 @@
     --color-btn: #363636;
     --color-btn-hover: #3e4347;
     --color-btn-active: #4b5156;
-    --color-btn-redirect: #17305a;
-    --color-btn-redirect-hover: #173565;
-    --color-btn-redirect-active: #1e4380;
+    --color-btn-redirect: #5f35ae;
+    --color-btn-redirect-hover: #6a3ebc;
+    --color-btn-redirect-active: #7546ca;
+    --color-btn-tools: #054da7;
+    --color-btn-tools-hover: #0e5abf;
+    --color-btn-tools-active: #1668d7;
     --color-btn-change: #571a1a;
     --color-btn-change-hover: #6b1a1a;
     --color-btn-change-active: #7f1a1a;
@@ -115,11 +118,19 @@ input[type="text"] {
 .radio-field label {
     display: inline-block;
     margin-right: 10px;
+    font-size: 14px;
     color: var(--color-text)
 }
 
 .radio-field input[type="radio"] {
     margin-right: 5px;
+}
+
+.checkbox label {
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 14px;
+    color: var(--color-text)
 }
 
 .validation-error {
@@ -130,6 +141,14 @@ input[type="text"] {
     color: red;
     font-size: 12px;
     margin-top: 5px;
+}
+
+.welcome {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: var(--color-text);
+    text-align: center;
+    background-color: var(--color-btn-active);
 }
 
 /* ----------------------------------------- */
