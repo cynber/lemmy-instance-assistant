@@ -1,14 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const lemmyInstances = [
-    { name: "lemmy.world", url: "https://lemmy.world" },
-    { name: "lemmy.ca", url: "https://lemmy.ca" },
-    { name: "lemmy.one", url: "https://lemmy.one" },
-    { name: "programming.dev", url: "https://programming.dev" },
-    { name: "lemmy.ml", url: "https://lemmy.ml" },
-    { name: "feddit.de", url: "https://feddit.de" },
-    { name: "lemm.ee", url: "https://lemm.ee" },
-    { name: "kbin.social", url: "https://kbin.social" },
-  ];
+  // const lemmyInstances = [
+  //   { name: "lemmy.world", url: "https://lemmy.world" },
+  //   { name: "lemmy.ca", url: "https://lemmy.ca" },
+  //   { name: "lemmy.one", url: "https://lemmy.one" },
+  //   { name: "programming.dev", url: "https://programming.dev" },
+  //   { name: "lemmy.ml", url: "https://lemmy.ml" },
+  //   { name: "feddit.de", url: "https://feddit.de" },
+  //   { name: "lemm.ee", url: "https://lemm.ee" },
+  //   { name: "kbin.social", url: "https://kbin.social" },
+  // ];
 
   const instanceList = document.getElementById("instance-list"),
     btnChangeInstance = document.getElementById("btn-change-instance"),
@@ -35,15 +35,37 @@ document.addEventListener("DOMContentLoaded", function () {
     txtToolExplore.textContent = selectedType === "lemmy" ? "Explore Lemmy communities" : "Explore Kbin communities";
   });
 
-  lemmyInstances.forEach((instance) => {
-    const listItem = document.createElement("li");
-    const button = document.createElement("button");
-    button.type = "button";
-    button.textContent = instance.name;
-    button.className = "btn-instance-list";
-    listItem.appendChild(button);
-    instanceList.appendChild(listItem);
+  let lemmyInstances = [];
+
+  browser.storage.local.get("instanceList").then((result) => {
+    lemmyInstances = result.instanceList;
+
+    if (!lemmyInstances) {
+      lemmyInstances = [
+        { name: "lemmy.world", url: "https://lemmy.world" },
+        { name: "lemmy.ca", url: "https://lemmy.ca" },
+        { name: "lemmy.one", url: "https://lemmy.one" },
+        { name: "programming.dev", url: "https://programming.dev" },
+        { name: "lemmy.ml", url: "https://lemmy.ml" },
+        { name: "feddit.de", url: "https://feddit.de" },
+        { name: "lemm.ee", url: "https://lemm.ee" },
+        { name: "kbin.social", url: "https://kbin.social" },
+      ];
+      browser.storage.local.set({ instanceList: lemmyInstances });
+    }
+
+    lemmyInstances.forEach((instance) => {
+      const listItem = document.createElement("li");
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = instance.name;
+      button.className = "btn-instance-list";
+      listItem.appendChild(button);
+      instanceList.appendChild(listItem);
+    });
   });
+
+  
 
   // ----------------- BUTTONS ----------------- //
 
