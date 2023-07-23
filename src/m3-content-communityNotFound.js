@@ -15,7 +15,7 @@ setTimeout(() => {
             // ------ Set up general variables ------ //
             const { selectedInstance } = await chrome.storage.local.get('selectedInstance');
             const { selectedType } = await chrome.storage.local.get('selectedType');
-            const { settingCommmunityNotFound } = await chrome.storage.local.get('settingCommmunityNotFound');
+            const { settingCommunityNotFound } = await chrome.storage.local.get('settingCommunityNotFound');
             let isLemmy = CURRENT_PATH.includes("/c/");
             let isKbin = CURRENT_PATH.includes("/m/");
             const targetCommunity = CURRENT_PATH.match(/\/c\/(.+?)@/)[1];
@@ -188,9 +188,9 @@ setTimeout(() => {
                 window.location.href = 'https://' + targetInstance + '/c/' + targetCommunity;
             });
 
-            
+            console.log('Lemmy Home Instance Extension loaded.');
             // ---------- Append elements ----------- //
-            if (!document.querySelector('#instance-assistant-sidebar') && settingCommmunityNotFound) { // prevent duplicate elements
+            if (!document.querySelector('#instance-assistant-sidebar') && settingCommunityNotFound) { // prevent duplicate elements
                 if (isLemmy) {
                     container.appendChild(txtErrorPage);
                     container.appendChild(btnOpenSearchLemmy)

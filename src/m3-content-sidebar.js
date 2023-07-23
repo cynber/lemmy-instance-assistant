@@ -19,7 +19,7 @@ setTimeout(() => {
             // ------ Set up general variables ------ //
             const { selectedInstance } = await chrome.storage.local.get('selectedInstance');
             const { selectedType } = await chrome.storage.local.get('selectedType');
-            const { settingShowSidebar } = await browser.storage.local.get('settingShowSidebar');
+            const { settingShowSidebar } = await chrome.storage.local.get('settingShowSidebar');
             let communityPrefix = (selectedType) ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
             HOME_INSTANCE_HOST = selectedInstance ? new URL(selectedInstance).hostname : null;
             myHomeInstance = selectedInstance;
