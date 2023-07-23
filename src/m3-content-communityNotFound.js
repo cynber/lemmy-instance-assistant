@@ -177,7 +177,7 @@ setTimeout(() => {
             });
 
             btnOpenSearchLemmy.addEventListener('click', () => {
-                window.location.href = 'https://' + CURRENT_HOST + '/search?q=' + targetCommunity + '!' + targetCommunity + '%40' + targetInstance + '&type=All&listingType=All&page=1&sort=TopAll';
+                window.location.href = 'https://' + CURRENT_HOST + '/search?q=!' + targetCommunity + '%40' + targetInstance + '&type=All&listingType=All&page=1&sort=TopAll';
             });
 
             btnOpenSearchKbin.addEventListener('click', () => {
