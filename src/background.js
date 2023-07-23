@@ -74,4 +74,7 @@ browser.runtime.onInstalled.addListener(({ reason }) => {
       setDefault(result.settingCommunityNotFound === undefined, 'settingCommunityNotFound', true);
     });
   }
+  if (reason === 'install') {
+    browser.tabs.create({ url: '../page-settings/settings.html' });
+  }
 });
