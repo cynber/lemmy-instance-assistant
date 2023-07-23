@@ -188,7 +188,6 @@ setTimeout(() => {
                 window.location.href = 'https://' + targetInstance + '/c/' + targetCommunity;
             });
 
-            console.log('Lemmy Home Instance Extension loaded.');
             // ---------- Append elements ----------- //
             if (!document.querySelector('#instance-assistant-sidebar') && settingCommunityNotFound) { // prevent duplicate elements
                 if (isLemmy) {

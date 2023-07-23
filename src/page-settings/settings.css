@@ -151,6 +151,27 @@ input[type="text"] {
     background-color: var(--color-btn-active);
 }
 
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+  }
+  
+  #toast-message {
+    background-color: var(--color-btn-active);
+    color: var(--color-text);
+    padding: 10px 20px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  #toast-message.show {
+    opacity: 1;
+  }
+
 /* ----------------------------------------- */
 /*                  FOOTER                   */
 /* ----------------------------------------- */

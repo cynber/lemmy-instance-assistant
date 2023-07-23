@@ -69,6 +69,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  function showSaveConfirmation(text) {
+    const toastMessage = document.getElementById('toast-message');
+    toastMessage.innerText = text;
+    toastMessage.classList.add('show');
+  
+    setTimeout(() => {
+      toastMessage.classList.remove('show');
+    }, 3000);
+  }
+
   // Save button click event handler
   let saveClicked = false;
   saveButton.addEventListener('click', function () {
@@ -82,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!urlPattern.test(instanceValue)) {
       showValidationError("Please enter a valid URL:   'https://lemmy.ca'");
       console.log("Please enter a valid URL:   'https://lemmy.ca'");
+      showSaveConfirmation("Settings could not be saved, see errors for details.");
       return;
     } else {
       hideValidationError();
@@ -110,8 +121,10 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log("Show sidebar buttons:", toggleShowSidebarButtons);
       console.log("Show community not found:", toggleShowCommunityNotFound);
       console.log("Instance List:", websitesArray);
+      showSaveConfirmation("Settings saved!");
     }).catch((error) => {
       console.log("Error occurred while saving values:", error);
+      showSaveConfirmation("Settings could not be saved, see errors for details.");
     });
   });
 
