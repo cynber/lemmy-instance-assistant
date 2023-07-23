@@ -124,7 +124,7 @@ setTimeout(() => {
 
             const txtChangeInstance = createDropdown('How to change home instance', changeInstanceInstructions);
 
-            const myPostMessage = createMessage(`Warning: You are on a post page and will be redirected to the main community. (<a href="https://github.com/cynber/lemmy-instance-assistant/wiki/Why-can't-I-jump-to-the-same-post-on-my-home-instance%3F" target="_blank">more information</a>)`)
+            const myPostMessage = createMessage(`Warning: You are on a post page and will be redirected to the main community. (<a href="https://github.com/cynber/lemmy-instance-assistant/wiki/FAQ#why-cant-i-jump-to-the-same-post-on-my-home-instance" target="_blank">more information</a>)`)
 
 
             // ---------- Set up functions ---------- //
