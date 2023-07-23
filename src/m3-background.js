@@ -54,5 +54,28 @@ chrome.runtime.onInstalled.addListener(() => {
     id: "lemmy-sidebar",
     title: "Redirect to home instance",
     contexts: ["link"],
+    targetUrlPatterns: ["http://*/c/*", "https://*/c/*", "http://*/p/*", "https://*/p/*"],
   });
+});
+
+// --------------------------------------
+// Set default values on install/update
+// --------------------------------------
+
+function setDefault(condition, settingName, settingValue) {
+  if (condition) {
+    chrome.storage.local.set({ [settingName]: settingValue });
+  }
+}
+
+chrome.runtime.onInstalled.addListener(({ reason }) => {
+  if (reason === 'install' || reason === 'update') {
+    chrome.storage.local.get((result) => {
+      // no default set for selectedInstance
+      setDefault(!result.selectedType, 'selectedType', 'lemmy');
+      setDefault(result.settingShowSidebar === undefined, 'settingShowSidebar', true);
+      setDefault(result.settingContextMenu === undefined, 'settingContextMenu', true);
+      setDefault(result.settingCommunityNotFound === undefined, 'settingCommunityNotFound', true);
+    });
+  }
 });

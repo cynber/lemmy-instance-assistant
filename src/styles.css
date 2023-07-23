@@ -1,128 +1,95 @@
+:root {
+  --color-bg-1: #1f1f1f;
+  --color-bg-2: #252525;
+  --color-bg-3: #111111;
+  --color-text: #e0e0e0;
+  --color-btn: #363636;
+  --color-btn-hover: #3e4347;
+  --color-btn-active: #4b5156;
+  --color-btn-redirect: #5f35ae;
+  --color-btn-redirect-hover: #6a3ebc;
+  --color-btn-redirect-active: #7546ca;
+  --color-btn-tools: #054da7;
+  --color-btn-tools-hover: #0e5abf;
+  --color-btn-tools-active: #1668d7;
+  --color-btn-change: #571a1a;
+  --color-btn-change-hover: #6b1a1a;
+  --color-btn-change-active: #7f1a1a;
+}
+
 body {
-    background: #1f1f1f;
-    width: 400px;
-    min-height: 150px;
-    padding: 10px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, sans-serif;
+  background: var(--color-bg-1);
+  padding: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, sans-serif;
 }
 
-h1 {
-    color: #e0e0e0;
-    margin-bottom: 10px;
-    font-size: 16px;
+/* --------------------- */
+/*   TEXT & TYPOGRAPHY   */
+/* --------------------- */
+
+p,
+a {
+  color: var(--color-text);
+  font-size: 14px;
 }
 
-p, a, label, input[type="text"] {
-    color: #e0e0e0;
-    font-size: 14px;
-}
-
-label {
-    display: block;
-    margin-bottom: 10px;
-}
-
-input[type="text"] {
-    width: 300px;
-}
-
-ul#instance-list {
-    list-style-type: none;
-    padding-left: 0;
-    columns: 2;
-    -webkit-columns: 2;
-    -moz-columns: 2;
-}
+/* --------------------- */
+/*        BUTTONS        */
+/* --------------------- */
 
 .button {
-    color: #e0e0e0;
-    padding: .375rem .75rem;
-    margin: 0rem 0rem 0rem 0rem;
-    width: 100%;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 400;
-    text-align: center;
+  color: var(--color-text);
+  padding: .375rem .75rem;
+  margin: 0rem 0rem 0rem 0rem;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 400;
+  text-align: center;
+  text-decoration: none;
+  background-color: var(--color-btn);
 }
 
-#redirect-instance {
-    padding: 1rem .75rem;
-    margin: 0.5rem 0rem .5rem 0rem;
-    background-color: #17305a;
-}
-
-#change-instance {
-    background-color: #571a1a;
-}
-
-#change-type {
-    margin: 0.25rem 0rem 0rem 0rem;
-    background-color: #363636;
-}
-
-.instance-button {
-    background-color: #363636;
-    color: white;
-    padding: .375rem .75rem;
-    padding-left: 36px;
-    margin-bottom: 10px;
-    width: 100%;
-    border: 2px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 400;
-    text-align: left;
-    transition: background-color 0.2s;
-    background-image: url("../img/icon-copy.png");
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-size: 24px 16px;
-}
-
-.instance-button.selected {
-    background-color: #ffdede;
-}
-
-.instance-button:active {
-    animation: buttonClick 0.05s;
-}
-
-@keyframes buttonClick {
-    0% {
-        background-color: #ffe3e3;
-    }
-
-    50% {
-        background-color: #333333;
-    }
-
-    100% {
-        background-color: #fffbca;
-    }
-}
-
-.popup-section {
-    background: #252525;
-    padding: 10px 10px 0px 10px;
-    border-radius: 5px;
-}
+/* --------------------- */
+/*         OTHER         */
+/* --------------------- */
 
 .message {
-    background: #252525;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
+  background: var(--color-btn-active);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
+
+/* --------------------- */
+/*         ICONS         */
+/* --------------------- */
 
 .info-icon {
-    display: inline-block;
-    margin-left: 5px;
-    font-size: 14px;
-    cursor: help;
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 14px;
+  cursor: help;
 }
 
-#open-settings {
-    margin: 0.25rem 0rem 0rem 0rem;
-    background-color: #363636;
+/* --------------------- */
+/*         ANIMS         */
+/* --------------------- */
+
+@keyframes buttonClick {
+  0% {
+    transform: scale(1);
+    box-shadow: none;
+  }
+
+  50% {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: none;
+  }
 }

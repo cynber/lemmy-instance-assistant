@@ -52,3 +52,29 @@ browser.contextMenus.create({
   targetUrlPatterns: ["http://*/c/*", "https://*/c/*", "http://*/p/*", "https://*/p/*"],
 }, () => void browser.runtime.lastError,
 );
+
+// --------------------------------------
+// Set default values on install/update
+// --------------------------------------
+
+function setDefault(condition, settingName, settingValue) {
+  if (condition) {
+    browser.storage.local.set({ [settingName]: settingValue });
+    console.log(`Set default value for ${settingName} to ${settingValue}`);
+  }
+}
+
+browser.runtime.onInstalled.addListener(({ reason }) => {
+  if (reason === 'install' || reason === 'update') {
+    browser.storage.local.get().then((result) => {
+      // no default set for selectedInstance
+      setDefault(!result.selectedType, 'selectedType', 'lemmy');
+      setDefault(result.settingShowSidebar === undefined, 'settingShowSidebar', true);
+      setDefault(result.settingContextMenu === undefined, 'settingContextMenu', true);
+      setDefault(result.settingCommunityNotFound === undefined, 'settingCommunityNotFound', true);
+    });
+  }
+  if (reason === 'install') {
+    browser.tabs.create({ url: '../page-settings/settings.html' });
+  }
+});

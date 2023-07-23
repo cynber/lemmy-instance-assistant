@@ -2,9 +2,9 @@
   "name": "Instance Assistant for Lemmy & Kbin",
   "short_name": "Inst. Assist",
   "author": "Cynber",
-  "description": "Ensure that the Lemmy/Kbin instance you are on is the one you want to be on",
+  "description": "Simplify your Lemmy & Kbin experience with tools for your instance and communities",
   "homepage_url": "https://github.com/cynber/lemmy-instance-assistant",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "manifest_version": 2,
   "icons": {
     "48": "img/lemming48_dev.png",
@@ -45,6 +45,14 @@
       "background.js"
     ],
     "persistent": false
+  },
+  "sidebar_action": {
+    "default_title": "Instance Assistant",
+    "default_icon": {
+      "16": "img/lemming16_dev.png",
+      "32": "img/lemming32_dev.png"
+    },
+    "default_panel": "page-sidebar/sidebar.html"
   },
   "options_ui": {
     "page": "page-options/options.html",
