@@ -15,6 +15,7 @@ setTimeout(() => {
             // ------ Set up general variables ------ //
             const { selectedInstance } = await browser.storage.local.get('selectedInstance');
             const { selectedType } = await chrome.storage.local.get('selectedType');
+            const { settingCommunityNotFound } = await chrome.storage.local.get('settingCommunityNotFound');
             let isLemmy = CURRENT_PATH.includes("/c/");
             let isKbin = CURRENT_PATH.includes("/m/");
             const targetCommunity = CURRENT_PATH.match(/\/c\/(.+?)@/)[1];
@@ -111,7 +112,7 @@ setTimeout(() => {
                 font-weight: 400;
                 cursor: pointer;
             `;
-            btnHomeKbin.style.backgroundColor = '#17305a';
+            btnHomeKbin.style.backgroundColor = '#5f35ae';
 
             let btnOpenSearchLemmy = createButton('Trigger a search');
             btnOpenSearchLemmy.style.cssText = `
@@ -137,7 +138,7 @@ setTimeout(() => {
                 text-align: center;
                 color: white;
             `;
-            btnHomeLemmy.style.backgroundColor = '#17305a';
+            btnHomeLemmy.style.backgroundColor = '#5f35ae';
 
             let btnCommunityLemmy = createButton('Open community on foreign instance');
             btnCommunityLemmy.style.cssText = `
@@ -189,7 +190,7 @@ setTimeout(() => {
 
 
             // ---------- Append elements ----------- //
-            if (!document.querySelector('#instance-assistant-sidebar')) { // prevent duplicate elements
+            if (!document.querySelector('#instance-assistant-sidebar') && settingCommunityNotFound) { // prevent duplicate elements
                 if (isLemmy) {
                     container.appendChild(txtErrorPage);
                     container.appendChild(btnOpenSearchLemmy)
@@ -201,8 +202,9 @@ setTimeout(() => {
                 // if (isKbin) {
                 //   container.appendChild(btnHomeKbin);
                 // } 
+                TARGET_ELEMENT.insertBefore(container, TARGET_ELEMENT.firstChild);
             }
-            TARGET_ELEMENT.insertBefore(container, TARGET_ELEMENT.firstChild);
+            
         }
         loadSelectedInstance();
     }

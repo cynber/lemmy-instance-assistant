@@ -19,6 +19,7 @@ setTimeout(() => {
             // ------ Set up general variables ------ //
             const { selectedInstance } = await chrome.storage.local.get('selectedInstance');
             const { selectedType } = await chrome.storage.local.get('selectedType');
+            const { settingShowSidebar } = await chrome.storage.local.get('settingShowSidebar');
             let communityPrefix = (selectedType) ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
             HOME_INSTANCE_HOST = selectedInstance ? new URL(selectedInstance).hostname : null;
             myHomeInstance = selectedInstance;
@@ -85,7 +86,7 @@ setTimeout(() => {
             font-weight: 400;
             cursor: pointer;
         `;
-            btnRedirectKbin.style.backgroundColor = '#17305a';
+            btnRedirectKbin.style.backgroundColor = '#5f35ae';
 
             let btnRedirectLemmy = createButton('Open in my home instance');
             btnRedirectLemmy.style.cssText = `
@@ -98,7 +99,7 @@ setTimeout(() => {
             text-align: center;
             color: white;
         `;
-            btnRedirectLemmy.style.backgroundColor = '#17305a';
+            btnRedirectLemmy.style.backgroundColor = '#5f35ae';
 
             let btnToPostLemmy = createButton('Open post in my home instance');
             btnToPostLemmy.style.cssText = `
@@ -123,7 +124,7 @@ setTimeout(() => {
 
             const txtChangeInstance = createDropdown('How to change home instance', changeInstanceInstructions);
 
-            const myPostMessage = createMessage(`Warning: You are on a post page and will be redirected to the main community. (<a href="https://github.com/cynber/lemmy-instance-assistant/wiki/Why-can't-I-jump-to-the-same-post-on-my-home-instance%3F" target="_blank">more information</a>)`)
+            const myPostMessage = createMessage(`Warning: You are on a post page and will be redirected to the main community. (<a href="https://github.com/cynber/lemmy-instance-assistant/wiki/FAQ#why-cant-i-jump-to-the-same-post-on-my-home-instance" target="_blank">more information</a>)`)
 
 
             // ---------- Set up functions ---------- //
@@ -189,7 +190,7 @@ setTimeout(() => {
 
 
             // ---------- Append elements ----------- //
-            if (!document.querySelector('#instance-assistant-sidebar')) { // Prevent duplicate elements
+            if (!document.querySelector('#instance-assistant-sidebar') && settingShowSidebar) { // Prevent duplicate elements
                 if ((isLemmy) && !isHomeInstance) {
                     TARGET_ELEMENT.appendChild(btnRedirectLemmy);
                     TARGET_ELEMENT.appendChild(txtHomeInstance);

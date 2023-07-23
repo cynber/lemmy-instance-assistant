@@ -1,10 +1,19 @@
-# What is this?
+<p align="center"><img width="128" height="128" src="https://github-production-user-asset-6210df.s3.amazonaws.com/26402139/255387066-9d6c510c-1498-4ad5-9dec-6a5aa3bc08ff.png"></p>
 
-Say that you have an account on "https://lemmy.ca".
+<h1 align="center">Instance Assistant</h1>
 
-After looking for a community on Google, you may end up on a Lemmy or Kbin instance that is different from your own (https://lemmy.ml/c/technology). If you want to subscribe to the community, you need to copy the code (`!technology@lemmy.ml`), open your home instance, and then paste it into the search page.
+# Features
 
-This extension will redirect that link to the version on your home instance (ex. "https://lemmy.ca/c/technology@lemmy.ml"), allowing you to subscribe and participate immediately.
+* **Redirect to your home instance:** 
+  * Buttons will be added to the sidebar of any Lemmy or Kbin community you visit, which will let you open the same community on your home instance.
+* **Open links in home instance:** 
+  * Right click context menu will allow you to open any links in your home instance
+* **Improved Error Pages:** 
+  * 'Community not found' pages now have better information, a button to trigger a fetch, a button to open a community in the source instance, and more.
+* **Customizable popup & sidebar menus:** 
+  * Customizable list of instances to let you quickly switch home instances. This is great for if you have multiple accounts on different instances.
+  * There are also buttons for helpful tools that let you search for communities (with lemmyverse.net), and search across Lemmy sites (with search-lemmy.com).
+* **Settings:** You can change the default behaviour of the extension, customize the popup & sidebar menus, and turn off features you don't want to use.
 
 </br>
 
@@ -34,7 +43,7 @@ This extension will redirect that link to the version on your home instance (ex.
       </a>
     </td>
     <td>
-      <p>Coming soon.</p>
+      <p>Coming soon...</p>
       <a href="#" onclick="return false;">
         <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/26402139/252613528-85a804d6-0dd0-4fd9-bc0e-26da3a436fbe.png" alt="Get 'Instance Assistant for Lemmy & Kbin' - Opera">
       </a>
@@ -44,38 +53,21 @@ This extension will redirect that link to the version on your home instance (ex.
   </tr>
 </table>
 
-#### Direct Links:
-
-* **Firefox:** <a href="https://addons.mozilla.org/addon/lemmy-instance-assistant">https://addons.mozilla.org/addon/lemmy-instance-assistant</a>
-* **Chrome:** <a href="https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related">https://chrome.google.com/webstore/detail/instance-assistant-for-le/mbblbalkjcikhpladidpimlfiapdffdh/related</a>
-* **Edge:** <a href="https://microsoftedge.microsoft.com/addons/detail/instance-assistant-for-le/hnlndgeokcaocdklkbfjbfjplfnedehb">https://microsoftedge.microsoft.com/addons/detail/instance-assistant-for-le/hnlndgeokcaocdklkbfjbfjplfnedehb</a>
-* **Opera:** Version 1.2.1 is currently under review. Once that is approved, I will upload the most recent version.
-
-#### When will it be on **Safari**?:
-* There are tools available to port the extension over to Safari. Unfortunately, I currently don't have a recent MacOS device to sign the extension. I'm still looking in to this, but in the meantime if you would like to contribute, please let me know!
-
-#### When will it be on **______** browser?
-* Currently there aren't any plans to add it to any other browsers. Most other browsers should be able to download the extension from one of the stores above. I'm open to feedback, and you can contribute to the discussion here: <a href="https://lemmy.ca/c/instance_assistant">https://lemmy.ca/c/instance_assistant</a>
+#### Other browsers:
+* **Opera:** Waiting for approval by Opera team. In the meantime, you can download the extension from the Chrome store and install it manually.
+* **Safari:** No immediate plans. While there are tools available to port the extension over to Safari, I don't have a new MacOS device which is required to sign the extension. I'm still looking in to this, but if you would like to contribute you can join the discussion here: https://lemmy.ca/c/instance_assistant
+* **Other browsers:** Currently there aren't any plans to add it to any other browsers as you should be able to download from either the Chrome or Firefox stores. If you would like to see this extension on another browser, you can join the discussion here: https://lemmy.ca/c/instance_assistant
 
 <br/> 
 
-# SETUP
+# Note on Permissions
 
-Set your home instance:
-1. Click on the extension icon on your toolbar (top right)
-2. Click "Change my home instance" and type in the URL of your home instance (ex. "https://lemmy.ca"). To make things easier, you can click on the buttons to quickly copy the URL of some common home instances.   
-
-**RECOMMENDED** - Allow access to all sites:
-1. Right click on the extension icon
-2. Click on "Manage Extension"
-3. On the new page that opens, go to "Permissions"
-4. Click the toggle on "Access your data for all websites"
-
-> EXPLANATION: In order to see a button on the community you are using, you will need to allow the extension to access that site. However, since a lemmy instance can have any URL, you will need to keep doing this for any new instance you come across. Flipping this toggle will let you skip this annoyance. The extension is not collecting any data and everything is running locally so there shouldn't be a risk from enabling this. However if you don't want to enable this, you can also use the button in the extension itself as it should always work regardless.
+The current versions request “Access to all sites”. This is because the extension needs access to any page that contains “/c/”, “/m/”, or “/post/” in order to create the sidebar buttons. While the extension only looks for those pages, it will show up as “Access to all sites” when installing. Once I have a proper welcome message and settings page, I plan on making this permission optional so you can just use the popup menu if you would like.
 
 <br/> 
 
-# Usage
+# Basic Usage
+
 Once your home instance is set, you can redirect to it using one of two methods:
 * Button in popup: Click on the extension, and then click "Open this community in my instance". This is the recommended method.
 * Button on site: If the extension has access to an instance, it should load a button directly in the sidebar. You may need to reload the page in order to see it.
@@ -85,26 +77,23 @@ Once your home instance is set, you can redirect to it using one of two methods:
 |----------------|------------------|
 |<img src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/c80b1342-49eb-4b76-9258-c2cd1db22897" alt="Sidebar Button">|<img src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/b67e5b11-09b3-4248-9d74-8b2dc878969e" alt="Popup Button">|
 
-<br/> 
+<br/>
 
-# <a href="https://github.com/cynber/lemmy-instance-assistant/wiki/Latest-Updates-&-Future-Plans">Latest Updates & Future Plans</a>
+# Contributing
 
-<br/> 
+You can contribute to this project in a number of ways:
+* **Report bugs & suggest features:** If you find a bug or want a new feature, you can discuss in the support community (https://lemmy.ca/c/instance_assistant) or open an issue on GitHub.
+* **Contribute code:** If you want to contribute code, you can open a pull request on GitHub. You can find instructions on how to set up the project here: https://github.com/cynber/lemmy-instance-assistant/wiki/Development-Process
+* **Translate:** If you want to help translate the extension, you will soon be able to do so. I will update this section once it is ready.
+* **Donate:** If you want to support the project financially, you can do so by clicking the sponsor button on this page, or through https://ko-fi.com/cynber
 
-# FAQ
 
-* [Why can't I jump to a POST on my home instance?](https://github.com/cynber/lemmy-instance-assistant/wiki/Why-can't-I-jump-to-the-same-post-on-my-home-instance%3F)
 
-* [The sidebar button is not working right](https://github.com/cynber/lemmy-instance-assistant/wiki/Removing-sidebar-button-and-keeping-popup-option-only)
+<br/>
 
-<br/> 
-
-# Demo:
-This demo is out of date, new demo will be uploaded later on.
-https://github.com/cynber/lemmy-instance-assistant/assets/26402139/d3a12821-9fa6-47a8-8c87-fc3d94bd3efb
-
-<br/> 
-
-# Credits
-* Icon from <a href="https://www.flaticon.com/free-icons/lemming" title="lemming icons">Lemming icons created by Freepik - Flaticon</a>
-* Copy icon from <a href="https://www.flaticon.com/free-icons/ui" title="ui icons">Ui icons created by Radhe Icon - Flaticon</a>
+# Other Links
+<h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#recent-updates">Recent Updates</a></h3>
+<h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#future-plans">Future Plans</a></h3>
+<h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#faq">FAQ</a></h3>
+<h3><a href="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/d3a12821-9fa6-47a8-8c87-fc3d94bd3efb">Demo Video (out of date, new one is planned)</a></h3>
+<h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#credits">Credits</a></h3>
