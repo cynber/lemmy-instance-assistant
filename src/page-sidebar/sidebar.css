@@ -1,0 +1,168 @@
+:root {
+  --color-bg-1: #1f1f1f;
+  --color-bg-2: #252525;
+  --color-bg-3: #111111;
+  --color-text: #e0e0e0;
+  --color-btn: #363636;
+  --color-btn-hover: #3e4347;
+  --color-btn-active: #4b5156;
+  --color-btn-redirect: #472783;
+  --color-btn-redirect-hover: #5a3a9e;
+  --color-btn-redirect-active: #6c4db7;
+  --color-btn-tools: #2e515e;
+  --color-btn-tools-hover: #3a6b7a;
+  --color-btn-tools-active: #468494;
+  --color-btn-change: #571a1a;
+  --color-btn-change-hover: #6b1a1a;
+  --color-btn-change-active: #7f1a1a;
+}
+
+body {
+  min-width: 200px;
+  min-height: 150px;
+}
+
+.sidebar-header {
+  display: flex;
+  margin: 0px 0px 10px 0px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-header p {
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+.sidebar-section {
+  background: var(--color-bg-2);
+  padding: 10px 10px 10px 10px;
+  margin: 10px 0px 10px 0px;
+  border-radius: 5px;
+}
+
+.truncate-instance {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.section-header {
+  margin: 0px 0px 5px 0px;
+  padding: 0px 0px 0px 0px;
+  color: var(--color-text);
+}
+
+/* ----------------------------------------- */
+/*                 BUTTONS                   */
+/* ----------------------------------------- */
+
+#btn-settings {
+  width: auto;
+  margin-left: 10px;
+  align-items: right;
+}
+
+#btn-redirect-instance {
+  padding: 0.7rem .75rem;
+  margin: 0.2rem 0rem .2rem 0rem;
+  background-color: var(--color-btn-redirect);
+}
+
+#btn-redirect-instance:hover {
+  background-color: var(--color-btn-redirect-hover);
+}
+
+#btn-redirect-instance:active {
+  animation: buttonClick 0.1s;
+}
+
+#btn-change-instance {
+  margin: 0.25rem 0rem 0rem 0rem;
+  background-color: var(--color-btn-change);
+}
+
+#btn-change-instance:hover {
+  background-color: var(--color-btn-change-hover);
+}
+
+#btn-change-instance:active {
+  animation: buttonClick 0.1s;
+}
+
+#btn-change-type {
+  margin: 0.25rem 0rem 0rem 0rem;
+  background-color: var(--color-btn)
+}
+
+#btn-change-type:hover {
+  background-color: var(--color-btn-hover);
+}
+
+#btn-change-type:active {
+  animation: buttonClick 0.1s;
+}
+
+#btn-open-settings {
+  margin: 0.25rem 0rem 0rem 0rem;
+  background-color: var(--color-btn)
+}
+
+#btn-open-settings:hover {
+  background-color: var(--color-btn-hover);
+}
+
+#btn-open-settings:active {
+  animation: buttonClick 0.1s;
+}
+
+.sidebar-tools {
+  margin: 0.25rem 0rem 0rem 0rem;
+  background-color: var(--color-btn-tools);
+}
+
+.sidebar-tools:hover {
+  background-color: var(--color-btn-tools-hover);
+}
+
+.sidebar-tools:active {
+  animation: buttonClick 0.1s;
+}
+
+.icon-external {
+  width: 10px;
+  height: 10px;
+  margin-left: 5px;
+}
+
+ul#instance-list {
+  margin-bottom: 0px;
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.btn-instance-list {
+  background-color: var(--color-btn);
+  color: var(--color-text);
+  padding: .375rem .75rem;
+  padding-left: 36px;
+  margin: 5px;
+  width: 95%;
+  border: 2px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s;
+  background-image: url("../img/icon-copy.png");
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 24px 16px;
+}
+
+.btn-instance-list:hover {
+  background-color: var(--color-btn-hover);
+}
+
+.btn-instance-list:active {
+  animation: buttonClick 0.1s;
+}

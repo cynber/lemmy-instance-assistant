@@ -45,5 +45,13 @@
   ],
   "background": {
     "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_title": "Instance Assistant",
+    "default_icon": {
+      "16": "img/lemming16_dev.png",
+      "32": "img/lemming32_dev.png"
+    },
+    "default_path": "page-sidebar/sidebar.html"
   }
 }

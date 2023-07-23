@@ -23,7 +23,7 @@ function init_build() {
     cp -r src/page-options $directory/page-options
     cp -r src/page-popup $directory/page-popup
     cp -r src/page-settings $directory/page-settings
-    # cp -r src/page-sidebar $directory/page-sidebar    # TODO: add sidebar page
+    cp -r src/page-sidebar $directory/page-sidebar    # TODO: add sidebar page
     # cp -r src/page-welcome $directory/page-welcome    # TODO: add welcome page
     
     # COPY SCRIPT FILES BASED ON MANIFEST VERSION ================================
