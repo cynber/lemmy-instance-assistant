@@ -1,20 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // const lemmyInstances = [
-  //   { name: "lemmy.world", url: "https://lemmy.world" },
-  //   { name: "lemmy.ca", url: "https://lemmy.ca" },
-  //   { name: "lemmy.one", url: "https://lemmy.one" },
-  //   { name: "programming.dev", url: "https://programming.dev" },
-  //   { name: "lemmy.ml", url: "https://lemmy.ml" },
-  //   { name: "feddit.de", url: "https://feddit.de" },
-  //   { name: "lemm.ee", url: "https://lemm.ee" },
-  //   { name: "kbin.social", url: "https://kbin.social" },
-  // ];
-
   const instanceList = document.getElementById("instance-list"),
     btnChangeInstance = document.getElementById("btn-change-instance"),
     btnChangeType = document.getElementById("btn-change-type"),
     btnRedirect = document.getElementById("btn-redirect-instance"),
     btnOpenSettings = document.getElementById("btn-open-settings"),
+    btnTempSearch = document.getElementById("btn-temp-search"),
     btnFindCommunity = document.getElementById("btn-tool-find-community"),
     txtToolExplore = document.getElementById("explore-community-type"),
     btnToolSearch = document.getElementById("btn-tool-search"),
@@ -106,6 +96,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // Open settings page
   btnOpenSettings.addEventListener("click", (event) => {
     browser.tabs.create({ url: '../page-settings/settings.html' });
+  });
+
+  // Open temp search page
+  btnTempSearch.addEventListener("click", (event) => {
+    browser.tabs.create({ url: '../page-search/search.html' });
   });
 
   // Tool: search
