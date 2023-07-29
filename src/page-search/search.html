@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lemmy Search</title>
+  <title>Search for Communities</title>
   <link rel="icon" type="image/png" sizes="16x16" href="../img/lemming16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../img/lemming32.png">
   <link rel="stylesheet" href="../styles.css">
@@ -17,24 +17,35 @@
   <header>
     <div style="display: inline-flex">
       <img src="../img/lemming128.png" alt="Logo" class="logo">
-      <h2>Instance Assistant - Search</h2>
+      <h2>Search for Communities</h2>
     </div>
     <nav>
-      <a href="https://github.com/cynber/lemmy-instance-assistant" class="btn-settings-nav">Project GitHub</a>
-      <a href="https://lemmy.ca/c/instance_assistant" class="btn-settings-nav">Community Support</a>
-      <a href="https://ko-fi.com/cynber" class="btn-settings-nav">Contribute</a>
+      <a href="https://github.com/cynber/lemmy-instance-assistant" class="btn-nav">Project GitHub<img
+          src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab."></a>
+      <a href="https://lemmy.ca/c/instance_assistant" class="btn-nav">support community<img
+          src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab."></a>
+      <a href="https://ko-fi.com/cynber" class="btn-nav">Contribute<img src="../img/icon-external.png"
+          class="icon-external" alt="External Link" title="Opens in a new tab."></a>
     </nav>
   </header>
 
-  <div class="settings">
+  <div class="search">
+    <div class="message welcome">
+      <p>Search results are provided by Lemmyverse.net, and you also search directly on their website:</p>
+      <button id="open-lemmyverse" class="button" style="width: auto;">
+        Open Lemmyverse.net
+        <img src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab.">
+      </button>
+      <p>Note that this is feature is still being developed. If you have any feedback, please let us know in the <a href="https://lemmy.ca/c/instance_assistant">support community</a>.</p>
+    </div>
+  </div>
 
-    <p class="message welcome"> THIS IS CURRENTLY A DEV PAGE. YOU SHOULDN'T BE ABLE TO SEE IT. If you can, then that's no problem, I just didn't intend for you to see it.</p>
-
-    <form id="searchForm">
-      <label for="searchQuery">Search Query:</label>
-      <input type="text" id="searchQuery" required>
-      <button type="submit">Search</button>
-    </form>
-    <div id="results"></div>
+  <form id="searchForm">
+    <label for="searchQuery">Search for communities:</label>
+    <input type="text" id="searchQuery" required>
+    <button type="submit">Search</button>
+  </form>
+  <div id="results"></div>
+  </div>
 
 </html>

@@ -44,7 +44,7 @@ nav {
   margin: 10px 0;
 }
 
-.btn-settings-nav {
+.btn-nav {
   display: inline-block;
   margin-right: 10px;
   padding: 8px 12px;
@@ -53,11 +53,11 @@ nav {
   border-radius: 5px;
 }
 
-.btn-settings-nav:hover {
+.btn-nav:hover {
   background-color: var(--color-btn-hover);
 }
 
-.btn-settings-nav:active {
+.btn-nav:active {
   animation: buttonClick 0.05s;
 }
 
@@ -70,13 +70,14 @@ nav {
 /*                  CONTENT                  */
 /* ----------------------------------------- */
 
-.settings {
-  padding: 0 40px;
+.search {
+  padding: 40px;
 }
 
-.checkbox {
-  margin-bottom: 5px;
-  display: flex;
+#searchForm {
+  font-size: large;
+  margin: 40px;
+  text-align: center;
 }
 
 label {
@@ -93,7 +94,6 @@ label {
 }
 
 .text-field-input {
-
   width: 100%;
 }
 
@@ -109,38 +109,6 @@ input[type="text"] {
 
 input[type="text"] {
   width: 30%;
-}
-
-.radio-field {
-  margin-bottom: 10px;
-}
-
-.radio-field label {
-  display: inline-block;
-  margin-right: 10px;
-  font-size: 14px;
-  color: var(--color-text)
-}
-
-.radio-field input[type="radio"] {
-  margin-right: 5px;
-}
-
-.checkbox label {
-  display: inline-block;
-  margin-right: 10px;
-  font-size: 14px;
-  color: var(--color-text)
-}
-
-.validation-error {
-  border-color: red;
-}
-
-.validation-message {
-  color: red;
-  font-size: 12px;
-  margin-top: 5px;
 }
 
 .welcome {
@@ -173,73 +141,23 @@ input[type="text"] {
 }
 
 /* ----------------------------------------- */
-/*                  FOOTER                   */
+/*                  RESULTS                  */
 /* ----------------------------------------- */
 
-.footer {
-  padding: 20px 40px;
-  display: flex;
-  align-items: center;
-}
-
-#save-btn {
-  padding: 8px 12px;
-  color: #111111;
-  background-color: #e0e0e0;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#save-btn:hover {
-  background-color: #fffbca;
-}
-
-#save-btn.selected {
-  background-color: #ffdede;
-}
-
-#save-btn:active {
-  animation: buttonClick 0.05s;
-}
-
-#reset-btn {
-  padding: 8px 12px;
-  margin-left: 30px;
-  color: var(--color-text);
-  background-color: var(--color-btn-change);
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#reset-btn:hover {
-  background-color: var(--color-btn-change-hover);
-}
-
-#reset-btn.selected {
-  background-color: var(--color-btn-change-active);
-}
-
-#reset-btn:active {
-  animation: buttonClick 0.05s;
-}
-
-/* Add styles for the community cards */
 #results {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 20px;
   justify-items: center;
   margin-top: 20px;
 }
 
 .community-card {
+  background-color: var(--color-bg-3);
+  color: var(--color-text);
   border: 2px solid var(--color-bg-2);
   border-radius: 5px;
   padding: 10px;
-  background-color: var(--color-bg-3);
-  color: var(--color-text);
   width: 350px;
   height: 300px;
   display: flex;
@@ -248,12 +166,17 @@ input[type="text"] {
 }
 
 .community-card h3 {
+  background-color: var(--color-btn-tools);
+  border: 2px solid var(--color-btn-tools);
+  border-radius: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
   font-size: 14px;
   font-weight: bold;
-  margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: center;
 }
 
 .community-card img {
@@ -273,4 +196,17 @@ input[type="text"] {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+
+
+
+
+/* ----------------------------------------- */
+/*                  FOOTER                   */
+/* ----------------------------------------- */
+
+.footer {
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
 }
