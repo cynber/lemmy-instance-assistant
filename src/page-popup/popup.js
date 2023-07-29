@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
     btnRedirect = document.getElementById("btn-redirect-instance"),
     btnOpenSettings = document.getElementById("btn-open-settings"),
     btnTempSearch = document.getElementById("btn-temp-search"),
-    btnFindCommunity = document.getElementById("btn-tool-find-community"),
     txtToolExplore = document.getElementById("explore-community-type"),
     btnToolSearch = document.getElementById("btn-tool-search"),
     txtHomeInstance = document.getElementById("homeInstance"),
@@ -103,23 +102,34 @@ document.addEventListener("DOMContentLoaded", function () {
     browser.tabs.create({ url: '../page-search/search.html' });
   });
 
-  // Tool: search
+  // Tool: search all
   btnToolSearch.addEventListener("click", (event) => {
     browser.tabs.create({ url: 'https://www.search-lemmy.com/' });
   });
 
-  // Tool: community list
-  btnFindCommunity.addEventListener("click", (event) => {
-    browser.storage.local.get("selectedType").then((result) => {
-      if (result.selectedType === "lemmy") {
-        browser.tabs.create({ url: 'https://lemmyverse.net/communities' });
-      } else {
-        browser.tabs.create({ url: 'https://lemmyverse.net/kbin/magazines' });
-      }
-    });
+  // --------------------------------------------- //
+  // -------------- Search Community ------------- //
+  // --------------------------------------------- //
+   const btnSearchCommunities = document.getElementById("btn-tool-search-community");
+   const searchInput = document.getElementById("searchInput");
+
+   function performSearch() {
+    const searchTerm = searchInput.value.trim();
+    if (searchTerm !== "") {
+      browser.tabs.create({ url: `../page-search/search.html?query=${encodeURIComponent(searchTerm)}` });
+    }
+  }
+
+  // Trigger search when "Search" button is clicked
+  btnSearchCommunities.addEventListener("click", performSearch);
+
+  // Trigger search when "Enter" key is pressed in the search input
+  searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent default form submission behavior
+      performSearch();
+    }
   });
-
-
 
   // Redirect to selected instance
   btnRedirect.addEventListener('click', async () => {

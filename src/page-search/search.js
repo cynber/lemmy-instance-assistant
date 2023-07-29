@@ -55,9 +55,14 @@ document.addEventListener('DOMContentLoaded', () => {
           newURL = 'https://' + community.baseurl + '/c/';
         }
 
-        // Use default icon if none is provided
+        // Use placeholder icon if none is provided
         if (!community.icon) {
           community.icon = '../img/icon-lemm-noIcon.png';
+        }
+
+        // Use placeholder icon if tagged 'nsfw'
+        if(community.nsfw == true) {
+          community.icon = '../img/icon-lemm-nsf.png';
         }
 
         // Create the HTML content for each community card
@@ -89,4 +94,24 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('open-lemmyverse').addEventListener('click', () => {
     window.open('https://lemmyverse.net/', '_blank');
   });
+
+  // ---------------------------------------------------------
+  // ---------- Handle Searches from URL Parameters ----------
+  // ---------------------------------------------------------
+
+  // Function to extract the search query from URL parameters
+  function getSearchQueryFromURL() {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    return urlParams.get('query') || ''; // Return the query parameter or an empty string if not found
+  }
+
+  // Perform a search on page load using the search query from URL parameters
+  const searchQueryFromURL = getSearchQueryFromURL();
+  if (searchQueryFromURL) {
+    document.getElementById('searchQuery').value = searchQueryFromURL;
+    searchCommunities(searchQueryFromURL)
+      .then((searchResults) => displayResults(searchResults))
+      .catch((error) => console.error('Error during initial search:', error));
+  }
 });
