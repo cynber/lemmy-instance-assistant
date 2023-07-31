@@ -6,8 +6,3 @@ setTimeout(() => {
 
 }, "500");
 
-function isLemmySite() {
-    return (
-        document.querySelector('meta[name="Description"]').content === "Lemmy"
-      );
-}

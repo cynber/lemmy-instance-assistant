@@ -3,13 +3,13 @@
 // ========================================================================================== //
 
 setTimeout(() => {
+    const pageURL = window.location.href;
     const CURRENT_HOST = new URL(window.location.href).hostname;
     const CURRENT_PATH = new URL(window.location.href).pathname;
     const hasErrorContainer = document.querySelector('.error-page');
 
     // Only run on community pages (/c/ or /m/)
-    if ((isLemmySite() && CURRENT_PATH.includes("/c/") && CURRENT_PATH.includes("@") && hasErrorContainer)) {
-
+    if ((isLemmyCommunityNotFound(pageURL))) {
         async function loadSelectedInstance() {
 
             // ------ Set up general variables ------ //
@@ -209,9 +209,3 @@ setTimeout(() => {
         loadSelectedInstance();
     }
 }, "500");
-
-function isLemmySite() {
-    return (
-        document.querySelector('meta[name="Description"]').content === "Lemmy"
-      );
-}

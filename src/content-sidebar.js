@@ -4,15 +4,14 @@
 
 setTimeout(() => {
 
-    const CURRENT_HOST = new URL(window.location.href).hostname;
-    const CURRENT_PATH = new URL(window.location.href).pathname;
+    const pageURL = window.location.href;
+    const CURRENT_HOST = new URL(pageURL).hostname;
+    const CURRENT_PATH = new URL(pageURL).pathname;
     let HOME_INSTANCE_HOST = null;
     let myHomeInstance = null;
 
-    // Only run on community pages (/c/ or /m/) and post pages (/post/)
-    if ((isLemmySite() && CURRENT_PATH.includes("/c/")) || CURRENT_PATH.includes("/m/") 
-    //|| CURRENT_PATH.includes("/post/")
-    ) {
+    // Only run on community pages (/c/ or /m/)
+    if (isLemmyCommunity(pageURL) || CURRENT_PATH.includes("/m/")) {
 
         async function loadSelectedInstance() {
 
@@ -25,9 +24,6 @@ setTimeout(() => {
             myHomeInstance = selectedInstance;
 
             let isHomeInstance = HOME_INSTANCE_HOST === CURRENT_HOST;
-            let isLemmy = CURRENT_PATH.includes("/c/");
-            let isLemmyPost = CURRENT_PATH.includes("/post/");
-            let isKbin = CURRENT_PATH.includes("/m/");
 
             // --------- Set up injectables --------- //
             let createButton = (text) => {
@@ -138,16 +134,16 @@ setTimeout(() => {
             let sourceInstance = '';
             let isRepost = false;
 
-            if (isKbin) {
+            if (isKbinCommunity(pageURL)) {
                 TARGET_ELEMENT = document.querySelector('.section.intro') || document.querySelector('#sidebar .magazine .row');
-            } else if (isLemmy || isLemmyPost) {
+            } else if (isLemmyCommunity(pageURL) || isLemmyPost(pageURL)) {
                 TARGET_ELEMENT = document.querySelector('.card-body');
             }
 
             // Get community name and source instance
             //    - If on a post page, get from the sidebar
             //    - If on a community page, get from the URL
-            if (isLemmyPost) {
+            if (isLemmyPost(pageURL)) {
                 // // If post is not on the current instance
                 // const COMMUNITY_LINK = TARGET_ELEMENT.querySelector('a.community-link');
                 // if (COMMUNITY_LINK && COMMUNITY_LINK.getAttribute('title').includes('@')) {
@@ -162,7 +158,7 @@ setTimeout(() => {
                 //     communityName = COMMUNITY_LINK.getAttribute('href').substring(3)
                 //     sourceInstance = CURRENT_HOST
                 // }
-            } else if (isLemmy || isKbin) {
+            } else if (isLemmyCommunity(pageURL) || isKbinCommunity(pageURL)) {
                 communityName = CURRENT_PATH.match(/\/[cm]\/([^/@]+)/)[1];
                 sourceInstance = CURRENT_PATH.includes("@") ?
                     CURRENT_PATH.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : CURRENT_HOST;
@@ -191,27 +187,18 @@ setTimeout(() => {
 
             // ---------- Append elements ----------- //
             if (!document.querySelector('#instance-assistant-sidebar') && settingShowSidebar) { // Prevent duplicate elements
-                if ((isLemmy) && !isHomeInstance) {
+                if (isLemmyCommunity(pageURL) && !isHomeInstance) {
                     TARGET_ELEMENT.appendChild(btnRedirectLemmy);
                     TARGET_ELEMENT.appendChild(txtHomeInstance);
                     TARGET_ELEMENT.appendChild(txtChangeInstance);
                 }
-                if (isKbin && !isHomeInstance) {
+                if (isKbinCommunity(pageURL) && !isHomeInstance) {
                     TARGET_ELEMENT.appendChild(btnRedirectKbin);
                     TARGET_ELEMENT.appendChild(txtHomeInstance);
                     TARGET_ELEMENT.appendChild(txtChangeInstance);
                 }
-                // if (isLemmyPost) {
-                //     TARGET_ELEMENT.appendChild(myPostMessage);
-                // }
             }
         }
         loadSelectedInstance();
     }
 }, "500");
-
-function isLemmySite() {
-    return (
-        document.querySelector('meta[name="Description"]').content === "Lemmy"
-      );
-}
