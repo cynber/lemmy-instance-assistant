@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const kbinRadio = document.getElementById('radio-kbin');
   const showSidebarCheckbox = document.getElementById('showSidebarButtons');
   const showCommunityNotFoundCheckbox = document.getElementById('showCommunityNotFound');
+  const searchOpenLemmyverseCheckbox = document.getElementById('searchOpenLemmyverse');
   const validationMessage = document.querySelector('.validation-message');
   const instanceListTextArea = document.getElementById('instance-list');
   const urlPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
@@ -16,12 +17,14 @@ document.addEventListener('DOMContentLoaded', function () {
     "selectedType",
     "settingShowSidebar",
     "settingCommunityNotFound",
+    "settingSearchOpenLemmyverse",
     "instanceList"
   ]).then((result) => {
     const selectedInstance = result.selectedInstance;
     const selectedType = result.selectedType;
     const settingShowSidebar = result.settingShowSidebar;
     const settingCommunityNotFound = result.settingCommunityNotFound;
+    const settingSearchOpenLemmyverse = result.settingSearchOpenLemmyverse;
     const instanceList = result.instanceList;
 
     instanceField.value = selectedInstance || "";
@@ -36,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     showSidebarCheckbox.checked = settingShowSidebar;
     showCommunityNotFoundCheckbox.checked = settingCommunityNotFound;
+    searchOpenLemmyverseCheckbox.checked = settingSearchOpenLemmyverse;
 
     if (Array.isArray(instanceList)) {
       instanceListTextArea.value = instanceList.map(item => `${item.name}, ${item.url}`).join('\n');
@@ -87,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const platformValue = lemmyRadio.checked ? "lemmy" : "kbin";
     const toggleShowSidebarButtons = showSidebarCheckbox.checked;
     const toggleShowCommunityNotFound = showCommunityNotFoundCheckbox.checked;
+    const toggleSearchOpenLemmyverse = searchOpenLemmyverseCheckbox.checked;
 
     // Validation check
     if (!urlPattern.test(instanceValue)) {
@@ -113,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
       selectedType: platformValue,
       settingShowSidebar: toggleShowSidebarButtons,
       settingCommunityNotFound: toggleShowCommunityNotFound,
+      settingSearchOpenLemmyverse: toggleSearchOpenLemmyverse,
       instanceList: websitesArray
     }).then(() => {
       console.log("Values saved successfully!");
@@ -120,6 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log("Platform:", platformValue);
       console.log("Show sidebar buttons:", toggleShowSidebarButtons);
       console.log("Show community not found:", toggleShowCommunityNotFound);
+      console.log("Search open lemmyverse:", toggleSearchOpenLemmyverse);
       console.log("Instance List:", websitesArray);
       showSaveConfirmation("Settings saved!");
     }).catch((error) => {
@@ -139,6 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
         selectedType: 'lemmy',
         settingShowSidebar: true,
         settingCommunityNotFound: true,
+        settingSearchOpenLemmyverse: false,
         instanceList: [
           { name: "lemmy.world", url: "https://lemmy.world" },
           { name: "lemmy.ca", url: "https://lemmy.ca" },
@@ -155,6 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
         kbinRadio.checked = false;
         showSidebarCheckbox.checked = true;
         showCommunityNotFoundCheckbox.checked = true;
+        searchOpenLemmyverseCheckbox.checked = false;
         instanceField.value = "";
         instanceListTextArea.value = "lemmy.world, https://lemmy.world\nlemmy.ca, https://lemmy.ca\nlemmy.one, https://lemmy.one\nprogramming.dev, https://programming.dev\nlemmy.ml, https://lemmy.ml\nfeddit.de, https://feddit.de\nlemm.ee, https://lemm.ee\nkbin.social, https://kbin.social";
         console.log("Values reset to default.");

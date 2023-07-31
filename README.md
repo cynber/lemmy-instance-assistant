@@ -82,7 +82,7 @@ Once your home instance is set, you can redirect to it using one of two methods:
 # Contributing
 
 You can contribute to this project in a number of ways:
-* **Report bugs & suggest features:** If you find a bug or want a new feature, you can discuss in the support community (https://lemmy.ca/c/instance_assistant) or open an issue on GitHub.
+* **Report bugs & suggest features:** If you find a bug or want a new feature, you can discuss in the Support Community (https://lemmy.ca/c/instance_assistant) or open an issue on GitHub.
 * **Contribute code:** If you want to contribute code, you can open a pull request on GitHub. You can find instructions on how to set up the project here: https://github.com/cynber/lemmy-instance-assistant/wiki/Development-Process
 * **Translate:** If you want to help translate the extension, you will soon be able to do so. I will update this section once it is ready.
 * **Donate:** If you want to support the project financially, you can do so by clicking the sponsor button on this page, or through https://ko-fi.com/cynber

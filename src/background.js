@@ -72,6 +72,7 @@ browser.runtime.onInstalled.addListener(({ reason }) => {
       setDefault(result.settingShowSidebar === undefined, 'settingShowSidebar', true);
       setDefault(result.settingContextMenu === undefined, 'settingContextMenu', true);
       setDefault(result.settingCommunityNotFound === undefined, 'settingCommunityNotFound', true);
+      setDefault(result.settingSearchOpenLemmyverse === undefined, 'settingSearchOpenLemmyverse', false);
     });
   }
   if (reason === 'install') {

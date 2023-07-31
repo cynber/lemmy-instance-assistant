@@ -15,6 +15,9 @@
       <b>Home Instance: </b><span id="homeInstance"></span> <br/>
       <b>Lemmy/Kbin: </b><span id="instance-type"></span>
     </p>
+    <button id="btn-temp-search" class="button btn-settings" style="width: auto;">
+      Search
+    </button>
     <button id="btn-open-settings" class="button btn-settings" style="width: auto;">
       Settings
     </button>
@@ -23,15 +26,18 @@
   <button id="btn-redirect-instance" class="button">Open this community in my home instance</button>
 
   <div class="popup-section">
-    <p class="section-header">Helpful Tools</p>
-    <button id="btn-tool-search" class="button popup-tools">
-      Search on all instances 
-      <img src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab.">
-    </button>
-    <button id="btn-tool-find-community" class="button popup-tools">
-      <span id="explore-community-type"></span>
-      <img src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab.">
-    </button>
+    <div class="search-bar-communities" style="display: flex;">
+      <input type="text" id="searchInputCommunities" placeholder="Search for communities">
+      <button id="btn-tool-search-community" class="button popup-tools">
+        Search
+      </button>
+    </div>
+    <div class="search-bar-content" style="display: flex;">
+      <input type="text" id="searchInputContent" placeholder="Search for a post">
+      <button id="btn-tool-search-content" class="button popup-tools">
+        Search
+      </button>
+    </div>
   </div>
 
   <div class="popup-section">

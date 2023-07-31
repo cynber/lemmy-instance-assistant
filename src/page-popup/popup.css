@@ -116,18 +116,11 @@ body {
   animation: buttonClick 0.1s;
 }
 
-.popup-tools {
-  margin: 0.25rem 0rem 0rem 0rem;
-  background-color: var(--color-btn-tools);
-}
+/* ----------------------------------------- */
+/*                 SETTINGS                  */
+/* ----------------------------------------- */
 
-.popup-tools:hover {
-  background-color: var(--color-btn-tools-hover);
-}
 
-.popup-tools:active {
-  animation: buttonClick 0.1s;
-}
 
 .icon-external {
   width: 10px;
@@ -168,4 +161,38 @@ ul#instance-list {
 
 .btn-instance-list:active {
   animation: buttonClick 0.1s;
+}
+
+.popup-tools {
+  margin: 0.25rem 0rem 0rem 0rem;
+  background-color: var(--color-btn-tools);
+}
+
+.popup-tools:hover {
+  background-color: var(--color-btn-tools-hover);
+}
+
+.popup-tools:active {
+  animation: buttonClick 0.1s;
+}
+
+/* Flex container for the search bar and button */
+.search-bar-communities, .search-bar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 5px 5px 5px 5px;
+}
+
+/* Search bar input */
+#searchInputCommunities, #searchInputContent {
+  flex: 3;
+  margin-right: 5px;
+  height: 19px;
+}
+
+/* Search button */
+#btn-tool-search-community, #btn-tool-search-content {
+  flex: 1;
+  margin-left: 5px;
 }

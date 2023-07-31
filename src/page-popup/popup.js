@@ -1,27 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // const lemmyInstances = [
-  //   { name: "lemmy.world", url: "https://lemmy.world" },
-  //   { name: "lemmy.ca", url: "https://lemmy.ca" },
-  //   { name: "lemmy.one", url: "https://lemmy.one" },
-  //   { name: "programming.dev", url: "https://programming.dev" },
-  //   { name: "lemmy.ml", url: "https://lemmy.ml" },
-  //   { name: "feddit.de", url: "https://feddit.de" },
-  //   { name: "lemm.ee", url: "https://lemm.ee" },
-  //   { name: "kbin.social", url: "https://kbin.social" },
-  // ];
-
   const instanceList = document.getElementById("instance-list"),
     btnChangeInstance = document.getElementById("btn-change-instance"),
     btnChangeType = document.getElementById("btn-change-type"),
     btnRedirect = document.getElementById("btn-redirect-instance"),
     btnOpenSettings = document.getElementById("btn-open-settings"),
-    btnFindCommunity = document.getElementById("btn-tool-find-community"),
-    txtToolExplore = document.getElementById("explore-community-type"),
-    btnToolSearch = document.getElementById("btn-tool-search"),
     txtHomeInstance = document.getElementById("homeInstance"),
     txtInstanceType = document.getElementById("instance-type");
 
   const urlPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
+
+
+  // ---------------------------------------------------------
+  // ------------------- Setup Display -----------------------
+  // ---------------------------------------------------------
 
   // Display home instance, instance type, and populate instance list on load
   browser.storage.local.get("selectedInstance").then((result) => {
@@ -32,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
   browser.storage.local.get("selectedType").then((result) => {
     const selectedType = result.selectedType;
     txtInstanceType.textContent = selectedType ? selectedType : "unknown";
-    txtToolExplore.textContent = selectedType === "lemmy" ? "Explore Lemmy communities" : "Explore Kbin communities";
   });
 
   let lemmyInstances = [];
@@ -65,9 +55,20 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  
 
-  // ----------------- BUTTONS ----------------- //
+  // ---------------------------------------------------------
+  // ------------------- Basic Functions ---------------------
+  // ---------------------------------------------------------
+
+  // Open settings page
+  btnOpenSettings.addEventListener("click", (event) => {
+    browser.tabs.create({ url: '../page-settings/settings.html' });
+  });
+
+
+  // ---------------------------------------------------------
+  // --------------- Quick Settings Functions ----------------
+  // ---------------------------------------------------------
 
   // Update home instance address
   btnChangeInstance.addEventListener("click", () => {
@@ -90,7 +91,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       browser.storage.local.set({ selectedType: newType });
       txtInstanceType.textContent = newType;
-      txtToolExplore.textContent = newType === "lemmy" ? "Explore all Lemmy communities" : "Explore all Kbin communities";
     });
   });
 
@@ -103,28 +103,76 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Open settings page
-  btnOpenSettings.addEventListener("click", (event) => {
-    browser.tabs.create({ url: '../page-settings/settings.html' });
+  
+
+  // --------------------------------------------- //
+  // ---------------- Search Tools --------------- //
+  // --------------------------------------------- //
+
+   const btnSearchCommunities = document.getElementById("btn-tool-search-community");
+   const searchInputCommunities = document.getElementById("searchInputCommunities");
+
+   async function performSearchCommunities() {
+    console.log("Search button clicked");
+    const searchTerm = searchInputCommunities.value.trim();
+    const { settingSearchOpenLemmyverse } = await browser.storage.local.get('settingSearchOpenLemmyverse');
+    console.log("settingSearchOpenLemmyverse:", settingSearchOpenLemmyverse);
+    
+    if (searchTerm !== "" && !settingSearchOpenLemmyverse) {
+      console.log("Search term:", searchTerm);
+      browser.tabs.create({ url: `../page-search/search.html?query=${encodeURIComponent(searchTerm)}` });
+    } else if (searchTerm !== "") {
+      const baseUrl = "https://lemmyverse.net/communities";
+      const encodedSearchTerm = encodeURIComponent(searchTerm);
+      const finalUrl = `${baseUrl}?query=${encodedSearchTerm}`;
+      browser.tabs.create({ url: finalUrl });
+    }
+  }
+
+  // Trigger search when "Search" button is clicked
+  btnSearchCommunities.addEventListener("click", performSearchCommunities);
+
+  // Trigger search when "Enter" key is pressed in the search input
+  searchInputCommunities.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent default form submission behavior
+      performSearchCommunities();
+    }
   });
 
-  // Tool: search
-  btnToolSearch.addEventListener("click", (event) => {
-    browser.tabs.create({ url: 'https://www.search-lemmy.com/' });
+  const btnSearchContent = document.getElementById("btn-tool-search-content");
+  const searchInputContent = document.getElementById("searchInputContent");
+
+  function performSearchCommunitiesContent() {
+    const searchTerm = searchInputContent.value.trim();
+    if (searchTerm !== "") {
+      const baseUrl = "https://www.search-lemmy.com/results";
+      const encodedSearchTerm = encodeURIComponent(searchTerm);
+      const finalUrl = `${baseUrl}?query=${encodedSearchTerm}`;
+      browser.tabs.create({ url: finalUrl });
+    }
+  }
+
+  // Trigger search when "Search" button is clicked
+  btnSearchContent.addEventListener("click", performSearchCommunitiesContent);
+
+  // Trigger search when "Enter" key is pressed in the search input
+  searchInputContent.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent default form submission behavior
+      performSearchCommunitiesContent();
+    }
   });
 
-  // Tool: community list
-  btnFindCommunity.addEventListener("click", (event) => {
-    browser.storage.local.get("selectedType").then((result) => {
-      if (result.selectedType === "lemmy") {
-        browser.tabs.create({ url: 'https://lemmyverse.net/communities' });
-      } else {
-        browser.tabs.create({ url: 'https://lemmyverse.net/kbin/magazines' });
-      }
-    });
-  });
 
 
+
+
+
+
+  // --------------------------------------------- //
+  // -------------- Redirect Instance ------------ //
+  // --------------------------------------------- //
 
   // Redirect to selected instance
   btnRedirect.addEventListener('click', async () => {
