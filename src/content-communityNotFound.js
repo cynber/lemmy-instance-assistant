@@ -8,7 +8,7 @@ setTimeout(() => {
     const hasErrorContainer = document.querySelector('.error-page');
 
     // Only run on community pages (/c/ or /m/)
-    if ((CURRENT_PATH.includes("/c/") && CURRENT_PATH.includes("@") && hasErrorContainer)) {
+    if ((isLemmySite() && CURRENT_PATH.includes("/c/") && CURRENT_PATH.includes("@") && hasErrorContainer)) {
 
         async function loadSelectedInstance() {
 
@@ -209,3 +209,9 @@ setTimeout(() => {
         loadSelectedInstance();
     }
 }, "500");
+
+function isLemmySite() {
+    return (
+        document.querySelector('meta[name="Description"]').content === "Lemmy"
+      );
+}

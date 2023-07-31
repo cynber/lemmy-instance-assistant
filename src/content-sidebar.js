@@ -10,7 +10,7 @@ setTimeout(() => {
     let myHomeInstance = null;
 
     // Only run on community pages (/c/ or /m/) and post pages (/post/)
-    if (CURRENT_PATH.includes("/c/") || CURRENT_PATH.includes("/m/") 
+    if ((isLemmySite() && CURRENT_PATH.includes("/c/")) || CURRENT_PATH.includes("/m/") 
     //|| CURRENT_PATH.includes("/post/")
     ) {
 
@@ -209,3 +209,9 @@ setTimeout(() => {
         loadSelectedInstance();
     }
 }, "500");
+
+function isLemmySite() {
+    return (
+        document.querySelector('meta[name="Description"]').content === "Lemmy"
+      );
+}
