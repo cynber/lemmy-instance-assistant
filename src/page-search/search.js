@@ -3,7 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Function to fetch and search the 'community' JSON file
   async function searchCommunities(query) {
     try {
-      const response = await fetch('https://data.lemmyverse.net/data/community.full.json');
+      const [response] = await Promise.all([
+        fetch('https://data.lemmyverse.net/data/community.full.json')
+      ]);
       const data = await response.json();
 
       // Perform the search
@@ -22,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return [];
     }
   }
-
+  
   // Function to display search results on the page
   async function displayResults(results) {
 
@@ -34,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let hasHomeInstance = false;
 
     if (!selectedInstance || !selectedType) {
-      // no instance or type selected
+      // no instance or type selected, create unique link on each card
     } else {
       hasHomeInstance = true;
       newURL = (selectedType == 'lemmy') ? selectedInstance + '/c/' : selectedInstance + '/m/';
@@ -51,19 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
         communityCard.classList.add('community-card');
 
         // If no home instance is selected, use the community's baseurl
-        if (hasHomeInstance == false) {
-          newURL = 'https://' + community.baseurl + '/c/';
-        }
+        if (hasHomeInstance == false) { newURL = 'https://' + community.baseurl + '/c/';}
 
-        // Use placeholder icon if none is provided
-        if (!community.icon) {
-          community.icon = '../img/icon-lemm-noIcon.png';
-        }
-
-        // Use placeholder icon if tagged 'nsfw'
-        if(community.nsfw == true) {
-          community.icon = '../img/icon-lemm-nsf.png';
-        }
+        // Use placeholder icon if none is provided, or if not tagged sfw
+        if (!community.icon) { community.icon = '../img/icon-lemm-noIcon.png'; }
+        if(community.nsfw == true) { community.icon = '../img/icon-lemm-nsf.png'; }
 
         // Create the HTML content for each community card
         const communityHTML = `
@@ -90,10 +84,22 @@ document.addEventListener('DOMContentLoaded', () => {
     displayResults(searchResults);
   });
 
-  // Open lemmyverse.net
-  document.getElementById('open-lemmyverse').addEventListener('click', () => {
-    window.open('https://lemmyverse.net/', '_blank');
+
+
+
+
+  // ---------------------------------------------------------
+  // ------------------- Handle Buttons ----------------------
+  // ---------------------------------------------------------
+
+  // Open settings page
+  document.getElementById('open-settings').addEventListener('click', () => {
+    browser.tabs.create({ url: '../page-settings/settings.html' });
   });
+
+
+
+
 
   // ---------------------------------------------------------
   // ---------- Handle Searches from URL Parameters ----------
