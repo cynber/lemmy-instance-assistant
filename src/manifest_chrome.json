@@ -39,6 +39,7 @@
       "js": [
         "node_modules/webextension-polyfill/dist/browser-polyfill.js",
         "content-sidebar.js",
+        "content-general.js",
         "content-communityNotFound.js"
       ],
       "run_at": "document_end"

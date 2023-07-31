@@ -17,6 +17,7 @@ function init_build() {
     cp src/manifest_$1.json $directory/manifest.json
     cp LICENSE $directory/LICENSE
     cp src/styles.css $directory/styles.css
+    cp src/utils.js $directory/utils.js
     cp -r node_modules $directory/node_modules
     cp -r src/img $directory/img
     # cp -r src/_locales $directory/_locales            # TODO: Fix translations
@@ -32,10 +33,12 @@ function init_build() {
         cp src/background.js $directory/background.js
         cp src/content-communityNotFound.js $directory/content-communityNotFound.js
         cp src/content-sidebar.js $directory/content-sidebar.js
+        cp src/content-general.js $directory/content-general.js
     else
         cp src/m3-background.js $directory/background.js
         cp src/m3-content-communityNotFound.js $directory/content-communityNotFound.js
         cp src/m3-content-sidebar.js $directory/content-sidebar.js
+        cp src/m3-content-general.js $directory/content-general.js
     fi
     
     # REPLACE DEV IMAGES WITH PRODUCTION IMAGES ==================================
