@@ -15,6 +15,8 @@ function getStorageAPI() {
     return storageAPI;
 }
 
+const validInstanceURLPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
+
 // ----------------------------------------------
 // determine if Lemmy or Kbin site/community/post
 // ----------------------------------------------
@@ -31,6 +33,12 @@ function isLemmySite() {
 function isLemmyCommunity(sourceURL) {
     const CURRENT_PATH = new URL(sourceURL).pathname;
     return (isLemmySite() && CURRENT_PATH.includes("/c/"))
+}
+
+function isLemmyCommunityWEAK(sourceURL) {
+    // For when you can't check the meta tag, like when only the URL is available
+    const CURRENT_PATH = new URL(sourceURL).pathname;
+    return (CURRENT_PATH.includes("/c/"))
 }
 
 function isLemmyPost(sourceURL) {
@@ -56,6 +64,12 @@ function isKbinSite() {
 function isKbinCommunity(sourceURL) {
     const CURRENT_PATH = new URL(sourceURL).pathname;
     return (isKbinSite() && CURRENT_PATH.includes("/m/"))
+}
+
+function isKbinCommunityWEAK(sourceURL) {
+    // For when you can't check the meta tag, like when only the URL is available
+    const CURRENT_PATH = new URL(sourceURL).pathname;
+    return (CURRENT_PATH.includes("/m/"))
 }
 
 // ----------------------------------------------

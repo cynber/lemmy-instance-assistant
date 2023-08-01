@@ -3,9 +3,9 @@
 // ========================================================================================== //
 
 setTimeout(() => {
-    const pageURL = window.location.href;
+    const testURL = window.location.href;
 
-    if ((isLemmyCommunityNotFound(pageURL))) {
+    if ((isLemmyCommunityNotFound(testURL))) {
         async function loadSelectedInstance() {
 
             // ------ Set up general variables ------ //

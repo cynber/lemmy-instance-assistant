@@ -3,12 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Function to fetch and search the 'community' JSON file
   async function searchCommunities(query) {
     try {
-      const [response] = await Promise.all([
-        fetch('https://data.lemmyverse.net/data/community.full.json')
-      ]);
+      const [response] = await Promise.all([fetch('https://data.lemmyverse.net/data/community.full.json')]);
       const data = await response.json();
 
-      // Perform the search
       const searchTerm = query.toLowerCase();
       const searchResults = data.filter((community) =>
         community.name.toLowerCase().includes(searchTerm)
