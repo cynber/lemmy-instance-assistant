@@ -1,32 +1,18 @@
-function getRedirectURL(sourceURL) {
-    let redirectURL = null;
-
-    async function loadStorage() {
-        const { selectedInstance } = await browser.storage.local.get('selectedInstance');
-        const { selectedType } = await browser.storage.local.get('selectedType');
-
-        communityPrefix = selectedType ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
-
-        let sourceHost = new URL(sourceURL).hostname;
-        let sourcePath = new URL(sourceURL).pathname;
-
-        const communityName = sourcePath.match(/\/[cm]\/([^/@]+)/)[1];
-        const sourceInstance = sourcePath.includes("@") ?
-            sourcePath.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : sourceHost;
-
-        const redirectURL = selectedInstance + communityPrefix + communityName + '@' + sourceInstance;
-    }
-
-    loadStorage();
-
-    return redirectURL
-}
-
-// TODO: Set up error handling. For now this function assumes that the URL is valid.
-
-
 function testFunction() {
     console.log("This is a test function.");
+}
+
+// Utility function to get the appropriate storage API based on the browser
+function getStorageAPI() {
+    if (typeof browser !== 'undefined' && browser.storage && browser.storage.local) {
+        storageAPI = browser.storage.local;
+    } else if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        storageAPI = chrome.storage.local;
+    } else {
+        throw new Error('Storage API is not supported in this browser.');
+    }
+
+    return storageAPI;
 }
 
 // ----------------------------------------------
@@ -58,7 +44,6 @@ function isLemmyLoadOtherInstance(sourceURL) {
 }
 
 function isLemmyCommunityNotFound(sourceURL) {
-    const CURRENT_PATH = new URL(sourceURL).pathname;
     const hasErrorContainer = document.querySelector('.error-page');
     return (isLemmyLoadOtherInstance(sourceURL) && hasErrorContainer)
 }
@@ -77,7 +62,63 @@ function isKbinCommunity(sourceURL) {
 // fetch the selected instance from storage
 // ----------------------------------------------
 
+async function hasSelectedInstance() {
+    const storageAPI = getStorageAPI();
+    const { selectedInstance } = await storageAPI.get('selectedInstance');
+    return selectedInstance !== undefined;
+}
+
+async function hasSelectedType() {
+    const storageAPI = getStorageAPI();
+    const { selectedType } = await storageAPI.get('selectedType');
+    return (selectedType !== undefined);
+}
+
 async function getSelectedInstance() {
-    const { selectedInstance } = await browser.storage.local.get('selectedInstance');
+    const storageAPI = getStorageAPI();
+    const { selectedInstance } = await storageAPI.get('selectedInstance');
     return selectedInstance;
 }
+
+async function getSelectedType() {
+    const storageAPI = getStorageAPI();
+    const { selectedType } = await storageAPI.get('selectedType');
+    return selectedType;
+}
+
+async function isHomeInstance(testURL) {
+    const selectedInstance = await getSelectedInstance()
+    const testURLHost = new URL(testURL).hostname;
+    const selectedInstanceHost = new URL(selectedInstance).hostname;
+    return (testURLHost === selectedInstanceHost);
+}
+
+async function getCommunityRedirectURL(oldURL) {
+    const selectedInstance = await getSelectedInstance();
+    const selectedType = await getSelectedType();
+
+    const communityPrefix = selectedType ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
+
+    const oldHost = new URL(oldURL).hostname;
+    const oldPath = new URL(oldURL).pathname;
+
+    const communityName = oldPath.match(/\/[cm]\/([^/@]+)/)[1];
+    const oldInstance = oldPath.includes("@") ?
+        oldPath.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : oldHost;
+
+    const newURL = selectedInstance + communityPrefix + communityName + '@' + oldInstance;
+
+    return newURL;
+}
+
+// TODO: set up error handling to check the URL
+
+// ----------------------------------------------
+// get settings from storage
+// ----------------------------------------------
+
+async function getSetting(settingName) {
+    const storageAPI = getStorageAPI();
+    const settings = await storageAPI.get(settingName);
+    return settings[settingName];
+  }

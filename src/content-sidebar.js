@@ -1,29 +1,14 @@
 // ========================================================================================== //
 // Injects buttons and links into the sidebar of Lemmy communities and posts.                 //
 // ========================================================================================== //
+const pageURL = window.location.href;
 
 setTimeout(() => {
-
-    const pageURL = window.location.href;
-    const CURRENT_HOST = new URL(pageURL).hostname;
-    const CURRENT_PATH = new URL(pageURL).pathname;
-    let HOME_INSTANCE_HOST = null;
-    let myHomeInstance = null;
-
-    // Only run on community pages (/c/ or /m/)
-    if (isLemmyCommunity(pageURL) || CURRENT_PATH.includes("/m/")) {
+    if (isLemmyCommunity(pageURL) || isKbinCommunity(pageURL)) {
 
         async function loadSelectedInstance() {
 
-            // ------ Set up general variables ------ //
-            const { selectedInstance } = await browser.storage.local.get('selectedInstance');
-            const { selectedType } = await browser.storage.local.get('selectedType');
-            const { settingShowSidebar } = await browser.storage.local.get('settingShowSidebar');
-            let communityPrefix = (selectedType) ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
-            HOME_INSTANCE_HOST = selectedInstance ? new URL(selectedInstance).hostname : null;
-            myHomeInstance = selectedInstance;
-
-            let isHomeInstance = HOME_INSTANCE_HOST === CURRENT_HOST;
+            const selectedInstance = await getSelectedInstance();
 
             // --------- Set up injectables --------- //
             let createButton = (text) => {
@@ -110,7 +95,7 @@ setTimeout(() => {
         `;
             btnToPostLemmy.style.backgroundColor = '#27175a';
 
-            let txtHomeInstance = myHomeInstance ? createMessage(`Your home instance is <a href="${myHomeInstance}" target="_blank">${myHomeInstance}</a>.`) : createMessage(`You have not set a home instance yet.`);
+            let txtHomeInstance = selectedInstance ? createMessage(`Your home instance is <a href="${selectedInstance}" target="_blank">${selectedInstance}</a>.`) : createMessage(`You have not set a home instance yet.`);
 
             const changeInstanceInstructions = [
                 '1) Click on the extension icon in the browser toolbar',
@@ -120,79 +105,37 @@ setTimeout(() => {
 
             const txtChangeInstance = createDropdown('How to change home instance', changeInstanceInstructions);
 
-            const myPostMessage = createMessage(`Warning: You are on a post page and will be redirected to the main community. (<a href="https://github.com/cynber/lemmy-instance-assistant/wiki/FAQ#why-cant-i-jump-to-the-same-post-on-my-home-instance" target="_blank">more information</a>)`)
-
-
             // ---------- Set up functions ---------- //
-            const URL_PATTERN = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
-            let hasSelectedInstance = false;
-            browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
-                hasSelectedInstance = (selectedInstance && URL_PATTERN.test(selectedInstance));
-            });
-            let TARGET_ELEMENT = '';
-            let communityName = '';
-            let sourceInstance = '';
-            let isRepost = false;
-
             if (isKbinCommunity(pageURL)) {
                 TARGET_ELEMENT = document.querySelector('.section.intro') || document.querySelector('#sidebar .magazine .row');
             } else if (isLemmyCommunity(pageURL) || isLemmyPost(pageURL)) {
                 TARGET_ELEMENT = document.querySelector('.card-body');
             }
 
-            // Get community name and source instance
-            //    - If on a post page, get from the sidebar
-            //    - If on a community page, get from the URL
-            if (isLemmyPost(pageURL)) {
-                // // If post is not on the current instance
-                // const COMMUNITY_LINK = TARGET_ELEMENT.querySelector('a.community-link');
-                // if (COMMUNITY_LINK && COMMUNITY_LINK.getAttribute('title').includes('@')) {
-                //     communityName = COMMUNITY_LINK.match(/([^@]+)/)[0]
-                //     sourceInstance = CURRENT_HOST
-
-                //     // TODO: Look into grabbing community name & source instance of original post
-                //     // sourceInstance = COMMUNITY_LINK.getAttribute('href').substring(3).match(/@([^/]+)/)[1]
-
-                //     // If post is on the current instance
-                // } else {
-                //     communityName = COMMUNITY_LINK.getAttribute('href').substring(3)
-                //     sourceInstance = CURRENT_HOST
-                // }
-            } else if (isLemmyCommunity(pageURL) || isKbinCommunity(pageURL)) {
-                communityName = CURRENT_PATH.match(/\/[cm]\/([^/@]+)/)[1];
-                sourceInstance = CURRENT_PATH.includes("@") ?
-                    CURRENT_PATH.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : CURRENT_HOST;
-            }
-
+            const canRedirect = await hasSelectedInstance();
+            const redirectURL = await getCommunityRedirectURL(pageURL);
 
             // --------- Add Event Listeners -------- //
             btnRedirectLemmy.addEventListener('click', () => {
-                if (hasSelectedInstance) {
-                    browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
-                        const redirectURL = selectedInstance + communityPrefix + communityName + '@' + sourceInstance;
-                        window.location.href = redirectURL;
-                    });
+                if (canRedirect) {
+                    window.location.href = redirectURL;
                 } else { alert('No valid instance has been set.') }
             });
 
             btnRedirectKbin.addEventListener('click', () => {
-                if (hasSelectedInstance) {
-                    browser.storage.local.get('selectedInstance').then(({ selectedInstance }) => {
-                        const redirectURL = selectedInstance + communityPrefix + communityName + '@' + sourceInstance;
-                        window.location.href = redirectURL;
-                    });
+                if (canRedirect) {
+                    window.location.href = redirectURL;
                 } else { alert('No valid instance has been set.') }
             });
 
-
             // ---------- Append elements ----------- //
-            if (!document.querySelector('#instance-assistant-sidebar') && settingShowSidebar) { // Prevent duplicate elements
-                if (isLemmyCommunity(pageURL) && !isHomeInstance) {
+            if (!document.querySelector('#instance-assistant-sidebar') && (await getSetting('settingShowSidebar'))) { // Prevent duplicate elements
+                if (isLemmyCommunity(pageURL) && !(await isHomeInstance(pageURL))) {
                     TARGET_ELEMENT.appendChild(btnRedirectLemmy);
                     TARGET_ELEMENT.appendChild(txtHomeInstance);
                     TARGET_ELEMENT.appendChild(txtChangeInstance);
                 }
-                if (isKbinCommunity(pageURL) && !isHomeInstance) {
+                if (isKbinCommunity(pageURL) && !(await isHomeInstance(pageURL))) {
                     TARGET_ELEMENT.appendChild(btnRedirectKbin);
                     TARGET_ELEMENT.appendChild(txtHomeInstance);
                     TARGET_ELEMENT.appendChild(txtChangeInstance);
