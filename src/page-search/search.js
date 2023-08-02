@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const [response] = await Promise.all([fetch('https://data.lemmyverse.net/data/community.full.json')]);
       const data = await response.json();
 
+      // Perform the search
       const searchTerm = query.toLowerCase();
       const searchResults = data.filter((community) =>
         community.name.toLowerCase().includes(searchTerm)
@@ -26,13 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
   async function displayResults(results) {
 
     // get home instance & type
-    const { selectedInstance } = await browser.storage.local.get('selectedInstance');
-    const { selectedType } = await browser.storage.local.get('selectedType');
+    const selectedInstance  = await getSelectedInstance();
+    const selectedType = await getSelectedType();
 
     let newURL = '';
     let hasHomeInstance = false;
 
-    if (!selectedInstance || !selectedType) {
+    if (!(await hasSelectedInstance())||!(await hasSelectedType())) {
       // no instance or type selected, create unique link on each card
     } else {
       hasHomeInstance = true;

@@ -34,10 +34,8 @@ function init_build() {
     # COPY SCRIPT FILES BASED ON MANIFEST VERSION ================================
     if [ "$manifest" = 2 ]; then
         cp src/background.js $directory/background.js
-        # cp src/content-communityNotFound.js $directory/content-communityNotFound.js
     else
         cp src/m3-background.js $directory/background.js
-        # cp src/m3-content-communityNotFound.js $directory/content-communityNotFound.js
     fi
     
     # REPLACE DEV IMAGES WITH PRODUCTION IMAGES ==================================
