@@ -18,7 +18,112 @@ function getStorageAPI() {
 const validInstanceURLPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
 
 // ----------------------------------------------
-// determine if Lemmy or Kbin site/community/post
+// SETTINGS FUNCTIONS
+// ----------------------------------------------
+
+// Get all settings
+// - returns { settings: { ... } }
+async function getAllSettings() {
+    const storageAPI = getStorageAPI();
+    return await storageAPI.get('settings');
+}
+
+// Get a single setting
+// - returns 
+async function getSetting(settingName) {
+    const allSettings = await getAllSettings();
+    return allSettings.settings[settingName];
+}
+
+// Set all settings
+// - accepts 
+async function setAllSettings(settingsObj) {
+    const storageAPI = getStorageAPI();
+    await storageAPI.set({ 'settings': settingsObj });
+}
+
+// Set a single setting
+// - accepts
+async function setSetting(settingName, settingValue) {
+    const allSettings = await getAllSettings();
+    allSettings.settings[settingName] = settingValue;
+    await setAllSettings(allSettings.settings);
+}
+
+// Update multiple settings
+// - Usage:
+    // const settingsToUpdate = {
+    //     theme: 'dark',
+    //     runOnCommunitySidebar: false,
+    //     toolSearchCommunity_openInLemmyverse: false,
+    // };
+    // await updateSettings(settingsToUpdate);
+async function updateSettings(settingsToUpdate) {
+    const allSettings = await getAllSettings();
+    const updatedSettings = { ...allSettings.settings, ...settingsToUpdate };
+    await setAllSettings(updatedSettings);
+}
+
+const defaultSettings = {
+    instanceList: [
+        { name: "lemmy.world", url: "https://lemmy.world" },
+        { name: "lemmy.ca", url: "https://lemmy.ca" },
+        { name: "lemmy.one", url: "https://lemmy.one" },
+        { name: "programming.dev", url: "https://programming.dev" },
+        { name: "lemmy.ml", url: "https://lemmy.ml" },
+        { name: "feddit.de", url: "https://feddit.de" },
+        { name: "lemm.ee", url: "https://lemm.ee" },
+        { name: "kbin.social", url: "https://kbin.social" },
+      ],
+    runOnCommunitySidebar: true,
+    runOnCommunityNotFound: true,
+    selectedInstance: '',           // users are forced to set this
+    selectedType: 'lemmy',          // lemmy or kbin
+    theme: 'dark',                  // **NOT IMPLEMENTED YET**
+    toolSearchCommunity_openInLemmyverse: true,
+};
+
+// Reset all settings to the default values
+async function resetAllSettingsToDefault() {
+    await setAllSettings(defaultSettings);
+}
+
+// Reset a single setting to the default value
+// - Usage:
+    // await resetSettingToDefault('theme');
+async function resetSettingToDefault(settingName) {
+    const allSettings = await getAllSettings();
+    if (defaultSettings.hasOwnProperty(settingName)) {
+        allSettings.settings[settingName] = defaultSettings[settingName];
+        await setAllSettings(allSettings.settings);
+    } else {
+        throw new Error(`Setting "${settingName}" does not exist in the default settings.`);
+    }
+}
+
+// Initialize settings with default values
+// - This is called when the extension is first installed or updated
+// - It checks for missing settings and adds them
+async function initializeSettingsWithDefaults() {
+    const allSettings = await getAllSettings();
+    if (!allSettings.hasOwnProperty('settings')) {
+        await setAllSettings(defaultSettings);
+    } else {
+        // Check for missing settings and update them
+        for (const settingName of Object.keys(defaultSettings)) {
+            if (!allSettings.settings.hasOwnProperty(settingName)) {
+                allSettings.settings[settingName] = defaultSettings[settingName];
+            }
+        }
+        await setAllSettings(allSettings.settings);
+    }
+}
+
+
+
+
+// ----------------------------------------------
+// DETERMINE IF LEMMY OR KBIN SITE/COMMUNITY/POST
 // ----------------------------------------------
 
 function isLemmySite() {
@@ -73,7 +178,7 @@ function isKbinCommunityWEAK(sourceURL) {
 }
 
 // ----------------------------------------------
-// fetch the selected instance from storage
+// SELECTED INSTANCE FUNCTIONS
 // ----------------------------------------------
 
 async function hasSelectedInstance() {
@@ -126,13 +231,3 @@ async function getCommunityRedirectURL(oldURL) {
 }
 
 // TODO: set up error handling to check the URL
-
-// ----------------------------------------------
-// get settings from storage
-// ----------------------------------------------
-
-async function getSetting(settingName) {
-    const storageAPI = getStorageAPI();
-    const settings = await storageAPI.get(settingName);
-    return settings[settingName];
-  }
