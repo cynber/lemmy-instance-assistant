@@ -41,7 +41,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       const redirectURL = selectedInstance + communityPrefix + communityName + '@' + sourceInstance;
 
       chrome.tabs.update(tab.id, { url: redirectURL });
-      
+
     } else {
       chrome.tabs.update(tab.id, { url: 'https://github.com/cynber/lemmy-instance-assistant/wiki/Sorry-that-didn\'t-work...' });
       // TODO: Add a popup to explain this
@@ -68,14 +68,52 @@ function setDefault(condition, settingName, settingValue) {
   }
 }
 
-chrome.runtime.onInstalled.addListener(({ reason }) => {
+chrome.runtime.onInstalled.addListener(async ({ reason }) => {
+
+  // Set default values on install/update
+  // TODO: fix the utils import so we can just use initializeSettingsWithDefaults()
   if (reason === 'install' || reason === 'update') {
-    chrome.storage.local.get((result) => {
-      // no default set for selectedInstance
-      setDefault(!result.selectedType, 'selectedType', 'lemmy');
-      setDefault(result.settingShowSidebar === undefined, 'settingShowSidebar', true);
-      setDefault(result.settingContextMenu === undefined, 'settingContextMenu', true);
-      setDefault(result.settingCommunityNotFound === undefined, 'settingCommunityNotFound', true);
-    });
+
+    async function backgroundInitializeSettings() {
+
+      const defaultSettings = {
+        instanceList: [
+          { name: "lemmy.world", url: "https://lemmy.world" },
+          { name: "lemmy.ca", url: "https://lemmy.ca" },
+          { name: "lemmy.one", url: "https://lemmy.one" },
+          { name: "programming.dev", url: "https://programming.dev" },
+          { name: "lemmy.ml", url: "https://lemmy.ml" },
+          { name: "feddit.de", url: "https://feddit.de" },
+          { name: "lemm.ee", url: "https://lemm.ee" },
+          { name: "kbin.social", url: "https://kbin.social" },
+        ],
+        runOnCommunitySidebar: true,
+        runOnCommunityNotFound: true,
+        selectedInstance: '',           // users are forced to set this
+        selectedType: 'lemmy',          // lemmy or kbin
+        theme: 'dark',                  // **NOT IMPLEMENTED YET**
+        toolSearchCommunity_openInLemmyverse: false,
+      };
+
+      let storageAPI = chrome.storage.local;
+      let allSettings = await storageAPI.get('settings');
+
+      if (!allSettings || !allSettings.settings) {
+        await storageAPI.set({ 'settings': defaultSettings });
+      } else {
+        for (const settingName of Object.keys(defaultSettings)) {
+          if (!allSettings.settings.hasOwnProperty(settingName)) {
+            allSettings.settings[settingName] = defaultSettings[settingName];
+          }
+        }
+        await storageAPI.set({ 'settings': allSettings.settings });
+      }
+    }
+    await backgroundInitializeSettings();
+  }
+
+  // Open the settings page on install
+  if (reason === 'install') {
+    chrome.tabs.create({ url: 'page-settings/settings.html' });
   }
 });

@@ -29,7 +29,7 @@
 
     <p class="message welcome"> Welcome! Please enter your instance information below.</p>
 
-    <h2>Instance Settings</h2>
+    <h2>Change Instance</h2>
     <hr>
     <p>Home Instance URL:</p>
     <div class="text-field">
@@ -46,14 +46,14 @@
       <label for="radio-kbin">Kbin</label>
     </div>
 
-    <h2>Popup Settings</h2>
+    <h2>Change Display</h2>
     <hr>
     <p>You can modify the list of instances in the popup menu by editing this field. This is helpful if you have accounts on more than one instance, or even if you like jumping between instances. Remove the instances that you don't need, and if you make a mistake then you can 'Reset to Default'.</p>
     <p>Please list one instance per line, and use the format "button-text, url"</p>
     <textarea id="instance-list" rows="9" cols="50" placeholder="Enter instances in the format: name, url"></textarea>
 
 
-    <h2>Enable/Disable tools</h2>
+    <h2>Enable/Disable Functionality</h2>
     <hr>
     <div class="checkbox">
       <input type="checkbox" id="showSidebarButtons">
@@ -63,6 +63,9 @@
       <input type="checkbox" id="showCommunityNotFound">
       <label for="showCommunityNotFound">Improved instructions & buttons on 'Community not found' pages</label>
     </div>
+
+    <h2>Miscellaneous</h2>
+    <hr>
     <div class="checkbox">
       <input type="checkbox" id="searchOpenLemmyverse">
       <label for="searchOpenLemmyverse">Open search results on lemmyverse.net instead of built-in search</label>

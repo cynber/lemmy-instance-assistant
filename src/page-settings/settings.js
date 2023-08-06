@@ -136,15 +136,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       await resetAllSettingsToDefault();
       console.log("Settings reset to default.");
 
-      // Reset values to default
-      const defaultSettings = await getAllSettings();
-
-      instanceField.value = defaultSettings.selectedInstance ? defaultSettings.selectedInstance : '';
-      lemmyRadio.checked = defaultSettings.selectedType === 'lemmy' ? true : false;
-      kbinRadio.checked = defaultSettings.selectedType === 'kbin' ? true : false;
-      showSidebarCheckbox.checked = defaultSettings.runOnCommunitySidebar ? true : false;
-      showCommunityNotFoundCheckbox.checked = defaultSettings.runOnCommunityNotFound ? true : false;
-      searchOpenLemmyverseCheckbox.checked = defaultSettings.toolSearchCommunity_openInLemmyverse ? true : false;
+      setFieldValues();
 
       hideValidationError();
       showSaveConfirmation("Settings reset to default.");
