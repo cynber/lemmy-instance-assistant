@@ -4,6 +4,7 @@ function testFunction() {
 
 // Utility function to get the appropriate storage API based on the browser
 function getStorageAPI() {
+    let storageAPI;
     if (typeof browser !== 'undefined' && browser.storage && browser.storage.local) {
         storageAPI = browser.storage.local;
     } else if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
@@ -25,6 +26,11 @@ const validInstanceURLPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z
 // - returns { settings: { ... } }
 async function getAllSettings() {
     const storageAPI = getStorageAPI();
+    const allSettings = await storageAPI.get('settings');
+    if (!allSettings || !allSettings.settings) {
+        await setAllSettings(defaultSettings);
+        return defaultSettings;
+    }
     return await storageAPI.get('settings');
 }
 
@@ -80,7 +86,7 @@ const defaultSettings = {
     selectedInstance: '',           // users are forced to set this
     selectedType: 'lemmy',          // lemmy or kbin
     theme: 'dark',                  // **NOT IMPLEMENTED YET**
-    toolSearchCommunity_openInLemmyverse: true,
+    toolSearchCommunity_openInLemmyverse: false,
 };
 
 // Reset all settings to the default values
@@ -182,39 +188,25 @@ function isKbinCommunityWEAK(sourceURL) {
 // ----------------------------------------------
 
 async function hasSelectedInstance() {
-    const storageAPI = getStorageAPI();
-    const { selectedInstance } = await storageAPI.get('selectedInstance');
+    const selectedInstance = await getSetting('selectedInstance');
     return selectedInstance !== undefined;
 }
 
 async function hasSelectedType() {
-    const storageAPI = getStorageAPI();
-    const { selectedType } = await storageAPI.get('selectedType');
-    return (selectedType !== undefined);
-}
-
-async function getSelectedInstance() {
-    const storageAPI = getStorageAPI();
-    const { selectedInstance } = await storageAPI.get('selectedInstance');
-    return selectedInstance;
-}
-
-async function getSelectedType() {
-    const storageAPI = getStorageAPI();
-    const { selectedType } = await storageAPI.get('selectedType');
-    return selectedType;
+    const selectedType = await getSetting('selectedType');
+    return selectedType !== undefined;
 }
 
 async function isHomeInstance(testURL) {
-    const selectedInstance = await getSelectedInstance()
+    const selectedInstance = await getSetting('selectedInstance');
     const testURLHost = new URL(testURL).hostname;
     const selectedInstanceHost = new URL(selectedInstance).hostname;
     return (testURLHost === selectedInstanceHost);
 }
 
 async function getCommunityRedirectURL(oldURL) {
-    const selectedInstance = await getSelectedInstance();
-    const selectedType = await getSelectedType();
+    const selectedInstance = await getSetting('selectedInstance');
+    const selectedType = await getSetting('selectedType');
 
     const communityPrefix = selectedType ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
 
@@ -231,3 +223,32 @@ async function getCommunityRedirectURL(oldURL) {
 }
 
 // TODO: set up error handling to check the URL
+
+// ----------------------------------------------
+// -------------  External Tool  ----------------
+// ----------------------------------------------
+
+// External Tool: Search Community through Lemmyverse 
+async function toolSearchCommunitiesLemmyverse(searchTerm) { 
+    if (searchTerm !== "") {
+      if (await getSetting('toolSearchCommunity_openInLemmyverse')) {
+        const baseUrl = "https://lemmyverse.net/communities";
+        const encodedSearchTerm = encodeURIComponent(searchTerm);
+        browser.tabs.create({ url: `${baseUrl}?query=${encodedSearchTerm}` });
+      } else {
+        browser.tabs.create({ url: `../page-search/search.html?query=${encodeURIComponent(searchTerm)}` });
+      }
+    } else {
+        console.log("CommunitySearch: Search term is empty");
+    }
+  }
+
+// External Tool: Search Content through Lemmysearch
+function toolSearchContentLemmysearch(searchTerm) {
+    if (searchTerm !== "") {
+      const baseUrl = "https://www.search-lemmy.com/results";
+      const encodedSearchTerm = encodeURIComponent(searchTerm);
+      const finalUrl = `${baseUrl}?query=${encodedSearchTerm}`;
+      browser.tabs.create({ url: finalUrl });
+    }
+  }
