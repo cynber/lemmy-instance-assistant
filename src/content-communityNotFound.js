@@ -15,7 +15,7 @@ setTimeout(() => {
             const targetCommunity = CURRENT_PATH.match(/\/c\/(.+?)@/)[1];
             const targetInstance = CURRENT_PATH.match(/@(.+)/)[1];
 
-            const selectedInstance = await getSelectedInstance();
+            const selectedInstance = await getSetting('selectedInstance');
             let TARGET_ELEMENT = document.querySelector('.error-page');
 
             // --------- Set up injectables --------- //
@@ -136,7 +136,7 @@ setTimeout(() => {
             });
 
             // ---------- Append elements ----------- //
-            if (!document.querySelector('#instance-assistant-sidebar') && (await getSetting('settingCommunityNotFound'))) { // prevent duplicate elements
+            if (!document.querySelector('#instance-assistant-sidebar') && (await getSetting('runOnCommunityNotFound'))) { // prevent duplicate elements
                 container.appendChild(txtErrorPage);
                 container.appendChild(btnOpenSearchLemmy)
                 container.appendChild(btnCommunityLemmy);

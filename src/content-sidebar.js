@@ -1,14 +1,13 @@
 // ========================================================================================== //
 // Injects buttons and links into the sidebar of Lemmy communities and posts.                 //
 // ========================================================================================== //
-const pageURL = window.location.href;
 
 setTimeout(() => {
-    if (isLemmyCommunity(pageURL) || isKbinCommunity(pageURL)) {
+    if (isLemmyCommunity(window.location.href) || isKbinCommunity(window.location.href)) {
 
         async function loadSelectedInstance() {
 
-            const selectedInstance = await getSelectedInstance();
+            const selectedInstance = await getSetting('selectedInstance');
 
             // --------- Set up injectables --------- //
             let createButton = (text) => {
@@ -106,14 +105,14 @@ setTimeout(() => {
             const txtChangeInstance = createDropdown('How to change home instance', changeInstanceInstructions);
 
             // ---------- Set up functions ---------- //
-            if (isKbinCommunity(pageURL)) {
+            if (isKbinCommunity(window.location.href)) {
                 TARGET_ELEMENT = document.querySelector('.section.intro') || document.querySelector('#sidebar .magazine .row');
-            } else if (isLemmyCommunity(pageURL) || isLemmyPost(pageURL)) {
+            } else if (isLemmyCommunity(window.location.href) || isLemmyPost(window.location.href)) {
                 TARGET_ELEMENT = document.querySelector('.card-body');
             }
 
             const canRedirect = await hasSelectedInstance();
-            const redirectURL = await getCommunityRedirectURL(pageURL);
+            const redirectURL = await getCommunityRedirectURL(window.location.href);
 
             // --------- Add Event Listeners -------- //
             btnRedirectLemmy.addEventListener('click', () => {
@@ -129,7 +128,8 @@ setTimeout(() => {
             });
 
             // ---------- Append elements ----------- //
-            if (!document.querySelector('#instance-assistant-sidebar') && (await getSetting('settingShowSidebar'))) { // Prevent duplicate elements
+            if (!document.querySelector('#instance-assistant-sidebar') && (await getSetting('runOnCommunitySidebar'))) { // Prevent duplicate elements
+                const pageURL = window.location.href;
                 if (isLemmyCommunity(pageURL) && !(await isHomeInstance(pageURL))) {
                     TARGET_ELEMENT.appendChild(btnRedirectLemmy);
                     TARGET_ELEMENT.appendChild(txtHomeInstance);

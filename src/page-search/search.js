@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
   async function displayResults(results) {
 
     // get home instance & type
-    const selectedInstance  = await getSelectedInstance();
-    const selectedType = await getSelectedType();
+    const selectedInstance  = await getSetting('selectedInstance');
+    const selectedType = await getSetting('selectedType');
 
     let newURL = '';
     let hasHomeInstance = false;
