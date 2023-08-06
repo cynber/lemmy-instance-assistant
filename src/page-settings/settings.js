@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   const instanceField = document.getElementById('instance-field');
   const lemmyRadio = document.getElementById('radio-lemmy');
   const kbinRadio = document.getElementById('radio-kbin');
+  const hideSidebarLemmyCheckbox = document.getElementById('hideSidebarLemmy');
+  // const hideSidebarKbinCheckbox = document.getElementById('hideSidebarKbin');
   const showSidebarCheckbox = document.getElementById('showSidebarButtons');
   const showCommunityNotFoundCheckbox = document.getElementById('showCommunityNotFound');
   const searchOpenLemmyverseCheckbox = document.getElementById('searchOpenLemmyverse');
@@ -32,6 +34,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       instanceField.value = allSettings.selectedInstance || '';
       lemmyRadio.checked = allSettings.selectedType === 'lemmy';
       kbinRadio.checked = allSettings.selectedType === 'kbin';
+      hideSidebarLemmyCheckbox.checked = allSettings.hideSidebarLemmy;
+      // hideSidebarKbinCheckbox.checked = allSettings.hideSidebarKbin;
       showSidebarCheckbox.checked = allSettings.runOnCommunitySidebar;
       showCommunityNotFoundCheckbox.checked = allSettings.runOnCommunityNotFound;
       searchOpenLemmyverseCheckbox.checked = allSettings.toolSearchCommunity_openInLemmyverse;
@@ -94,6 +98,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     saveClicked = true;
     const instanceValue = instanceField.value.trim();
     const platformValue = lemmyRadio.checked ? "lemmy" : "kbin";
+    const hideSidebarLemmy = hideSidebarLemmyCheckbox.checked;
+    // const hideSidebarKbin = hideSidebarKbinCheckbox.checked;
     const toggleShowSidebarButtons = showSidebarCheckbox.checked;
     const toggleShowCommunityNotFound = showCommunityNotFoundCheckbox.checked;
     const toggleSearchOpenLemmyverse = searchOpenLemmyverseCheckbox.checked;
@@ -117,6 +123,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Store values to local storage
     await setSetting('selectedInstance', instanceValue);
     await setSetting('selectedType', platformValue);
+    await setSetting('hideSidebarLemmy', hideSidebarLemmy);
+    // await setSetting('hideSidebarKbin', hideSidebarKbin);
     await setSetting('runOnCommunitySidebar', toggleShowSidebarButtons);
     await setSetting('runOnCommunityNotFound', toggleShowCommunityNotFound);
     await setSetting('toolSearchCommunity_openInLemmyverse', toggleSearchOpenLemmyverse);

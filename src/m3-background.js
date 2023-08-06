@@ -9,7 +9,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (/^https?:\/\/.*\/c\//.test(tab.url)) {
       chrome.scripting.executeScript({
         target: { tabId: tabId },
-        files: ["content-sidebar.js"]
+        files: ["content-sidebar.js", "content-general.js"]
       });
     }
   }
@@ -77,6 +77,8 @@ chrome.runtime.onInstalled.addListener(async ({ reason }) => {
     async function backgroundInitializeSettings() {
 
       const defaultSettings = {
+        hideSidebarLemmy: false,
+        hideSidebarKbin: false,
         instanceList: [
           { name: "lemmy.world", url: "https://lemmy.world" },
           { name: "lemmy.ca", url: "https://lemmy.ca" },

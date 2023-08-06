@@ -71,6 +71,8 @@ async function updateSettings(settingsToUpdate) {
 }
 
 const defaultSettings = {
+    hideSidebarLemmy: false,
+    hideSidebarKbin: false,
     instanceList: [
         { name: "lemmy.world", url: "https://lemmy.world" },
         { name: "lemmy.ca", url: "https://lemmy.ca" },
@@ -252,3 +254,46 @@ function toolSearchContentLemmysearch(searchTerm) {
       browser.tabs.create({ url: finalUrl });
     }
   }
+
+// ----------------------------------------------
+// ---------- General DOM Manipulation ----------
+// ----------------------------------------------
+
+
+//Used for offset removal
+function removeClassByWildcard(divClass) {
+    // If the class ends with a "*", then it matches all classes that start with the given class name.
+    if (divClass.endsWith("*")) {
+        divClass = divClass.replace("*", "");
+        // Get all elements with the given class name.
+        const elements = document.getElementsByTagName("div");
+        const re = new RegExp("(^|s)" + divClass + "(s|$)");
+        const result = [];
+        let className = "";
+
+        for (let i = 0; i < elements.length; i++) {
+            if (re.test(elements[i].className)) {
+                console.log("Match: " + elements[i]);
+                result.push(elements[i]);
+                for (let y = 0; y < elements[i].classList.length; y++) {
+                    if (elements[i].classList[y].indexOf(divClass) !== -1) {
+                        className = elements[i].classList[y];
+                        console.log(className);
+                    }
+                }
+            }
+        }
+        // Remove the class from all elements.
+        for (let i = 0; i < result.length; i++) {
+            result[i].classList.remove(className);
+        }
+    } else {
+        // Otherwise, the class must match exactly.
+        const elements = document.querySelectorAll("[class=" + divClass + "]");
+
+        // Remove the class from all elements.
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].classList.remove(divClass);
+        }
+    }
+}

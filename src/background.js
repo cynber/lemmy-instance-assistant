@@ -8,6 +8,7 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     console.log((/^https?:\/\/.*\/c\//.test(tab.url)));
     if (/^https?:\/\/.*\/c\//.test(tab.url)) {
       console.log("tab updated complete", tabId, changeInfo, tab);
+      browser.tabs.executeScript(tabId, { file: "content-general.js" })
       browser.tabs.executeScript(tabId, { file: "content-sidebar.js" })
     }
   }
@@ -76,6 +77,8 @@ browser.runtime.onInstalled.addListener(async ({ reason }) => {
     async function backgroundInitializeSettings() {
 
       const defaultSettings = {
+        hideSidebarLemmy: false,
+        hideSidebarKbin: false,
         instanceList: [
           { name: "lemmy.world", url: "https://lemmy.world" },
           { name: "lemmy.ca", url: "https://lemmy.ca" },
