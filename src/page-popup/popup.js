@@ -13,42 +13,23 @@ document.addEventListener("DOMContentLoaded", function () {
     // ------------------- Setup Display -----------------------
     // ---------------------------------------------------------
 
-    const selectedInstance = await getSelectedInstance();
-    const selectedType = await getSelectedType();
+    const selectedInstance = await getSetting("selectedInstance");
+    const selectedType = await getSetting("selectedType");
 
     txtHomeInstance.textContent = selectedInstance ? selectedInstance : "unknown";
     txtInstanceType.textContent = selectedType ? selectedType : "unknown";
 
-    let lemmyInstances = [];
+    let lemmyInstances = await getSetting("instanceList");
 
-    browser.storage.local.get("instanceList").then((result) => {
-      lemmyInstances = result.instanceList;
-
-      if (!lemmyInstances) {
-        lemmyInstances = [
-          { name: "lemmy.world", url: "https://lemmy.world" },
-          { name: "lemmy.ca", url: "https://lemmy.ca" },
-          { name: "lemmy.one", url: "https://lemmy.one" },
-          { name: "programming.dev", url: "https://programming.dev" },
-          { name: "lemmy.ml", url: "https://lemmy.ml" },
-          { name: "feddit.de", url: "https://feddit.de" },
-          { name: "lemm.ee", url: "https://lemm.ee" },
-          { name: "kbin.social", url: "https://kbin.social" },
-        ];
-        browser.storage.local.set({ instanceList: lemmyInstances });
-      }
-
-      lemmyInstances.forEach((instance) => {
-        const listItem = document.createElement("li");
-        const button = document.createElement("button");
-        button.type = "button";
-        button.textContent = instance.name;
-        button.className = "btn-instance-list";
-        listItem.appendChild(button);
-        instanceList.appendChild(listItem);
-      });
+    lemmyInstances.forEach((instance) => {
+      const listItem = document.createElement("li");
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = instance.name;
+      button.className = "btn-instance-list";
+      listItem.appendChild(button);
+      instanceList.appendChild(listItem);
     });
-
 
     // ---------------------------------------------------------
     // ------------------- Basic Functions ---------------------
@@ -64,23 +45,21 @@ document.addEventListener("DOMContentLoaded", function () {
     // ---------------------------------------------------------
 
     // Update home instance address
-    btnChangeInstance.addEventListener("click", () => {
+    btnChangeInstance.addEventListener("click", async () => {
       const inputInstance = prompt("Enter your instance URL: (ex. 'https://lemmy.ca')");
       if (inputInstance === null) { return; } // exit without alerting if user cancels
       if (inputInstance && validInstanceURLPattern.test(inputInstance)) {
-        browser.storage.local.set({ selectedInstance: inputInstance.trim() });
+        await setSetting("selectedInstance", inputInstance.trim());
         txtHomeInstance.textContent = inputInstance.trim();
       } else { alert("Invalid URL format, please follow this format: \n 'https://lemmy.ca'"); }
     });
 
     // Toggle home instance type
-    btnChangeType.addEventListener("click", () => {
-      browser.storage.local.get("selectedType").then((result) => {
-        const currentType = result.selectedType;
-        const newType = currentType === "lemmy" ? "kbin" : "lemmy";
-        browser.storage.local.set({ selectedType: newType });
-        txtInstanceType.textContent = newType;
-      });
+    btnChangeType.addEventListener("click", async () => {
+      const currentType = await getSetting("selectedType");
+      const newType = currentType === "lemmy" ? "kbin" : "lemmy";
+      await setSetting("selectedType", newType);
+      txtInstanceType.textContent = newType;
     });
 
     // Copy URL
@@ -96,28 +75,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // ---------------- Search Tools --------------- //
     // --------------------------------------------- //
 
+    // Search Lemmyverse
     const btnSearchCommunities = document.getElementById("btn-tool-search-community");
     const searchInputCommunities = document.getElementById("searchInputCommunities");
 
     async function performSearchCommunities() {
-      const searchTerm = searchInputCommunities.value.trim();
-      const { settingSearchOpenLemmyverse } = await browser.storage.local.get('settingSearchOpenLemmyverse');
-
-      if (searchTerm !== "") {
-        if (settingSearchOpenLemmyverse) {
-          const baseUrl = "https://lemmyverse.net/communities";
-          const encodedSearchTerm = encodeURIComponent(searchTerm);
-          browser.tabs.create({ url: `${baseUrl}?query=${encodedSearchTerm}` });
-        } else {
-          browser.tabs.create({ url: `../page-search/search.html?query=${encodeURIComponent(searchTerm)}` });
-        }
-      }
+      await toolSearchCommunitiesLemmyverse(searchInputCommunities.value.trim())
     }
 
-    // Trigger search when "Search" button is clicked
     btnSearchCommunities.addEventListener("click", performSearchCommunities);
 
-    // Trigger search when "Enter" key is pressed in the search input
     searchInputCommunities.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         event.preventDefault(); // Prevent default form submission behavior
@@ -125,23 +92,16 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
+    // Search content with Lemmy-Search
     const btnSearchContent = document.getElementById("btn-tool-search-content");
     const searchInputContent = document.getElementById("searchInputContent");
 
     function performSearchCommunitiesContent() {
-      const searchTerm = searchInputContent.value.trim();
-      if (searchTerm !== "") {
-        const baseUrl = "https://www.search-lemmy.com/results";
-        const encodedSearchTerm = encodeURIComponent(searchTerm);
-        const finalUrl = `${baseUrl}?query=${encodedSearchTerm}`;
-        browser.tabs.create({ url: finalUrl });
-      }
+      toolSearchContentLemmysearch(searchInputContent.value.trim());
     }
 
-    // Trigger search when "Search" button is clicked
     btnSearchContent.addEventListener("click", performSearchCommunitiesContent);
 
-    // Trigger search when "Enter" key is pressed in the search input
     searchInputContent.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         event.preventDefault(); // Prevent default form submission behavior
@@ -166,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const redirectURL = await getCommunityRedirectURL(tabURL);
             await browser.tabs.update(tab.id, { url: redirectURL });
-            
+
           } else { alert('You are already on your home instance.'); }
         } else { alert('You are not on a Lemmy or Kbin community. Please navigate to a community page and try again.\n\nThe extension checks for links that have "/c/" or "/m/" in the URL'); }
       } else { alert('No valid instance has been set. Please select an instance in the popup using "Change my home instance".'); }
