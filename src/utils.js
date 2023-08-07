@@ -16,6 +16,22 @@ function getStorageAPI() {
   return storageAPI;
 }
 
+function isLoggedInLemmy() {
+  // TODO: NOT TESTED
+  const loginLink = document.querySelector('a[href="/login"]');
+  const signupLink = document.querySelector('a[href="/signup"]');
+  
+  // If both login and signup links exist, user is not logged in
+  return !(loginLink && signupLink);
+}
+
+function isLoggedInKbin() {
+  const loginLink = document.querySelectorAll('a.login[href="/login"]');
+
+  // If login link exists, user is not logged in
+  return !loginLink;
+}
+
 const validInstanceURLPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
 
 // ----------------------------------------------
@@ -131,7 +147,7 @@ async function initializeSettingsWithDefaults() {
 
 
 // ----------------------------------------------
-// DETERMINE IF LEMMY OR KBIN SITE/COMMUNITY/POST
+// Determine type of page
 // ----------------------------------------------
 
 function isLemmySite() {
@@ -141,6 +157,11 @@ function isLemmySite() {
   } else {
     return false;
   }
+}
+
+function isLemmyCommunityList(sourceURL) {
+  const CURRENT_PATH = new URL(sourceURL).pathname;
+  return (isLemmySite() && CURRENT_PATH === "/communities")
 }
 
 function isLemmyCommunity(sourceURL) {
@@ -276,7 +297,6 @@ function toolSearchContentLemmysearch(searchTerm) {
 // ----------------------------------------------
 // ---------- General DOM Manipulation ----------
 // ----------------------------------------------
-
 
 //Used for offset removal
 function removeClassByWildcard(divClass) {

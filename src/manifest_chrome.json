@@ -32,6 +32,7 @@
   "content_scripts": [
     {
       "matches": [
+        "*://*/communities",
         "*://*/c/*",
         "*://*/m/*",
         "*://*/post/*"
