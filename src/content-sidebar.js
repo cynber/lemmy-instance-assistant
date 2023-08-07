@@ -3,13 +3,21 @@
 // =========================================================================== //
 
 setTimeout(() => {
-    if (isLemmyCommunity(window.location.href) || isKbinCommunity(window.location.href)) {
+    if (isLemmyCommunity(window.location.href) ||
+        isKbinCommunity(window.location.href) ||
+        isLemmyPhoton() ||
+        isLemmyAlexandrite()) {
+
+            console.log (isLemmyAlexandrite() + ": alexandrite")
 
         async function loadSelectedInstance() {
 
             const selectedInstance = await getSetting('selectedInstance');
 
+            // ====================================== //
             // --------- Set up injectables --------- //
+            // ====================================== //
+
             let createButton = (text) => {
                 const button = document.createElement('button');
                 button.setAttribute('type', 'button');
@@ -81,6 +89,53 @@ setTimeout(() => {
         `;
             btnRedirectLemmy.style.backgroundColor = '#5f35ae';
 
+            let btnRedirectLemmyAlexandrite = createButton('Open in my home instance');
+            btnRedirectLemmyAlexandrite.style.cssText = `
+            padding: .375rem .75rem;
+            margin: 1rem 0rem .5rem 0rem;
+            width: 60%;
+            border: none;
+            border-radius: 5px;
+            font-weight: 400;
+            text-align: center;
+            color: white;
+        `;
+            btnRedirectLemmyAlexandrite.style.backgroundColor = '#5f35ae';
+
+            let containerRedirectLemmyAlexandrite = document.createElement('div');
+            containerRedirectLemmyAlexandrite.setAttribute('id', 'instance-assistant-sidebar');
+            containerRedirectLemmyAlexandrite.style.cssText = `
+                background-color: #19101e;
+                padding: 0.5rem;
+                border-radius: 5px;
+                margin: 0.5rem 0rem 0.5rem 0rem;
+                text-align: center;
+                `;
+
+            let btnRedirectLemmyPhoton = createButton('Open in my home instance');
+            btnRedirectLemmyPhoton.style.cssText = `
+            padding: .375rem .75rem;
+            margin: .5rem 0rem .5rem 0rem;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            font-weight: 400;
+            text-align: center;
+            color: white;
+        `;
+            btnRedirectLemmyPhoton.style.backgroundColor = '#5f35ae';
+
+            let containerRedirectLemmyPhoton = document.createElement('div');
+            containerRedirectLemmyPhoton.setAttribute('id', 'instance-assistant-sidebar');
+            containerRedirectLemmyPhoton.style.cssText = `
+                background-color: #18181b;
+                padding: 10px;
+                border-radius: 5px;
+                border-color: #232326;
+                border-width: 1px;
+                margin: 0.5rem -1rem 0.5rem 0rem;
+                `;
+
             let btnToPostLemmy = createButton('Open post in my home instance');
             btnToPostLemmy.style.cssText = `
             padding: .375rem .75rem;
@@ -94,7 +149,7 @@ setTimeout(() => {
         `;
             btnToPostLemmy.style.backgroundColor = '#27175a';
 
-            let txtHomeInstance = selectedInstance ? createMessage(`Your home instance is <a href="${selectedInstance}" target="_blank">${selectedInstance}</a>.`) : createMessage(`You have not set a home instance yet.`);
+            let txtHomeInstance = selectedInstance ? createMessage(`Home Instance: <a href="${selectedInstance}" target="_blank">${selectedInstance}</a>`) : createMessage(`You have not set a home instance yet.`);
 
             const changeInstanceInstructions = [
                 '1) Click on the extension icon in the browser toolbar',
@@ -109,6 +164,10 @@ setTimeout(() => {
                 TARGET_ELEMENT = document.querySelector('.section.intro') || document.querySelector('#sidebar .magazine .row');
             } else if (isLemmyCommunity(window.location.href) || isLemmyPost(window.location.href)) {
                 TARGET_ELEMENT = document.querySelector('.card-body');
+            } else if (isLemmyPhoton()) {
+                TARGET_ELEMENT = document.querySelector('.hidden.xl\\:block aside').children[2];
+            } else if (isLemmyAlexandrite()) {
+                TARGET_ELEMENT = document.querySelector('.sidebar').children[4];
             }
 
             const canRedirect = await hasSelectedInstance();
@@ -127,7 +186,19 @@ setTimeout(() => {
                 } else { alert('No valid instance has been set.') }
             });
 
-            // ---------- Append elements ----------- //
+          btnRedirectLemmyAlexandrite.addEventListener('click', () => {
+            if (canRedirect) {
+              window.location.href = redirectURL;
+            } else { alert('No valid instance has been set.') }
+          });
+
+            btnRedirectLemmyPhoton.addEventListener('click', () => {
+                if (canRedirect) {
+                    window.location.href = redirectURL;
+                } else { alert('No valid instance has been set.') }
+            });
+
+            // ---------- Append elements ----------- //            
             if (!document.querySelector('#instance-assistant-sidebar') && (await getSetting('runOnCommunitySidebar'))) { // Prevent duplicate elements
                 const pageURL = window.location.href;
                 if (isLemmyCommunity(pageURL) && !(await isHomeInstance(pageURL))) {
@@ -140,8 +211,24 @@ setTimeout(() => {
                     TARGET_ELEMENT.appendChild(txtHomeInstance);
                     TARGET_ELEMENT.appendChild(txtChangeInstance);
                 }
+                if (isLemmyPhoton() && !(await isHomeInstance(pageURL))) {
+                  if (!document.querySelector('#instance-assistant-sidebar')) {
+                    containerRedirectLemmyPhoton.appendChild(btnRedirectLemmyPhoton);
+                    containerRedirectLemmyPhoton.appendChild(txtHomeInstance);
+                    containerRedirectLemmyPhoton.appendChild(txtChangeInstance);
+                    TARGET_ELEMENT.appendChild(containerRedirectLemmyPhoton);
+                  }
+                }
+                if (isLemmyAlexandrite() && !(await isHomeInstance(pageURL))) {
+                  if (!document.querySelector('#instance-assistant-sidebar')) {
+                    containerRedirectLemmyAlexandrite.appendChild(btnRedirectLemmyAlexandrite);
+                    containerRedirectLemmyAlexandrite.appendChild(txtHomeInstance);
+                    containerRedirectLemmyAlexandrite.appendChild(txtChangeInstance);
+                    TARGET_ELEMENT.appendChild(containerRedirectLemmyAlexandrite);
+                  }
+                }
             }
         }
         loadSelectedInstance();
     }
-}, "500");
+}, "800");

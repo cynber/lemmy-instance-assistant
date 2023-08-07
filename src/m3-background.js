@@ -9,7 +9,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (/^https?:\/\/.*\/c\//.test(tab.url)) {
       chrome.scripting.executeScript({
         target: { tabId: tabId },
-        files: ["content-sidebar.js", "content-general.js"]
+        files: ["utils.js","content-sidebar.js", "content-general.js"]
       });
     }
   }

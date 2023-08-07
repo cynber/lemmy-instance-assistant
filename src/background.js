@@ -2,12 +2,9 @@
 // Handle redirects within a Lemmy site
 // --------------------------------------
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  console.log("tab updated", tabId, changeInfo, tab);
   if (changeInfo.status === "complete") {
-    console.log("tab updated complete", tabId, changeInfo, tab);
-    console.log((/^https?:\/\/.*\/c\//.test(tab.url)));
     if (/^https?:\/\/.*\/c\//.test(tab.url)) {
-      console.log("tab updated complete", tabId, changeInfo, tab);
+      browser.tabs.executeScript(tabId, { file: "utils.js" })
       browser.tabs.executeScript(tabId, { file: "content-general.js" })
       browser.tabs.executeScript(tabId, { file: "content-sidebar.js" })
     }

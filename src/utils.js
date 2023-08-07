@@ -185,6 +185,24 @@ function isKbinCommunityWEAK(sourceURL) {
   return (CURRENT_PATH.includes("/m/"))
 }
 
+// -------------- Other Frontends ---------------
+
+function isLemmyPhoton() {
+  // look for meta tag name="description", and see if it contains "Photon"
+  const metaTag = document.querySelector('meta[name="description"]');
+  if (metaTag) {
+    return metaTag.content.includes("Photon: An alternative lemmy client with a sleek design.");
+  } else {
+    return false;
+  }
+}
+
+function isLemmyAlexandrite() {
+  return !!document.querySelector('div.sx-stack.f-row.gap-1.align-items-center.mx-4.sx-badge-gray.sx-font-size-2 a[href="https://github.com/sheodox/alexandrite"]');
+}
+
+
+
 // ----------------------------------------------
 // SELECTED INSTANCE FUNCTIONS
 // ----------------------------------------------
