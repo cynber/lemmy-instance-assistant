@@ -9,7 +9,7 @@
 * **Open links in home instance:** 
   * Right click context menu will allow you to open any links in your home instance
 * **Improved Error Pages:** 
-  * 'Community not found' pages now have better information, a button to trigger a fetch, a button to open a community in the source instance, and more.
+  * 'Community not found' pages now have better information, a button to trigger a fetch, a button to open a community in the source instance, and more. See it [in action here](https://lemmy.ca/c/fakecommunity@example.com)
 * **Customizable popup & sidebar menus:** 
   * Customizable list of instances to let you quickly switch home instances. This is great for if you have multiple accounts on different instances.
   * There are also buttons for helpful tools that let you search for communities (with lemmyverse.net), and search across Lemmy sites (with search-lemmy.com).
