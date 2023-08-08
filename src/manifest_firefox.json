@@ -55,7 +55,8 @@
       "16": "img/lemming16_dev.png",
       "32": "img/lemming32_dev.png"
     },
-    "default_panel": "page-sidebar/sidebar.html"
+    "default_panel": "page-sidebar/sidebar.html",
+    "open_at_install": false
   },
   "options_ui": {
     "page": "page-options/options.html",

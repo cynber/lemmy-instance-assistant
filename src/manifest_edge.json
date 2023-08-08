@@ -17,6 +17,7 @@
     "contextMenus"
   ],
   "host_permissions": [
+    "*://*/communities",
     "*://*/c/*",
     "*://*/m/*",
     "*://*/post/*"

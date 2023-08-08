@@ -8,7 +8,7 @@ setTimeout(async () => {
     isLemmyCommunityList(window.location.href)) {
 
     // --------------------------------------
-    // Hide sidebar
+    // Hide sidebar if setting is enabled
     // --------------------------------------
     const hideSidebarLemmy = await getSetting('hideSidebarLemmy');
     const hideSidebarKbin = await getSetting('hideSidebarKbin');
@@ -36,9 +36,8 @@ setTimeout(async () => {
 
 
     // --------------------------------------
-    // Subscribe on home instance from community list page
+    // Replace 'Subscribe' button with redirect button on '/communities' pages on foreign instances
     // --------------------------------------
-
     if (isLemmyCommunityList(window.location.href) && !(await isHomeInstance(window.location.href)) && !(isLoggedInLemmy())) {
 
       const subscribeButtons = document.querySelectorAll('#community_table tbody tr td:last-child .btn-link');

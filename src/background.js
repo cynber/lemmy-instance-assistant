@@ -1,9 +1,10 @@
 // --------------------------------------
 // Handle redirects within a Lemmy site
+//  - Sometimes when navigating within a Lemmy site, the content scripts won't run despite the URL matching the pattern. This is a workaround for that. 
 // --------------------------------------
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === "complete") {
-    if (/^https?:\/\/.*\/c\//.test(tab.url)) {
+    if ((/^https?:\/\/.*\/c\//.test(tab.url)) || (/^https?:\/\/.*\/communities/.test(tab.url))) {
       browser.tabs.executeScript(tabId, { file: "utils.js" })
       browser.tabs.executeScript(tabId, { file: "content-general.js" })
       browser.tabs.executeScript(tabId, { file: "content-sidebar.js" })
@@ -59,13 +60,6 @@ browser.contextMenus.create({
 // Set default values on install/update
 // --------------------------------------
 
-function setDefault(condition, settingName, settingValue) {
-  if (condition) {
-    browser.storage.local.set({ [settingName]: settingValue });
-    console.log(`Set default value for ${settingName} to ${settingValue}`);
-  }
-}
-
 browser.runtime.onInstalled.addListener(async ({ reason }) => {
   // Set default values on install/update
   // TODO: fix the utils import so we can just use initializeSettingsWithDefaults()
@@ -111,7 +105,7 @@ browser.runtime.onInstalled.addListener(async ({ reason }) => {
     await backgroundInitializeSettings();
   }
   
-  // Open settings page on install
+  // Open settings page when extension is first installed
   if (reason === 'install') {
     browser.tabs.create({ url: 'page-settings/settings.html' });
   }

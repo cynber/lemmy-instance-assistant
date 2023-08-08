@@ -1,5 +1,5 @@
 // =========================================================================== //
-// Injects buttons and links into the sidebar of Lemmy communities and posts.                 //
+// Injects buttons and links into the sidebar of Lemmy communities and posts.  //
 // =========================================================================== //
 
 setTimeout(() => {

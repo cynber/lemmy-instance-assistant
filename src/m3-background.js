@@ -1,12 +1,13 @@
 // --------------------------------------
 // Handle redirects within a Lemmy site
+//  - Sometimes when navigating within a Lemmy site, the content scripts won't run despite the URL matching the pattern. This is a workaround for that. 
 // --------------------------------------
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (tab.url?.startsWith("chrome://") || tab.url?.startsWith("chrome-extension://")) {
     return undefined;
   }
   if (changeInfo.status === "complete") {
-    if (/^https?:\/\/.*\/c\//.test(tab.url)) {
+    if ((/^https?:\/\/.*\/c\//.test(tab.url)) || (/^https?:\/\/.*\/communities/.test(tab.url))) {
       chrome.scripting.executeScript({
         target: { tabId: tabId },
         files: ["utils.js","content-sidebar.js", "content-general.js"]
@@ -62,12 +63,6 @@ chrome.runtime.onInstalled.addListener(() => {
 // Set default values on install/update
 // --------------------------------------
 
-function setDefault(condition, settingName, settingValue) {
-  if (condition) {
-    chrome.storage.local.set({ [settingName]: settingValue });
-  }
-}
-
 chrome.runtime.onInstalled.addListener(async ({ reason }) => {
 
   // Set default values on install/update
@@ -114,7 +109,7 @@ chrome.runtime.onInstalled.addListener(async ({ reason }) => {
     await backgroundInitializeSettings();
   }
 
-  // Open the settings page on install
+  // Open settings page when extension is first installed
   if (reason === 'install') {
     chrome.tabs.create({ url: 'page-settings/settings.html' });
   }

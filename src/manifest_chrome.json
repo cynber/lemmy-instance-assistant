@@ -18,6 +18,7 @@
     "sidePanel"
   ],
   "host_permissions": [
+    "*://*/communities",
     "*://*/c/*",
     "*://*/m/*",
     "*://*/post/*"
