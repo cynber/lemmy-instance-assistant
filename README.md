@@ -66,18 +66,67 @@ The current versions request “Access to all sites”. This is because the exte
 
 <br/> 
 
-# Basic Usage
+# Screenshots
 
-Once your home instance is set, you can redirect to it using one of two methods:
-* Button in popup: Click on the extension, and then click "Open this community in my instance". This is the recommended method.
-* Button on site: If the extension has access to an instance, it should load a button directly in the sidebar. You may need to reload the page in order to see it.
-  * To give the extension access, either use the setup method above, or right click on the extension and click "Always allow on ____"
+ <table>
+ <tr>
+  <td>Popup Menu with redirect button, community search, and quick settings</td>
+  <td>Improved community not found pages with button to triger a fetch and more</td>
+ </tr>
+ <tr>
+  <td> <img width="960" alt="firefox-sc-3" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/047a982f-7c1b-496a-8569-66cdc58fd1ea"> </td>
+  <td> <img width="960" alt="firefox-sc-4" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/4a1fdc0c-307e-4b29-a183-51348a5b8b5a"> </td>
+ </tr>
+ </table>
+ 
+ <table>
+ <tr>
+  <td> Improved community page on foreign instances, to allow for easy subscribing </td>
+  <td> Persistent sidebar option as alternative to popup menu </td>
+ </tr>
+ <tr>
+  <td> <img width="960" alt="firefox-sc-0" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/a88c3697-6f09-463c-9147-d1e19196da3b"> </td>
+  <td><img width="960" alt="firefox-sc-5" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/76fa3e33-8c73-4905-a157-8bd6beb87e74"></td>
+ </tr>
+</table>
 
-| Sidebar Button | Popup Button |
-|----------------|------------------|
-|<img src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/c80b1342-49eb-4b76-9258-c2cd1db22897" alt="Sidebar Button">|<img src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/b67e5b11-09b3-4248-9d74-8b2dc878969e" alt="Popup Button">|
+ <table>
+ <tr>
+  <td> Right click context menu to open any links in your home instance </td>
+  <td> Settings page </td>
+ </tr>
+ <tr>
+  <td> <img width="960" alt="firefox-sc-0" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/a88c3697-6f09-463c-9147-d1e19196da3b"> </td>
+  <td> <img width="960" alt="firefox-sc-0" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/a88c3697-6f09-463c-9147-d1e19196da3b"> </td>
+ </tr>
+</table>
 
-<br/>
+<table>
+  <tr>
+  <td>Redirect button in sidebar of foreign Lemmy instance</td>
+  <td>Redirect button in sidebar of foreign Kbin instance</td>
+ </tr>
+  <tr>
+    <td> <img width="960" alt="firefox-sc-1" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/40b187b6-200d-4cec-aea4-2672671db7de"> </td>
+    <td><img width="960" alt="firefox-sc-2" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/a3a95acb-905f-4499-b37d-aa6c95424ea6"></td>
+  </tr>
+ </table>
+ 
+ <table>
+ <tr>
+  <td>Redirect button for Photon Frontend</td>
+  <td>Redirect button for Alexandrite Frontend</td>
+ </tr>
+ <tr>
+  <td> <img width="960" alt="firefox-sc-0" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/a88c3697-6f09-463c-9147-d1e19196da3b"> </td>
+  <td> <img width="960" alt="firefox-sc-0" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/a88c3697-6f09-463c-9147-d1e19196da3b"> </td>
+ </tr>
+ </table>
+ 
+
+
+
+<br/> 
 
 # Contributing
 
