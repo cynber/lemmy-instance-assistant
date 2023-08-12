@@ -32,6 +32,7 @@ function isLoggedInKbin() {
   return !loginLink;
 }
 
+
 const validInstanceURLPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
 
 // ----------------------------------------------
@@ -230,19 +231,25 @@ function isLemmyAlexandrite() {
 
 async function hasSelectedInstance() {
   const selectedInstance = await getSetting('selectedInstance');
-  return selectedInstance !== undefined;
+  return selectedInstance !== undefined && selectedInstance !== "";
 }
 
 async function hasSelectedType() {
   const selectedType = await getSetting('selectedType');
-  return selectedType !== undefined;
+  return selectedType !== undefined && selectedType !== "";
 }
 
 async function isHomeInstance(testURL) {
-  const selectedInstance = await getSetting('selectedInstance');
-  const testURLHost = new URL(testURL).hostname;
-  const selectedInstanceHost = new URL(selectedInstance).hostname;
-  return (testURLHost === selectedInstanceHost);
+  if (!(await hasSelectedInstance())) {
+    console.log("No selected instance");
+    return false;
+  } else {
+    console.log("Has selected instance");
+    const selectedInstance = await getSetting('selectedInstance');
+    const testURLHost = new URL(testURL).hostname;
+    const selectedInstanceHost = new URL(selectedInstance).hostname;
+    return (testURLHost === selectedInstanceHost);
+  }
 }
 
 async function getCommunityRedirectURL(oldURL) {

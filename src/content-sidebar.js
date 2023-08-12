@@ -2,13 +2,15 @@
 // Injects buttons and links into the sidebar of Lemmy communities and posts.  //
 // =========================================================================== //
 
+console.log("content-sidebar.js loaded");
+console.log("is Photon: " + isLemmyPhoton())
+console.log("is Alexandrite: " + isLemmyAlexandrite())
+
 setTimeout(() => {
     if (isLemmyCommunity(window.location.href) ||
         isKbinCommunity(window.location.href) ||
         isLemmyPhoton() ||
         isLemmyAlexandrite()) {
-
-            console.log (isLemmyAlexandrite() + ": alexandrite")
 
         async function loadSelectedInstance() {
 
@@ -198,20 +200,21 @@ setTimeout(() => {
                 } else { alert('No valid instance has been set.') }
             });
 
+            const pageURL = window.location.href;
+
             // ---------- Append elements ----------- //            
-            if (!document.querySelector('#instance-assistant-sidebar') && (await getSetting('runOnCommunitySidebar'))) { // Prevent duplicate elements
-                const pageURL = window.location.href;
-                if (isLemmyCommunity(pageURL) && !(await isHomeInstance(pageURL))) {
+            if (!document.querySelector('#instance-assistant-sidebar') && (await getSetting('runOnCommunitySidebar')) && !(await isHomeInstance(pageURL))) { // Prevent duplicate elements
+                if (isLemmyCommunity(pageURL)) {
                     TARGET_ELEMENT.appendChild(btnRedirectLemmy);
                     TARGET_ELEMENT.appendChild(txtHomeInstance);
                     TARGET_ELEMENT.appendChild(txtChangeInstance);
                 }
-                if (isKbinCommunity(pageURL) && !(await isHomeInstance(pageURL))) {
+                if (isKbinCommunity(pageURL)) {
                     TARGET_ELEMENT.appendChild(btnRedirectKbin);
                     TARGET_ELEMENT.appendChild(txtHomeInstance);
                     TARGET_ELEMENT.appendChild(txtChangeInstance);
                 }
-                if (isLemmyPhoton() && !(await isHomeInstance(pageURL))) {
+                if (isLemmyPhoton()) {
                   if (!document.querySelector('#instance-assistant-sidebar')) {
                     containerRedirectLemmyPhoton.appendChild(btnRedirectLemmyPhoton);
                     containerRedirectLemmyPhoton.appendChild(txtHomeInstance);
@@ -219,7 +222,7 @@ setTimeout(() => {
                     TARGET_ELEMENT.appendChild(containerRedirectLemmyPhoton);
                   }
                 }
-                if (isLemmyAlexandrite() && !(await isHomeInstance(pageURL))) {
+                if (isLemmyAlexandrite()) {
                   if (!document.querySelector('#instance-assistant-sidebar')) {
                     containerRedirectLemmyAlexandrite.appendChild(btnRedirectLemmyAlexandrite);
                     containerRedirectLemmyAlexandrite.appendChild(txtHomeInstance);

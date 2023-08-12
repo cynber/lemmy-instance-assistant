@@ -131,8 +131,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     await setSetting('instanceList', websitesArray);
 
     showSaveConfirmation("Settings saved successfully!");
-    
-    console.log(await getAllSettings());
 
   });
 
