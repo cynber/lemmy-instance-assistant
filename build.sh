@@ -29,7 +29,6 @@ function init_build() {
     cp -r src/page-settings $directory/page-settings
     cp -r src/page-sidebar $directory/page-sidebar
     cp -r src/page-search $directory/page-search
-    # cp -r src/page-welcome $directory/page-welcome    # TODO: add welcome page
     
     # COPY SCRIPT FILES BASED ON MANIFEST VERSION ================================
     if [ "$manifest" = 2 ]; then

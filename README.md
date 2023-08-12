@@ -4,15 +4,19 @@
 
 # Features
 
+* **Support** for Lemmy and Kbin instances, as well as Alexandrite & Photon frontends.
 * **Redirect to your home instance:** 
   * Buttons will be added to the sidebar of any Lemmy or Kbin community you visit, which will let you open the same community on your home instance.
+* **Search for communities and posts:** 
+  * Popup and sidebar include search fields powered by lemmyverse.net and search-lemmy.com
 * **Open links in home instance:** 
   * Right click context menu will allow you to open any links in your home instance
-* **Improved Error Pages:** 
+* **Upgraded Pages:** 
   * 'Community not found' pages now have better information, a button to trigger a fetch, a button to open a community in the source instance, and more. See it [in action here](https://lemmy.ca/c/fakecommunity@example.com)
-* **Customizable popup & sidebar menus:** 
+  * '/communities' pages had the non-functional 'subscribe' buttons replaced, to make it easier when browsing other instances.
+* **Customizable:** 
   * Customizable list of instances to let you quickly switch home instances. This is great for if you have multiple accounts on different instances.
-  * There are also buttons for helpful tools that let you search for communities (with lemmyverse.net), and search across Lemmy sites (with search-lemmy.com).
+  * Hide parts of the site you don't want to see, such as the default Lemmy sidebar
 * **Settings:** You can change the default behaviour of the extension, customize the popup & sidebar menus, and turn off features you don't want to use.
 
 </br>
@@ -66,6 +70,36 @@ The current versions request “Access to all sites”. This is because the exte
 
 <br/> 
 
+# Contributing
+
+You can contribute to this project in a number of ways:
+* **Report bugs & suggest features:** If you find a bug or want a new feature, you can discuss in the Support Community (https://lemmy.ca/c/instance_assistant) or open an issue on GitHub.
+* **Contribute code:** If you want to contribute code, you can open a pull request on GitHub. You can find guidance here: https://github.com/cynber/lemmy-instance-assistant/wiki/Development-Process
+* **Translate:** If you want to help translate the extension, you will soon be able to do so. I will update this section once it is ready.
+* **Donate:** If you want to support the project financially, you can do so by clicking the sponsor button on this page, or through https://ko-fi.com/cynber
+
+
+
+<br/>
+
+# Other Links
+<table>
+  <tr>
+    <td> <h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#recent-updates">Recent Updates</a></h3> </td>
+    <td><h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#future-plans">Future Plans</a></h3></td>
+  </tr>
+  <tr>
+    <td> <h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#faq">FAQ</a></h3> </td>
+    <td><h3><a href="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/d3a12821-9fa6-47a8-8c87-fc3d94bd3efb">Demo Video (out of date, new one is planned)</a></h3> </td>
+  </tr>
+  <tr>
+    <td> <h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#credits">Credits</a></h3></td>
+    <td></td>
+  </tr>
+</table>
+
+<br/> 
+
 # Screenshots
 
  <table>
@@ -96,8 +130,8 @@ The current versions request “Access to all sites”. This is because the exte
   <td>Redirect button for instances using an Alexandrite Frontend</td>
  </tr>
  <tr>
-  <td> <img width="960" alt="firefox-sc-0" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/a88c3697-6f09-463c-9147-d1e19196da3b"> </td>
-  <td> <img width="960" alt="firefox-sc-0" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/a88c3697-6f09-463c-9147-d1e19196da3b"> </td>
+  <td> <img width="960" alt="firefox-sc-0" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/8ea651df-9b6f-4c87-bc65-05841df69fae"> </td>
+  <td> <img width="960" alt="firefox-sc-0" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/940be022-5ace-402f-aae2-bb5df91b5f06"> </td>
  </tr>
  </table>
  
@@ -107,42 +141,22 @@ The current versions request “Access to all sites”. This is because the exte
   <td> Persistent sidebar, as an alternative to the popup menu </td>
  </tr>
  <tr>
-  <td> <img width="960" alt="firefox-sc-0" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/a88c3697-6f09-463c-9147-d1e19196da3b"> </td>
-  <td><img width="960" alt="firefox-sc-5" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/76fa3e33-8c73-4905-a157-8bd6beb87e74"></td>
+  <td> <img width="960" alt="firefox-sc-0" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/723f26b9-b561-4979-81ae-961a01ec9110"> </td>
+  <td><img width="960" alt="firefox-sc-5" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/2e0c26a4-225f-4fbc-9310-f6b104a62bcb"></td>
  </tr>
 </table>
 
  <table>
  <tr>
   <td> Right click context menu to open any links in your home instance </td>
-  <td> Settings page for finer control over functionality</td>
+  <td> Change display settings, such as hiding the default sidebar</td>
  </tr>
  <tr>
   <td> <img width="960" alt="firefox-sc-0" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/a88c3697-6f09-463c-9147-d1e19196da3b"> </td>
-  <td> <img width="960" alt="firefox-sc-0" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/a88c3697-6f09-463c-9147-d1e19196da3b"> </td>
+  <td> <img width="960" alt="firefox-sc-0" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/21b407cf-0984-41dd-9811-ed72d8618cbc"> </td>
  </tr>
 </table>
  
 
 
 
-<br/> 
-
-# Contributing
-
-You can contribute to this project in a number of ways:
-* **Report bugs & suggest features:** If you find a bug or want a new feature, you can discuss in the Support Community (https://lemmy.ca/c/instance_assistant) or open an issue on GitHub.
-* **Contribute code:** If you want to contribute code, you can open a pull request on GitHub. You can find instructions on how to set up the project here: https://github.com/cynber/lemmy-instance-assistant/wiki/Development-Process
-* **Translate:** If you want to help translate the extension, you will soon be able to do so. I will update this section once it is ready.
-* **Donate:** If you want to support the project financially, you can do so by clicking the sponsor button on this page, or through https://ko-fi.com/cynber
-
-
-
-<br/>
-
-# Other Links
-<h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#recent-updates">Recent Updates</a></h3>
-<h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#future-plans">Future Plans</a></h3>
-<h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#faq">FAQ</a></h3>
-<h3><a href="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/d3a12821-9fa6-47a8-8c87-fc3d94bd3efb">Demo Video (out of date, new one is planned)</a></h3>
-<h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#credits">Credits</a></h3>
