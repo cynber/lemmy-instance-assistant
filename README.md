@@ -83,18 +83,18 @@ You can contribute to this project in a number of ways:
 <br/>
 
 # Other Links
-<table>
+<table style="width: 100%;">
   <tr>
-    <td> <h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#recent-updates">Recent Updates</a></h3> </td>
-    <td><h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#future-plans">Future Plans</a></h3></td>
+    <td style="width: 50%;"> <h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#recent-updates">Recent Updates</a></h3> </td>
+    <td style="width: 50%;"> <h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#future-plans">Future Plans</a></h3></td>
   </tr>
   <tr>
-    <td> <h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#faq">FAQ</a></h3> </td>
-    <td><h3><a href="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/d3a12821-9fa6-47a8-8c87-fc3d94bd3efb">Demo Video (out of date, new one is planned)</a></h3> </td>
+    <td style="width: 50%;"> <h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#faq">FAQ</a></h3> </td>
+    <td style="width: 50%;"> <h3><a href="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/d3a12821-9fa6-47a8-8c87-fc3d94bd3efb">Demo Video (out of date, new one is planned)</a></h3> </td>
   </tr>
   <tr>
-    <td> <h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#credits">Credits</a></h3></td>
-    <td></td>
+    <td style="width: 50%;"> <h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#credits">Credits</a></h3></td>
+    <td style="width: 50%;"> </td>
   </tr>
 </table>
 
@@ -126,8 +126,8 @@ You can contribute to this project in a number of ways:
  
  <table>
  <tr>
-  <td>Redirect button for instances using a Photon Frontend</td>
-  <td>Redirect button for instances using an Alexandrite Frontend</td>
+  <td>Redirect button for Photon Frontend</td>
+  <td>Redirect button for Alexandrite Frontend</td>
  </tr>
  <tr>
   <td> <img width="960" alt="firefox-sc-0" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/8ea651df-9b6f-4c87-bc65-05841df69fae"> </td>
@@ -138,7 +138,7 @@ You can contribute to this project in a number of ways:
  <table>
  <tr>
   <td> Improved '/communities' page on foreign instances</td>
-  <td> Persistent sidebar, as an alternative to the popup menu </td>
+  <td> Persistent sidebar version of popup menu </td>
  </tr>
  <tr>
   <td> <img width="960" alt="firefox-sc-0" src="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/723f26b9-b561-4979-81ae-961a01ec9110"> </td>
