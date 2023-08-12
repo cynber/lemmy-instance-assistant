@@ -223,6 +223,36 @@ function isLemmyAlexandrite() {
   return !!document.querySelector('div.sx-stack.f-row.gap-1.align-items-center.mx-4.sx-badge-gray.sx-font-size-2 a[href="https://github.com/sheodox/alexandrite"]');
 }
 
+function mayBeFrontend(testURL) {
+  let testURLHost = testURL;
+
+  // Check if the input is a valid URL
+  try {
+    const urlObj = new URL(testURL);
+    testURLHost = urlObj.hostname;
+  } catch (error) {
+    // Input is not a valid URL, use it as is
+  }
+
+  const hostParts = testURLHost.split('.');
+  return hostParts.length > 2; // tests for number of parts in the hostname
+}
+
+function getRealHostname(testURL) {
+  let testURLHost = testURL;
+
+  // Check if the input is a valid URL
+  try {
+    const urlObj = new URL(testURL);
+    testURLHost = urlObj.hostname;
+  } catch (error) {
+    // Input is not a valid URL, use it as is
+  }
+
+  const hostParts = testURLHost.split('.');
+  return hostParts.slice(1).join('.');
+}
+
 
 
 // ----------------------------------------------

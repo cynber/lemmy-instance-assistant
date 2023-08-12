@@ -169,7 +169,7 @@ setTimeout(() => {
             } else if (isLemmyPhoton()) {
                 TARGET_ELEMENT = document.querySelector('.hidden.xl\\:block aside').children[2];
             } else if (isLemmyAlexandrite()) {
-                TARGET_ELEMENT = document.querySelector('.sidebar').children[4];
+                TARGET_ELEMENT = document.querySelector('.sidebar').children[1];
             }
 
             const canRedirect = await hasSelectedInstance();

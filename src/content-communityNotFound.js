@@ -145,6 +145,39 @@ setTimeout(() => {
                 container.appendChild(txtChangeInstance);
                 TARGET_ELEMENT.insertBefore(container, TARGET_ELEMENT.firstChild);
             }
+
+            if (mayBeFrontend(targetInstance)) {
+
+                console.log('may be frontend')
+
+                let txtAlternateRedirect = createMessage('<p style="width:50%;  margin: 0 auto; text-align:center;"><b>IMPORTANT:</b> Based on your URL <code>' + targetInstance + '</code>, you may be using a custom frontend. You can try getting the community from the main domain:</p>');
+
+                let realInstance = getRealHostname(targetInstance);
+    
+                console.log(realInstance)
+
+
+                let btnAlternateRedirect = createButton('Search in "' + realInstance + '"');
+                btnAlternateRedirect.style.cssText = `
+                    padding: .375rem .75rem;
+                    margin: .5rem 2rem 1rem 2rem;
+                    width: 50%;
+                    border: none;
+                    border-radius: 5px;
+                    font-weight: 400;
+                    text-align: center;
+                    color: white;
+                `;
+                btnAlternateRedirect.style.backgroundColor = '#5f35ae';
+
+                btnAlternateRedirect.addEventListener('click', () => {
+                    window.location.href = 'https://' + CURRENT_HOST + '/c/' + targetCommunity + '@' + realInstance;
+                });
+
+                container.insertBefore(txtAlternateRedirect, container.children[2]);
+                container.insertBefore(btnAlternateRedirect, container.children[3]);
+
+                }
         }
         loadSelectedInstance();
     }
