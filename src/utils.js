@@ -248,7 +248,7 @@ async function isHomeInstance(testURL) {
     const selectedInstance = await getSetting('selectedInstance');
     const testURLHost = new URL(testURL).hostname;
     const selectedInstanceHost = new URL(selectedInstance).hostname;
-    return (testURLHost === selectedInstanceHost);
+    return testURLHost.endsWith(selectedInstanceHost);
   }
 }
 
