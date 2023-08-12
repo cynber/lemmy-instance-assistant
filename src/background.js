@@ -52,7 +52,7 @@ browser.contextMenus.create({
   id: "lemmy-sidebar",
   title: "Redirect to home instance",
   contexts: ["link"],
-  targetUrlPatterns: ["http://*/c/*", "https://*/c/*", "http://*/p/*", "https://*/p/*"],
+  targetUrlPatterns: ["http://*/c/*", "https://*/c/*", "http://*/p/*", "https://*/p/*", "http://*/m/*", "https://*/m/*"],
 }, () => void browser.runtime.lastError,
 );
 
