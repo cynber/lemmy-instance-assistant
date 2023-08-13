@@ -17,24 +17,24 @@ function init_build() {
     cp src/manifest_$1.json $directory/manifest.json
     cp LICENSE $directory/LICENSE
     cp src/styles.css $directory/styles.css
+    cp src/utils.js $directory/utils.js
+    cp src/content-sidebar.js $directory/content-sidebar.js
+    cp src/content-communityNotFound.js $directory/content-communityNotFound.js
+    cp src/content-general.js $directory/content-general.js
     cp -r node_modules $directory/node_modules
     cp -r src/img $directory/img
     # cp -r src/_locales $directory/_locales            # TODO: Fix translations
     cp -r src/page-options $directory/page-options
     cp -r src/page-popup $directory/page-popup
     cp -r src/page-settings $directory/page-settings
-    cp -r src/page-sidebar $directory/page-sidebar    # TODO: add sidebar page
-    # cp -r src/page-welcome $directory/page-welcome    # TODO: add welcome page
+    cp -r src/page-sidebar $directory/page-sidebar
+    cp -r src/page-search $directory/page-search
     
     # COPY SCRIPT FILES BASED ON MANIFEST VERSION ================================
     if [ "$manifest" = 2 ]; then
         cp src/background.js $directory/background.js
-        cp src/content-communityNotFound.js $directory/content-communityNotFound.js
-        cp src/content-sidebar.js $directory/content-sidebar.js
     else
         cp src/m3-background.js $directory/background.js
-        cp src/m3-content-communityNotFound.js $directory/content-communityNotFound.js
-        cp src/m3-content-sidebar.js $directory/content-sidebar.js
     fi
     
     # REPLACE DEV IMAGES WITH PRODUCTION IMAGES ==================================

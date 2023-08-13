@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="settings.css">
   <script src="../node_modules/webextension-polyfill/dist/browser-polyfill.js"></script>
+  <script src="../utils.js"></script>
   <script src="settings.js"></script>
 </head>
 
@@ -18,9 +19,9 @@
       <h2>Instance Assistant Settings</h2>
     </div>
     <nav>
-      <a href="https://github.com/cynber/lemmy-instance-assistant" class="btn-settings-nav">Project GitHub</a>
-      <a href="https://lemmy.ca/c/instance_assistant" class="btn-settings-nav">Community Support</a>
-      <a href="https://ko-fi.com/cynber" class="btn-settings-nav">Contribute</a>
+      <a href="https://github.com/cynber/lemmy-instance-assistant" class="btn-settings-nav">Project GitHub<img src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab."></a>
+      <a href="https://lemmy.ca/c/instance_assistant" class="btn-settings-nav">Support Community<img src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab."></a>
+      <a href="https://ko-fi.com/cynber" class="btn-settings-nav">Contribute<img src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab."></a>
     </nav>
   </header>
 
@@ -28,7 +29,7 @@
 
     <p class="message welcome"> Welcome! Please enter your instance information below.</p>
 
-    <h2>Instance Settings</h2>
+    <h2>Change Instance</h2>
     <hr>
     <p>Home Instance URL:</p>
     <div class="text-field">
@@ -45,14 +46,26 @@
       <label for="radio-kbin">Kbin</label>
     </div>
 
-    <h2>Popup Settings</h2>
+    <h2>Change Display</h2>
     <hr>
     <p>You can modify the list of instances in the popup menu by editing this field. This is helpful if you have accounts on more than one instance, or even if you like jumping between instances. Remove the instances that you don't need, and if you make a mistake then you can 'Reset to Default'.</p>
     <p>Please list one instance per line, and use the format "button-text, url"</p>
     <textarea id="instance-list" rows="9" cols="50" placeholder="Enter instances in the format: name, url"></textarea>
 
+    <br>
 
-    <h2>Enable/Disable tools</h2>
+    <p>Show/Hide sections of the site:</p>
+    <div class="checkbox">
+      <input type="checkbox" id="hideSidebarLemmy">
+      <label for="hideSidebarLemmy">Hide Lemmy Sidebar</label>
+    </div>
+    <!-- <div class="checkbox">
+      <input type="checkbox" id="hideSidebarKbin">
+      <label for="hideSidebarKbin">Hide Kbin Sidebar</label>
+    </div> -->
+
+
+    <h2>Enable/Disable Functionality</h2>
     <hr>
     <div class="checkbox">
       <input type="checkbox" id="showSidebarButtons">
@@ -60,7 +73,14 @@
     </div>
     <div class="checkbox">
       <input type="checkbox" id="showCommunityNotFound">
-      <label for="showCommunityNotFound">Improved instructions & buttons on 'Community not found' pages</label>
+      <label for="showCommunityNotFound">Improved 'Community not found' page</label>
+    </div>
+
+    <h2>Miscellaneous</h2>
+    <hr>
+    <div class="checkbox">
+      <input type="checkbox" id="searchOpenLemmyverse">
+      <label for="searchOpenLemmyverse">Open search results on lemmyverse.net instead of built-in search</label>
     </div>
     <div id="toast-container">
       <div id="toast-message"></div>

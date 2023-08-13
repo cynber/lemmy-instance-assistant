@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search for Communities</title>
+  <link rel="icon" type="image/png" sizes="16x16" href="../img/lemming16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../img/lemming32.png">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="search.css">
+  <script src="../node_modules/webextension-polyfill/dist/browser-polyfill.js"></script>
+  <script src="../utils.js"></script>
+  <script src="search.js"></script>
+</head>
+
+<body>
+  <header>
+    <div style="display: inline-flex">
+      <img src="../img/lemming128.png" alt="Logo" class="logo">
+      <h2>Search for Communities</h2>
+    </div>
+    <nav>
+      <a href="https://github.com/cynber/lemmy-instance-assistant" class="btn-nav">Project GitHub<img
+          src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab."></a>
+      <a href="https://lemmy.ca/c/instance_assistant" class="btn-nav">Support Community<img
+          src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab."></a>
+      <a href="https://ko-fi.com/cynber" class="btn-nav">Contribute<img src="../img/icon-external.png"
+          class="icon-external" alt="External Link" title="Opens in a new tab."></a>
+    </nav>
+  </header>
+
+  <div class="search">
+    <div class="message welcome">
+      <p>Search results are provided by <a href="https://lemmyverse.net">lemmyverse.net</a>.</p>
+      <p>If you would like to open results on lemmyverse.net directly, you can change your preferences in the Instance
+        Assistant settings:</p>
+      <button id="open-settings" class="button" style="width: auto;">
+        Settings
+        <img src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab.">
+      </button>
+    </div>
+
+
+    <form id="searchForm">
+      <label for="searchQuery">Search for communities:</label>
+      <input type="text" id="searchQuery" required>
+      <button type="submit">Search</button>
+    </form>
+    <div id="results"></div>
+  </div>
+
+  <footer>
+    <p>Created by <a href="https://GitHub.com/cynber">Cynber</a></p>
+  </footer>
+
+
+</html>

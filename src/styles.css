@@ -73,6 +73,18 @@ a {
   cursor: help;
 }
 
+.icon-external {
+  width: 10px;
+  height: 10px;
+  margin-left: 5px;
+}
+
+.icon-home {
+  width: 10px;
+  height: 10px;
+  margin-left: 5px;
+}
+
 /* --------------------- */
 /*         ANIMS         */
 /* --------------------- */

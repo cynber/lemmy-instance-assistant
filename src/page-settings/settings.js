@@ -1,48 +1,55 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const instanceField = document.getElementById('instance-field');
+document.addEventListener('DOMContentLoaded', async function () {
+
+  // ---------------------------------------------------------
+  // ------------------- Initialization ----------------------
+  // ---------------------------------------------------------
+
+  // Initialize settings with default values, if any are missing
+  await initializeSettingsWithDefaults();
+
+  // ---------------------------------------------------------
+  // ------------------- Setup Display -----------------------
+  // ---------------------------------------------------------
+
+  // Get DOM elements
   const saveButton = document.getElementById('save-btn');
   const resetButton = document.getElementById('reset-btn');
+  const validationMessage = document.querySelector('.validation-message');
+
+  const instanceField = document.getElementById('instance-field');
   const lemmyRadio = document.getElementById('radio-lemmy');
   const kbinRadio = document.getElementById('radio-kbin');
+  const hideSidebarLemmyCheckbox = document.getElementById('hideSidebarLemmy');
+  // const hideSidebarKbinCheckbox = document.getElementById('hideSidebarKbin');
   const showSidebarCheckbox = document.getElementById('showSidebarButtons');
   const showCommunityNotFoundCheckbox = document.getElementById('showCommunityNotFound');
-  const validationMessage = document.querySelector('.validation-message');
+  const searchOpenLemmyverseCheckbox = document.getElementById('searchOpenLemmyverse');
   const instanceListTextArea = document.getElementById('instance-list');
-  const urlPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
 
-  // Retrieve stored values and set them to fields
-  browser.storage.local.get([
-    "selectedInstance",
-    "selectedType",
-    "settingShowSidebar",
-    "settingCommunityNotFound",
-    "instanceList"
-  ]).then((result) => {
-    const selectedInstance = result.selectedInstance;
-    const selectedType = result.selectedType;
-    const settingShowSidebar = result.settingShowSidebar;
-    const settingCommunityNotFound = result.settingCommunityNotFound;
-    const instanceList = result.instanceList;
+  // Function to set field values based on settings
+  async function setFieldValues() {
+    try {
+      const allSettings = (await getAllSettings()).settings; // Get all settings
 
-    instanceField.value = selectedInstance || "";
-
-    if (selectedType === "lemmy") {
-      lemmyRadio.checked = true;
-      kbinRadio.checked = false;
-    } else if (selectedType === "kbin") {
-      lemmyRadio.checked = false;
-      kbinRadio.checked = true;
+      instanceField.value = allSettings.selectedInstance || '';
+      lemmyRadio.checked = allSettings.selectedType === 'lemmy';
+      kbinRadio.checked = allSettings.selectedType === 'kbin';
+      hideSidebarLemmyCheckbox.checked = allSettings.hideSidebarLemmy;
+      // hideSidebarKbinCheckbox.checked = allSettings.hideSidebarKbin;
+      showSidebarCheckbox.checked = allSettings.runOnCommunitySidebar;
+      showCommunityNotFoundCheckbox.checked = allSettings.runOnCommunityNotFound;
+      searchOpenLemmyverseCheckbox.checked = allSettings.toolSearchCommunity_openInLemmyverse;
+      instanceListTextArea.value = allSettings.instanceList.map(item => `${item.name}, ${item.url}`).join('\n');
+    } catch (error) {
+      console.error('Error retrieving settings:', error);
     }
+  }
 
-    showSidebarCheckbox.checked = settingShowSidebar;
-    showCommunityNotFoundCheckbox.checked = settingCommunityNotFound;
+  setFieldValues();
 
-    if (Array.isArray(instanceList)) {
-      instanceListTextArea.value = instanceList.map(item => `${item.name}, ${item.url}`).join('\n');
-    }
-
-    hideValidationError();
-  });
+  // ---------------------------------------------------------
+  // ------------------- Validation --------------------------
+  // ---------------------------------------------------------
 
   // Function to show validation error message
   const showValidationError = (message) => {
@@ -57,12 +64,18 @@ document.addEventListener('DOMContentLoaded', function () {
     instanceField.classList.remove('validation-error');
   };
 
+  hideValidationError();
+
+  // ---------------------------------------------------------
+  // ------------------- Basic Functions ---------------------
+  // ---------------------------------------------------------
+
   // Event handler for input event on selectedInstance text field
   instanceField.addEventListener('input', function () {
     if (saveClicked) {
       const instanceValue = this.value.trim();
-      if (!urlPattern.test(instanceValue)) {
-        showValidationError("Please enter a valid URL:   'https://lemmy.ca'");
+      if (!validInstanceURLPattern.test(instanceValue)) {
+        showValidationError("Please enter a valid URL:   (ex. 'https://lemmy.ca')");
       } else {
         hideValidationError();
       }
@@ -81,17 +94,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Save button click event handler
   let saveClicked = false;
-  saveButton.addEventListener('click', function () {
+  saveButton.addEventListener('click', async function () {
     saveClicked = true;
     const instanceValue = instanceField.value.trim();
     const platformValue = lemmyRadio.checked ? "lemmy" : "kbin";
+    const hideSidebarLemmy = hideSidebarLemmyCheckbox.checked;
+    // const hideSidebarKbin = hideSidebarKbinCheckbox.checked;
     const toggleShowSidebarButtons = showSidebarCheckbox.checked;
     const toggleShowCommunityNotFound = showCommunityNotFoundCheckbox.checked;
+    const toggleSearchOpenLemmyverse = searchOpenLemmyverseCheckbox.checked;
 
     // Validation check
-    if (!urlPattern.test(instanceValue)) {
-      showValidationError("Please enter a valid URL:   'https://lemmy.ca'");
-      console.log("Please enter a valid URL:   'https://lemmy.ca'");
+    if (!validInstanceURLPattern.test(instanceValue)) {
+      showValidationError("Please enter a valid URL:   (ex. 'https://lemmy.ca')");
       showSaveConfirmation("Settings could not be saved, see errors for details.");
       return;
     } else {
@@ -102,67 +117,36 @@ document.addEventListener('DOMContentLoaded', function () {
     const websiteListText = websiteListTextArea.value.trim();
     const websitesArray = websiteListText.split('\n').map(line => {
       const [name, url] = line.split(',').map(item => item.trim());
-      console.log(name, url);
       return { name, url };
     });
 
-
     // Store values to local storage
-    browser.storage.local.set({
-      selectedInstance: instanceValue,
-      selectedType: platformValue,
-      settingShowSidebar: toggleShowSidebarButtons,
-      settingCommunityNotFound: toggleShowCommunityNotFound,
-      instanceList: websitesArray
-    }).then(() => {
-      console.log("Values saved successfully!");
-      console.log("Instance:", instanceValue);
-      console.log("Platform:", platformValue);
-      console.log("Show sidebar buttons:", toggleShowSidebarButtons);
-      console.log("Show community not found:", toggleShowCommunityNotFound);
-      console.log("Instance List:", websitesArray);
-      showSaveConfirmation("Settings saved!");
-    }).catch((error) => {
-      console.log("Error occurred while saving values:", error);
-      showSaveConfirmation("Settings could not be saved, see errors for details.");
-    });
+    await setSetting('selectedInstance', instanceValue);
+    await setSetting('selectedType', platformValue);
+    await setSetting('hideSidebarLemmy', hideSidebarLemmy);
+    // await setSetting('hideSidebarKbin', hideSidebarKbin);
+    await setSetting('runOnCommunitySidebar', toggleShowSidebarButtons);
+    await setSetting('runOnCommunityNotFound', toggleShowCommunityNotFound);
+    await setSetting('toolSearchCommunity_openInLemmyverse', toggleSearchOpenLemmyverse);
+    await setSetting('instanceList', websitesArray);
+
+    showSaveConfirmation("Settings saved successfully!");
+
   });
 
-  resetButton.addEventListener('click', function () {
-    const confirmReset = confirm("Are you sure you want to reset to default? This will revert all settings to their default values.");
+  // Reset button click event handler
+  resetButton.addEventListener('click', async function () {
+    const confirmation = confirm("Are you sure you want to reset all settings?");
 
-    // TODO: 
+    if (confirmation) {
+      await resetAllSettingsToDefault();
+      console.log("Settings reset to default.");
 
-    if (confirmReset) {
-      // Restore default values
-      browser.storage.local.set({
-        selectedType: 'lemmy',
-        settingShowSidebar: true,
-        settingCommunityNotFound: true,
-        instanceList: [
-          { name: "lemmy.world", url: "https://lemmy.world" },
-          { name: "lemmy.ca", url: "https://lemmy.ca" },
-          { name: "lemmy.one", url: "https://lemmy.one" },
-          { name: "programming.dev", url: "https://programming.dev" },
-          { name: "lemmy.ml", url: "https://lemmy.ml" },
-          { name: "feddit.de", url: "https://feddit.de" },
-          { name: "lemm.ee", url: "https://lemm.ee" },
-          { name: "kbin.social", url: "https://kbin.social" },
-        ]
-      }).then(() => {
-        // Update the UI to reflect default values
-        lemmyRadio.checked = true;
-        kbinRadio.checked = false;
-        showSidebarCheckbox.checked = true;
-        showCommunityNotFoundCheckbox.checked = true;
-        instanceField.value = "";
-        instanceListTextArea.value = "lemmy.world, https://lemmy.world\nlemmy.ca, https://lemmy.ca\nlemmy.one, https://lemmy.one\nprogramming.dev, https://programming.dev\nlemmy.ml, https://lemmy.ml\nfeddit.de, https://feddit.de\nlemm.ee, https://lemm.ee\nkbin.social, https://kbin.social";
-        console.log("Values reset to default.");
-      }).catch((error) => {
-        console.log("Error occurred while resetting values:", error);
-      });
-    } else {
-      console.log("Reset cancelled.");
-    }
+      setFieldValues();
+
+      hideValidationError();
+      showSaveConfirmation("Settings reset to default.");
+
+    } else { console.log("Settings reset cancelled."); }
   });
 });

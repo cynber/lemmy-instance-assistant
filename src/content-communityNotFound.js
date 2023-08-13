@@ -1,33 +1,22 @@
-// ========================================================================================== //
+// ============================================================= //
 // Injects buttons and links into the community not found page to help users find their way. //
-// ========================================================================================== //
+// ============================================================= //
 
 setTimeout(() => {
-    const CURRENT_HOST = new URL(window.location.href).hostname;
-    const CURRENT_PATH = new URL(window.location.href).pathname;
-    const hasErrorContainer = document.querySelector('.error-page');
+    const testURL = window.location.href;
 
-    // Only run on community pages (/c/ or /m/)
-    if ((CURRENT_PATH.includes("/c/") && CURRENT_PATH.includes("@") && hasErrorContainer)) {
-
+    if ((isLemmyCommunityNotFound(testURL))) {
         async function loadSelectedInstance() {
 
             // ------ Set up general variables ------ //
-            const { selectedInstance } = await browser.storage.local.get('selectedInstance');
-            const { selectedType } = await chrome.storage.local.get('selectedType');
-            const { settingCommunityNotFound } = await chrome.storage.local.get('settingCommunityNotFound');
-            let isLemmy = CURRENT_PATH.includes("/c/");
-            let isKbin = CURRENT_PATH.includes("/m/");
+            
+            const CURRENT_HOST = new URL(window.location.href).hostname;
+            const CURRENT_PATH = new URL(window.location.href).pathname;
             const targetCommunity = CURRENT_PATH.match(/\/c\/(.+?)@/)[1];
             const targetInstance = CURRENT_PATH.match(/@(.+)/)[1];
-            let TARGET_ELEMENT = '';
 
-            if (isKbin) {
-                // TODO: Add support for KBin as needed
-            } else if (isLemmy || isLemmyPost) {
-                TARGET_ELEMENT = document.querySelector('.error-page');
-            }
-
+            const selectedInstance = await getSetting('selectedInstance');
+            let TARGET_ELEMENT = document.querySelector('.error-page');
 
             // --------- Set up injectables --------- //
             let createButton = (text) => {
@@ -82,38 +71,6 @@ setTimeout(() => {
 
             const txtErrorPage = createMessage(`Did you arrive here from <b>Instance Assistant</b>?  <p style="text-align:left; padding:2rem">The community ` + targetCommunity + ` does not exist on this instance (yet). This can happen if you are the first person to try and open it in this instance. Someone will need to prompt this instance to fetch the community from the original instance. This task can be trigerred by entering the community URL (ex. <code>` + targetInstance + `/c/` + targetCommunity + `</code>) or identifier (ex. <code>!` + targetCommunity + `@` + targetInstance + `</code>) into the search page (<a href="https://join-lemmy.org/docs/users/01-getting-started.html#following-communities">reference</a>). <br/><br/> You can do this by clicking on the button below, and then coming back after some time. Don't worry about the "No results" message, the fetch process would have started in the background. Alternatively, you can copy one of the codes above and do the search manually at <a href="https://` + CURRENT_HOST + `">https://` + CURRENT_HOST + `/search</a>.\n\n You can also just view the community on the foreign instance.</p>`)
 
-            let btnOpenSearchKbin = createButton('Open Search Page');
-            btnOpenSearchKbin.style.cssText = `
-                padding: 0.75rem;
-                margin: 1rem 0rem .5rem 0rem;
-                width: 50%;
-                height: 100%;
-                display: block;
-                border: var(--kbin-button-secondary-border);
-                text-align: center;
-                color: white;
-                font-size: 0.85rem;
-                font-weight: 400;
-                cursor: pointer;
-            `;
-            btnOpenSearchKbin.style.backgroundColor = '#175a4c';
-
-            let btnHomeKbin = createButton('Go to my home instance');
-            btnHomeKbin.style.cssText = `
-                padding: 0.75rem;
-                margin: 1rem 0rem .5rem 0rem;
-                width: 50%;
-                height: 100%;
-                display: block;
-                border: var(--kbin-button-secondary-border);
-                text-align: center;
-                color: white;
-                font-size: 0.85rem;
-                font-weight: 400;
-                cursor: pointer;
-            `;
-            btnHomeKbin.style.backgroundColor = '#5f35ae';
-
             let btnOpenSearchLemmy = createButton('Trigger a search');
             btnOpenSearchLemmy.style.cssText = `
                 padding: .375rem .75rem;
@@ -165,46 +122,62 @@ setTimeout(() => {
 
             // --------- Add Event Listeners -------- //
             btnHomeLemmy.addEventListener('click', () => {
-                if (selectedInstance) {
-                    window.location.href = selectedInstance;
-                } else { alert('No valid instance has been set.') }
-            });
-
-            btnHomeKbin.addEventListener('click', () => {
-                if (selectedInstance) {
+                if (selectedInstance) { 
                     window.location.href = selectedInstance;
                 } else { alert('No valid instance has been set.') }
             });
 
             btnOpenSearchLemmy.addEventListener('click', () => {
-                window.location.href = 'https://' + CURRENT_HOST + '/search?q=!' + targetCommunity + '%40' + targetInstance + '&type=All&listingType=All&page=1&sort=TopAll';
-            });
-
-            btnOpenSearchKbin.addEventListener('click', () => {
-                // TODO: add support for kbin search as needed
+                window.location.href = 'https://' + CURRENT_HOST + '/search?q=' + '!' + targetCommunity + '%40' + targetInstance + '&type=All&listingType=All&page=1&sort=TopAll';
             });
 
             btnCommunityLemmy.addEventListener('click', () => {
                 window.location.href = 'https://' + targetInstance + '/c/' + targetCommunity;
             });
 
-
             // ---------- Append elements ----------- //
-            if (!document.querySelector('#instance-assistant-sidebar') && settingCommunityNotFound) { // prevent duplicate elements
-                if (isLemmy) {
-                    container.appendChild(txtErrorPage);
-                    container.appendChild(btnOpenSearchLemmy)
-                    container.appendChild(btnCommunityLemmy);
-                    container.appendChild(btnHomeLemmy);
-                    container.appendChild(txtHomeInstance);
-                    container.appendChild(txtChangeInstance);
-                }
-                // if (isKbin) {
-                //   container.appendChild(btnHomeKbin);
-                // } 
+            if (!document.querySelector('#instance-assistant-sidebar') && (await getSetting('runOnCommunityNotFound'))) { // prevent duplicate elements
+                container.appendChild(txtErrorPage);
+                container.appendChild(btnOpenSearchLemmy)
+                container.appendChild(btnCommunityLemmy);
+                container.appendChild(btnHomeLemmy);
+                container.appendChild(txtHomeInstance);
+                container.appendChild(txtChangeInstance);
                 TARGET_ELEMENT.insertBefore(container, TARGET_ELEMENT.firstChild);
             }
-            
+
+            if (mayBeFrontend(targetInstance)) {
+
+                console.log('may be frontend')
+
+                let txtAlternateRedirect = createMessage('<p style="width:50%;  margin: 0 auto; text-align:center;"><b>IMPORTANT:</b> Based on your URL <code>' + targetInstance + '</code>, you may be using a custom frontend. You can try getting the community from the main domain:</p>');
+
+                let realInstance = getRealHostname(targetInstance);
+    
+                console.log(realInstance)
+ 
+
+                let btnAlternateRedirect = createButton('Search in "' + realInstance + '"');
+                btnAlternateRedirect.style.cssText = `
+                    padding: .375rem .75rem;
+                    margin: .5rem 2rem 1rem 2rem;
+                    width: 50%;
+                    border: none;
+                    border-radius: 5px;
+                    font-weight: 400;
+                    text-align: center;
+                    color: white;
+                `;
+                btnAlternateRedirect.style.backgroundColor = '#5f35ae';
+
+                btnAlternateRedirect.addEventListener('click', () => {
+                    window.location.href = 'https://' + CURRENT_HOST + '/c/' + targetCommunity + '@' + realInstance;
+                });
+
+                container.insertBefore(txtAlternateRedirect, container.children[2]);
+                container.insertBefore(btnAlternateRedirect, container.children[3]);
+
+                }
         }
         loadSelectedInstance();
     }
