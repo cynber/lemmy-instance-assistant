@@ -17,6 +17,7 @@
     "contextMenus"
   ],
   "host_permissions": [
+    "*://*/communities",
     "*://*/c/*",
     "*://*/m/*",
     "*://*/post/*"
@@ -31,13 +32,16 @@
   "content_scripts": [
     {
       "matches": [
+        "*://*/communities",
         "*://*/c/*",
         "*://*/m/*",
         "*://*/post/*"
       ],
       "js": [
         "node_modules/webextension-polyfill/dist/browser-polyfill.js",
+        "utils.js",
         "content-sidebar.js",
+        "content-general.js",
         "content-communityNotFound.js"
       ],
       "run_at": "document_end"

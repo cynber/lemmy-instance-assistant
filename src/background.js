@@ -1,9 +1,12 @@
 // --------------------------------------
 // Handle redirects within a Lemmy site
+//  - Sometimes when navigating within a Lemmy site, the content scripts won't run despite the URL matching the pattern. This is a workaround for that. 
 // --------------------------------------
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === "complete") {
-    if (/^https?:\/\/.*\/c\//.test(tab.url)) {
+    if ((/^https?:\/\/.*\/c\//.test(tab.url)) || (/^https?:\/\/.*\/communities/.test(tab.url))) {
+      browser.tabs.executeScript(tabId, { file: "utils.js" })
+      browser.tabs.executeScript(tabId, { file: "content-general.js" })
       browser.tabs.executeScript(tabId, { file: "content-sidebar.js" })
     }
   }
@@ -49,7 +52,7 @@ browser.contextMenus.create({
   id: "lemmy-sidebar",
   title: "Redirect to home instance",
   contexts: ["link"],
-  targetUrlPatterns: ["http://*/c/*", "https://*/c/*", "http://*/p/*", "https://*/p/*"],
+  targetUrlPatterns: ["http://*/c/*", "https://*/c/*", "http://*/p/*", "https://*/p/*", "http://*/m/*", "https://*/m/*"],
 }, () => void browser.runtime.lastError,
 );
 
@@ -57,25 +60,53 @@ browser.contextMenus.create({
 // Set default values on install/update
 // --------------------------------------
 
-function setDefault(condition, settingName, settingValue) {
-  if (condition) {
-    browser.storage.local.set({ [settingName]: settingValue });
-    console.log(`Set default value for ${settingName} to ${settingValue}`);
-  }
-}
-
-browser.runtime.onInstalled.addListener(({ reason }) => {
+browser.runtime.onInstalled.addListener(async ({ reason }) => {
+  // Set default values on install/update
+  // TODO: fix the utils import so we can just use initializeSettingsWithDefaults()
   if (reason === 'install' || reason === 'update') {
-    browser.storage.local.get().then((result) => {
-      // no default set for selectedInstance
-      setDefault(!result.selectedType, 'selectedType', 'lemmy');
-      setDefault(result.settingShowSidebar === undefined, 'settingShowSidebar', true);
-      setDefault(result.settingContextMenu === undefined, 'settingContextMenu', true);
-      setDefault(result.settingCommunityNotFound === undefined, 'settingCommunityNotFound', true);
-      setDefault(result.settingSearchOpenLemmyverse === undefined, 'settingSearchOpenLemmyverse', false);
-    });
+
+    async function backgroundInitializeSettings() {
+
+      const defaultSettings = {
+        hideSidebarLemmy: false,
+        hideSidebarKbin: false,
+        instanceList: [
+          { name: "lemmy.world", url: "https://lemmy.world" },
+          { name: "lemmy.ca", url: "https://lemmy.ca" },
+          { name: "lemmy.one", url: "https://lemmy.one" },
+          { name: "programming.dev", url: "https://programming.dev" },
+          { name: "lemmy.ml", url: "https://lemmy.ml" },
+          { name: "feddit.de", url: "https://feddit.de" },
+          { name: "lemm.ee", url: "https://lemm.ee" },
+          { name: "kbin.social", url: "https://kbin.social" },
+        ],
+        runOnCommunitySidebar: true,
+        runOnCommunityNotFound: true,
+        selectedInstance: '',           // users are forced to set this
+        selectedType: 'lemmy',          // lemmy or kbin
+        theme: 'dark',                  // **NOT IMPLEMENTED YET**
+        toolSearchCommunity_openInLemmyverse: false,
+      };
+
+      let storageAPI = browser.storage.local;
+      let allSettings = await storageAPI.get('settings');
+
+      if (!allSettings || !allSettings.settings) {
+        await storageAPI.set({ 'settings': defaultSettings });
+      } else {
+        for (const settingName of Object.keys(defaultSettings)) {
+          if (!allSettings.settings.hasOwnProperty(settingName)) {
+            allSettings.settings[settingName] = defaultSettings[settingName];
+          }
+        }
+        await storageAPI.set({ 'settings': allSettings.settings });
+      }
+    }
+    await backgroundInitializeSettings();
   }
+  
+  // Open settings page when extension is first installed
   if (reason === 'install') {
-    browser.tabs.create({ url: '../page-settings/settings.html' });
+    browser.tabs.create({ url: 'page-settings/settings.html' });
   }
 });

@@ -6,11 +6,12 @@
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="sidebar.css">
   <script src="../node_modules/webextension-polyfill/dist/browser-polyfill.js"></script>
+  <script src="../utils.js"></script>
   <script src="sidebar.js"></script>
 </head>
 
 <body>
-  <div class="sidebar-header">
+  <div class="page-header">
     <p>
       <b>Home Instance: </b><span id="homeInstance"></span> <br/>
       <b>Lemmy/Kbin: </b><span id="instance-type"></span>
@@ -22,19 +23,22 @@
 
   <button id="btn-redirect-instance" class="button">Open this community in my home instance</button>
 
-  <div class="sidebar-section">
-    <p class="section-header">Helpful Tools</p>
-    <button id="btn-tool-search" class="button sidebar-tools">
-      Search on all instances 
-      <img src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab.">
-    </button>
-    <button id="btn-tool-find-community" class="button sidebar-tools">
-      <span id="explore-community-type"></span>
-      <img src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab.">
-    </button>
+  <div class="page-section">
+    <div class="search-bar-communities" style="display: flex;">
+      <input type="text" id="searchInputCommunities" placeholder="Search for communities">
+      <button id="btn-tool-search-community" class="button page-tools">
+        Search
+      </button>
+    </div>
+    <div class="search-bar-content" style="display: flex;">
+      <input type="text" id="searchInputContent" placeholder="Search for a post">
+      <button id="btn-tool-search-content" class="button page-tools">
+        Search
+      </button>
+    </div>
   </div>
 
-  <div class="sidebar-section">
+  <div class="page-section">
     <p class="section-header">Quick Settings</p>
     <button id="btn-change-instance" class="button">Change my home instance</button>
     <button id="btn-change-type" class="button">
