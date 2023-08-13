@@ -155,7 +155,7 @@ setTimeout(() => {
                 let realInstance = getRealHostname(targetInstance);
     
                 console.log(realInstance)
-
+ 
 
                 let btnAlternateRedirect = createButton('Search in "' + realInstance + '"');
                 btnAlternateRedirect.style.cssText = `
