@@ -16,6 +16,18 @@ function getStorageAPI() {
   return storageAPI;
 }
 
+function getBrowserAPI() {
+  let browserAPI;
+  if (typeof browser !== 'undefined' && browser.storage && browser.storage.local) {
+    browserAPI = browser;
+  } else if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+    browserAPI = chrome;
+  } else {
+    throw new Error('Browser API is not supported in this browser.');
+  }
+  return browserAPI;
+}
+
 function isLoggedInLemmy() {
   // TODO: NOT TESTED
   const loginLink = document.querySelector('a[href="/login"]');
@@ -330,6 +342,29 @@ function toolSearchContentLemmysearch(searchTerm) {
     browser.tabs.create({ url: finalUrl });
   }
 }
+
+// ----------------------------------------------
+//
+// ----------------------------------------------
+
+// Helper functions to post a webpage to a community
+
+// Get the post data from the current tab
+async function p2l_getPostData() {
+  const storageAPI = getBrowserAPI();
+  return new Promise((resolve, reject) => {
+    storageAPI.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+      const activeTab = tabs[0];
+      const postData = {
+        title: activeTab.title,
+        url: activeTab.url
+      };
+      resolve(postData);
+    });
+  });
+}
+
+// Check if a page has already been posted to a community
 
 // ----------------------------------------------
 // ---------- General DOM Manipulation ----------

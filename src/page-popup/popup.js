@@ -72,6 +72,105 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // --------------------------------------------- //
+    // ---------------- Posting Tools -------------- //
+    // --------------------------------------------- //
+
+    // Post to Community
+    const btn_post_to = document.getElementById("btn-tool-post-to");
+
+    btn_post_to.addEventListener("click", async () => {
+      if (await hasSelectedInstance() && await hasSelectedType()) {
+        const type = await getSetting("selectedType");
+        const instance = await getSetting("selectedInstance");
+        const postData = await p2l_getPostData();
+
+        if (type === "lemmy") {
+          const url = instance + "/create_post";
+          const createdTab = await browser.tabs.create({ url: url });
+
+          // Listen for tab updates to check for loading completion
+          browser.tabs.onUpdated.addListener(function listener(tabId, changeInfo) {
+            if (tabId === createdTab.id && changeInfo.status === "complete") {
+              browser.tabs.onUpdated.removeListener(listener); // Remove the listener
+
+              // Fill in form after the tab is fully loaded
+              browser.tabs.executeScript(createdTab.id, {
+                code: 'document.querySelector("#post-title").value = "' + postData.title + '";'
+              });
+
+              browser.tabs.executeScript(createdTab.id, {
+                code: 'document.querySelector("#post-url").value = "' + postData.url + '";'
+              });           
+
+              window.close(); // Close the popup
+            }
+          });
+
+        } else if (type === "kbin") {
+          const url = instance + "/new?url=" + postData.url + "&title=" + postData.title;
+          const createdTab = await browser.tabs.create({ url: url });
+        }
+
+      } else { alert("No valid instance has been set. Please select an instance in the popup using 'Change my home instance'.");}
+    });
+
+    // Check if a post has already been submitted to Lemmyverse
+
+    const btnFindPosts = document.getElementById("btn-tool-find-posts");
+
+    btnFindPosts.addEventListener("click", async () => {
+      if (await hasSelectedInstance() && await hasSelectedType()) {
+        const type = await getSetting("selectedType");
+        const instance = await getSetting("selectedInstance");
+
+        if (type === "lemmy") {
+
+          const queryOptions = { active: true, currentWindow: true };
+          const [tab] = await browser.tabs.query(queryOptions);
+
+          const testURL = tab.url;
+
+          const response = await fetch(instance + "/api/v3/search?q=" + testURL + "&type_=Url");
+          const data = await response.json();
+
+          console.log(data);
+
+          
+
+          if (data.posts.length <= 0) {
+            alert("No posts found for this URL.");
+
+          } else if (data.posts.length === 1) {
+            data.posts.forEach(post => {
+              const post_id = post.counts.post_id;
+              console.log("Post ID:", post_id);
+              browser.tabs.create({ url: instance + "/post/" + post_id });
+            });
+          } else {
+            const openPosts = confirm("Found " + data.posts.length + " posts for this URL. Would you like to open these posts in new tabs?");
+            if (openPosts) {
+              data.posts.forEach(post => {
+                const post_id = post.counts.post_id;
+                console.log("Post ID:", post_id);
+                browser.tabs.create({ url: instance + "/post/" + post_id });
+              });
+            } else { return; }
+
+          }
+        } else if (type === "kbin") {
+          alert("This feature is not yet available for Kbin instances.");
+        }
+      } else { alert("No valid instance has been set. Please select an instance in the popup using 'Change my home instance'."); }
+    });
+
+
+
+
+
+
+
+
+    // --------------------------------------------- //
     // ---------------- Search Tools --------------- //
     // --------------------------------------------- //
 
