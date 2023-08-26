@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
       btnOpenSettings = document.getElementById("btn-open-settings"),
       txtHomeInstance = document.getElementById("homeInstance"),
       txtInstanceType = document.getElementById("instance-type");
+      txtInstanceWarn = document.getElementById("no-instance-warning");
 
     // ---------------------------------------------------------
     // ------------------- Setup Display -----------------------
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     txtHomeInstance.textContent = selectedInstance ? selectedInstance : "unknown";
     txtInstanceType.textContent = selectedType ? selectedType : "unknown";
+    txtInstanceWarn.textContent = selectedInstance ? "" : "No instance selected. Please select an instance in the popup using 'Change my home instance'.";
 
     let lemmyInstances = await getSetting("instanceList");
 
@@ -75,22 +77,38 @@ document.addEventListener("DOMContentLoaded", function () {
     // ---------------- Posting Tools -------------- //
     // --------------------------------------------- //
 
-    // Prepare post data
+    let txtNumPosts = document.getElementById("btn-tool-num-posts");
+    const btn_post_to = document.getElementById("btn-tool-post-to");
+    const btnOpenPosts = document.getElementById("btn-tool-open-posts");
+    let lemmyPostData = { posts: [] }
 
-    const queryOptions = { active: true, currentWindow: true };
-    const [tab] = await browser.tabs.query(queryOptions);
-    const testURL = tab.url;
-    const lemmyPostResponse_URL = await fetch(selectedInstance + "/api/v3/search?q=" + testURL + "&type_=Url");
-    const lemmyPostResponse_BODY = await fetch(selectedInstance + "/api/v3/search?q=" + testURL + "&type_=All");
-    let lemmyPostData = await lemmyPostResponse_URL.json() 
-    // TODO: Add Kbin support
+    txtNumPosts.textContent = "0";
+    
+    // Get posts with current URL
+    async function getPostsWithURL() {
+      const queryOptions = { active: true, currentWindow: true };
+      const [tab] = await browser.tabs.query(queryOptions);
+      const testURL = tab.url;
+      const searchURL = selectedInstance + "/api/v3/search?q=" + testURL;
+      const [lemmyPostResponse_URL, lemmyPostResponse_BODY] = await Promise.all([
+        fetch(searchURL + "&type_=Url"),
+        fetch(searchURL + "&type_=All")
+      ]);
+      lemmyPostData = {
+        posts: [
+          ...(await lemmyPostResponse_URL.json()).posts,
+          ...(await lemmyPostResponse_BODY.json()).posts
+        ]
+      };
+      return lemmyPostData;
+    }
 
-    // Count the number of posts matching URL
-    const txtNumPosts = document.getElementById("btn-tool-num-posts");
-    txtNumPosts.textContent = lemmyPostData.posts.length;
+    await getPostsWithURL();
+
+    txtNumPosts.textContent = lemmyPostData.posts.length ? lemmyPostData.posts.length : 0;
 
     // Post to Community
-    const btn_post_to = document.getElementById("btn-tool-post-to");
+    
     btn_post_to.addEventListener("click", async () => {
       if (await hasSelectedInstance() && await hasSelectedType()) {
         const type = await getSetting("selectedType");
@@ -128,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Check if a post has already been submitted to Lemmyverse
-    const btnOpenPosts = document.getElementById("btn-tool-open-posts");
+    
     btnOpenPosts.addEventListener("click", async () => {
       if (await hasSelectedInstance() && await hasSelectedType()) {
         if (selectedType === "lemmy") {
@@ -173,6 +191,8 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault(); // Prevent default form submission behavior
         performSearchCommunities();
       }
+      // close popup
+      window.close();
     });
 
     // Search content with Lemmy-Search

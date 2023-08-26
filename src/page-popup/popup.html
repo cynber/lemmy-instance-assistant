@@ -21,9 +21,14 @@
     </button>
   </div>
 
+  <div class="no-instance-warning">
+    <span id="no-instance-warning"></span>
+  </div>
+
   <button id="btn-redirect-instance" class="button">Open this community in my home instance</button>
 
   <div class="page-section">
+    <p class="section-header"> Search for posts and communities</p>
     <div class="search-bar-communities" style="display: flex;">
       <input type="text" id="searchInputCommunities" placeholder="Search for communities">
       <button id="btn-tool-search-community" class="button page-tools">
@@ -40,13 +45,21 @@
 
   <div class="page-section">
     <p class="section-header">We found <span id="btn-tool-num-posts"></span> posts about this page.</p>
-    <button id="btn-tool-post-to" class="button page-tools">
-      Make a post
-    </button>
-    <button id="btn-tool-open-posts" class="button page-tools">
-      Open posts
-    </button>
-    <p style="margin-top: 10px;"><b>note:</b> This tool is experimental. (<a href="https://lemmy.ca/c/instance_assistant">read more</a>)</p>
+    <p class="subtle-text">This section is experimental (<a href="https://lemmy.ca/c/instance_assistant">read more</a>).</p>
+
+
+
+    <div style="display: flex; align-items: center;">
+      <button id="btn-tool-post-to" class="button page-tools">
+        Make a post
+      </button>
+      <button id="btn-tool-open-posts" class="button page-tools" style="margin-left: 10px;">
+        Open posts
+      </button>
+    </div>
+  
+
+
   </div>
 
   <div class="page-section">
@@ -56,8 +69,8 @@
       Toggle home instance type
       <span class="info-icon" title="Press to toggle between Lemmy (default) or Kbin.">&#9432;</span>
     </button>
-    <p>Copy an address to quickly switch instances! TIP: You can modify this list in the settings</p>
     <ul id="instance-list"></ul>
+    <p class="subtle-text">TIP: You can modify this list in SETTINGS</p>
   </div>
 
 </body>
