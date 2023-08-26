@@ -20,6 +20,7 @@
 body {
   width: 400px;
   min-height: 150px;
+  padding-bottom: 1px;
 }
 
 .subtle-text {
@@ -48,7 +49,7 @@ body {
   border-radius: 5px;
 }
 
-.section-header {
+.section-header-text {
   margin: 0px 0px 5px 0px;
   padding: 0px 0px 0px 0px;
   color: var(--color-text);
@@ -166,8 +167,7 @@ body {
 }
 
 ul#instance-list {
-  margin-bottom: -2px;
-  margin-top: 5px;
+  margin: 5px 0px 0px 0px;
   list-style-type: none;
   padding-left: 0;
   columns: 2;
@@ -180,7 +180,7 @@ ul#instance-list {
   color: var(--color-text);
   padding: .375rem .75rem;
   padding-left: 36px;
-  margin: 5px;
+  margin: 3px;
   width: 95%;
   border: 2px;
   border-radius: 5px;

@@ -191,8 +191,6 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault(); // Prevent default form submission behavior
         performSearchCommunities();
       }
-      // close popup
-      window.close();
     });
 
     // Search content with Lemmy-Search

@@ -13,7 +13,7 @@
 <body>
   <div class="page-header">
     <p>
-      <b>Home Instance: </b><span id="homeInstance"></span> <br/>
+      <b>Home Instance: </b><span id="homeInstance"></span> <br />
       <b>Lemmy/Kbin: </b><span id="instance-type"></span>
     </p>
     <button id="btn-open-settings" class="button btn-settings" style="width: auto;">
@@ -28,7 +28,19 @@
   <button id="btn-redirect-instance" class="button">Open this community in my home instance</button>
 
   <div class="page-section">
-    <p class="section-header"> Search for posts and communities</p>
+    <p class="section-header-text">We found <span id="btn-tool-num-posts"></span> posts about this page.</p>
+    <div style="display: flex; align-items: center;">
+      <button id="btn-tool-post-to" class="button page-tools">
+        Make a post
+      </button>
+      <button id="btn-tool-open-posts" class="button page-tools" style="margin-left: 10px;">
+        Open posts
+      </button>
+    </div>
+    <p class="subtle-text">This section is experimental (<a href="https://lemmy.ca/c/instance_assistant">read more</a>).</p>
+  </div>
+
+  <div class="page-section">
     <div class="search-bar-communities" style="display: flex;">
       <input type="text" id="searchInputCommunities" placeholder="Search for communities">
       <button id="btn-tool-search-community" class="button page-tools">
@@ -44,26 +56,9 @@
   </div>
 
   <div class="page-section">
-    <p class="section-header">We found <span id="btn-tool-num-posts"></span> posts about this page.</p>
-    <p class="subtle-text">This section is experimental (<a href="https://lemmy.ca/c/instance_assistant">read more</a>).</p>
-
-
-
-    <div style="display: flex; align-items: center;">
-      <button id="btn-tool-post-to" class="button page-tools">
-        Make a post
-      </button>
-      <button id="btn-tool-open-posts" class="button page-tools" style="margin-left: 10px;">
-        Open posts
-      </button>
+    <div class="section-header">
+      <p class="section-header-text">Quick Settings</p>
     </div>
-  
-
-
-  </div>
-
-  <div class="page-section">
-    <p class="section-header">Quick Settings</p>
     <button id="btn-change-instance" class="button">Change my home instance</button>
     <button id="btn-change-type" class="button">
       Toggle home instance type
