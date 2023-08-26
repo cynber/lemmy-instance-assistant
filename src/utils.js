@@ -344,12 +344,13 @@ function toolSearchContentLemmysearch(searchTerm) {
 }
 
 // ----------------------------------------------
-//
+// -------------  Posting Tools  ----------------
 // ----------------------------------------------
 
 // Helper functions to post a webpage to a community
 
 // Get the post data from the current tab
+// - returns { title: "title", url: "url" }
 async function p2l_getPostData() {
   const storageAPI = getBrowserAPI();
   return new Promise((resolve, reject) => {
@@ -363,8 +364,6 @@ async function p2l_getPostData() {
     });
   });
 }
-
-// Check if a page has already been posted to a community
 
 // ----------------------------------------------
 // ---------- General DOM Manipulation ----------
