@@ -126,7 +126,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
               // Fill in form after the tab is fully loaded
               browser.tabs.executeScript(createdTab.id, {
-                code: 'document.querySelector("#post-title").value = "' + postData.title + '";'
+                code: `
+                const EVENT_OPTIONS = {bubbles: true, cancelable: false, composed: true};
+                const EVENTS = {
+                    BLUR: new Event("blur", EVENT_OPTIONS),
+                    CHANGE: new Event("change", EVENT_OPTIONS),
+                    INPUT: new Event("input", EVENT_OPTIONS),
+                };
+
+                const postTitleInput = document.querySelector("#post-title");
+                postTitleInput.select();
+                postTitleInput.value = "${postData.title}";
+                postTitleInput.dispatchEvent(EVENTS.INPUT);
+              `
               });
 
               browser.tabs.executeScript(createdTab.id, {
