@@ -49,6 +49,10 @@ body {
   border-radius: 5px;
 }
 
+.page-section:last-child {
+  margin-bottom: 2rem;
+}
+
 .section-header-text {
   margin: 0px 0px 5px 0px;
   padding: 0px 0px 0px 0px;

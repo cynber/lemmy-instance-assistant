@@ -115,10 +115,14 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     const websiteListTextArea = document.getElementById('instance-list');
     const websiteListText = websiteListTextArea.value.trim();
-    const websitesArray = websiteListText.split('\n').map(line => {
-      const [name, url] = line.split(',').map(item => item.trim());
-      return { name, url };
-    });
+    const websitesArray = websiteListText
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line !== "")
+      .map(line => {
+        const [name, url] = line.split(',').map(item => item.trim());
+        return { name, url };
+      });
 
     // Store values to local storage
     await setSetting('selectedInstance', instanceValue);
