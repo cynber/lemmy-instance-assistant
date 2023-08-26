@@ -4,7 +4,11 @@
 // --------------------------------------
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === "complete") {
-    if ((/^https?:\/\/.*\/c\//.test(tab.url)) || (/^https?:\/\/.*\/communities/.test(tab.url))) {
+    if (
+      /^https?:\/\/.*\/c\//.test(tab.url) ||
+      /^https?:\/\/.*\/communities\//.test(tab.url) ||
+      /^https?:\/\/.*\/post\//.test(tab.url)
+    ) {
       browser.tabs.executeScript(tabId, { file: "utils.js" })
       browser.tabs.executeScript(tabId, { file: "content-general.js" })
       browser.tabs.executeScript(tabId, { file: "content-sidebar.js" })

@@ -7,7 +7,11 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     return undefined;
   }
   if (changeInfo.status === "complete") {
-    if ((/^https?:\/\/.*\/c\//.test(tab.url)) || (/^https?:\/\/.*\/communities/.test(tab.url))) {
+    if (
+      /^https?:\/\/.*\/c\//.test(tab.url) ||
+      /^https?:\/\/.*\/communities\//.test(tab.url) ||
+      /^https?:\/\/.*\/post\//.test(tab.url)
+    ) {
       chrome.scripting.executeScript({
         target: { tabId: tabId },
         files: ["utils.js","content-sidebar.js", "content-general.js"]

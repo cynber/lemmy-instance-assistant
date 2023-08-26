@@ -308,6 +308,10 @@ async function getCommunityRedirectURL(oldURL) {
   return newURL;
 }
 
+async function getPostRedirectURL(oldURL) {
+  return oldURL;
+}
+
 // TODO: set up error handling to check the URL
 
 // ----------------------------------------------

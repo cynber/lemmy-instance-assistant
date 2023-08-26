@@ -2,12 +2,9 @@
 // Injects buttons and links into the sidebar of Lemmy communities and posts.  //
 // =========================================================================== //
 
-console.log("content-sidebar.js loaded");
-console.log("is Photon: " + isLemmyPhoton())
-console.log("is Alexandrite: " + isLemmyAlexandrite())
-
 setTimeout(() => {
     if (isLemmyCommunity(window.location.href) ||
+        isLemmyPost(window.location.href) ||
         isKbinCommunity(window.location.href) ||
         isLemmyPhoton() ||
         isLemmyAlexandrite()) {
@@ -138,10 +135,10 @@ setTimeout(() => {
                 margin: 0.5rem -1rem 0.5rem 0rem;
                 `;
 
-            let btnToPostLemmy = createButton('Open post in my home instance');
+            let btnToPostLemmy = createButton('Open in my home instance');
             btnToPostLemmy.style.cssText = `
             padding: .375rem .75rem;
-            margin: 1rem 0rem 0rem 0rem;
+            margin: 1rem 0rem .5rem 0rem;
             width: 100%;
             border: none;
             border-radius: 5px;
@@ -164,8 +161,10 @@ setTimeout(() => {
             // ---------- Set up functions ---------- //
             if (isKbinCommunity(window.location.href)) {
                 TARGET_ELEMENT = document.querySelector('.section.intro') || document.querySelector('#sidebar .magazine .row');
-            } else if (isLemmyCommunity(window.location.href) || isLemmyPost(window.location.href)) {
+            } else if (isLemmyCommunity(window.location.href)) {
                 TARGET_ELEMENT = document.querySelector('.card-body');
+            } else if (isLemmyPost(window.location.href)) {
+                TARGET_ELEMENT = document.querySelector('#sidebarMain').children[0];
             } else if (isLemmyPhoton()) {
                 TARGET_ELEMENT = document.querySelector('.hidden.xl\\:block aside').children[2];
             } else if (isLemmyAlexandrite()) {
@@ -173,12 +172,41 @@ setTimeout(() => {
             }
 
             const canRedirect = await hasSelectedInstance();
-            const redirectURL = await getCommunityRedirectURL(window.location.href);
+            let redirectURL = '';
+
+            if (!isLemmyPost(window.location.href)) {
+                const redirectURL = await getCommunityRedirectURL(window.location.href);
+            } else {
+                const redirectURL = await getPostRedirectURL(window.location.href);
+            }
 
             // --------- Add Event Listeners -------- //
             btnRedirectLemmy.addEventListener('click', () => {
                 if (canRedirect) {
                     window.location.href = redirectURL;
+                } else { alert('No valid instance has been set.') }
+            });
+
+            btnToPostLemmy.addEventListener('click', () => {
+                if (canRedirect) {
+
+
+                    // from the meta, get the title
+                    // search this instance with that title, then filter the results withthe post ID, and pass that post object to the next function
+
+                    // next function will run a new search. It will search in the home instance using the title, and then filter the results with the other values from the post object
+
+                    const postId = (window.location.pathname).split('/post/')[1];
+
+                    const searchURLPrefix = 'https://' + (window.location.hostname) + "/api/v3/search?q=" + postId + "&sort=hot";
+
+                    console.log(searchURLPrefix);
+
+
+
+
+
+
                 } else { alert('No valid instance has been set.') }
             });
 
@@ -209,6 +237,11 @@ setTimeout(() => {
                     TARGET_ELEMENT.appendChild(txtHomeInstance);
                     TARGET_ELEMENT.appendChild(txtChangeInstance);
                 }
+                //if (isLemmyPost(pageURL)) {
+                //    TARGET_ELEMENT.appendChild(btnToPostLemmy);
+                //    TARGET_ELEMENT.appendChild(txtHomeInstance);
+                //    TARGET_ELEMENT.appendChild(txtChangeInstance);
+                //}
                 if (isKbinCommunity(pageURL)) {
                     TARGET_ELEMENT.appendChild(btnRedirectKbin);
                     TARGET_ELEMENT.appendChild(txtHomeInstance);
