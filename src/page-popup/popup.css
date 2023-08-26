@@ -30,6 +30,13 @@ body {
   margin: 3px 0px 1px 0px;
 }
 
+.no-instance-warning {
+  font-size: 0.8rem;
+  color: red;
+  padding: 5px;
+  text-align: center;
+}
+
 .page-header {
   display: flex;
   margin: 0px 0px 10px 0px;
