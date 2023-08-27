@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } else if (type === "kbin") {
           const url = instance + "/new?url=" + postData.url + "&title=" + postData.title;
-          const createdTab = await browser.tabs.create({ url: url });
+          await browser.tabs.create({ url: url });
         }
 
       } else { alert("No valid instance has been set. Please select an instance in the popup using 'Change my home instance'.");}
