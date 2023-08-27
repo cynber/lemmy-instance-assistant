@@ -135,7 +135,7 @@ setTimeout(() => {
                 margin: 0.5rem -1rem 0.5rem 0rem;
                 `;
 
-            let btnToPostLemmy = createButton('Open in my home instance');
+            let btnToPostLemmy = createButton('Find in my home instance');
             btnToPostLemmy.style.cssText = `
             padding: .375rem .75rem;
             margin: 1rem 0rem .5rem 0rem;
@@ -175,9 +175,9 @@ setTimeout(() => {
             let redirectURL = '';
 
             if (!isLemmyPost(window.location.href)) {
-                const redirectURL = await getCommunityRedirectURL(window.location.href);
+                redirectURL = await getCommunityRedirectURL(window.location.href);
             } else {
-                const redirectURL = await getPostRedirectURL(window.location.href);
+                redirectURL = await getPostRedirectURL(window.location.href);
             }
 
             // --------- Add Event Listeners -------- //
@@ -187,20 +187,55 @@ setTimeout(() => {
                 } else { alert('No valid instance has been set.') }
             });
 
-            btnToPostLemmy.addEventListener('click', () => {
+            btnToPostLemmy.addEventListener('click', async () => {
                 if (canRedirect) {
+
+                    const og_instance = (window.location.href).split('/post/')[0];
+                    const postId = (window.location.pathname).split('/post/')[1];
+
+                    let og_communityName = '';
+                    let og_creatorName = '';
+                    let og_title = '';
+                    let og_url = '';
+
+                    const options = { method: 'GET', headers: { accept: 'application/json' } };
+                    fetch(og_instance+'/api/v3/post?id=' + postId, options)
+                        .then(response => response.json())
+                        .then(apiResponse => {
+                            og_communityName = apiResponse.post_view.community.name;
+                            og_creatorName = apiResponse.post_view.creator.name;
+                            og_title = apiResponse.post_view.post.name;
+                            og_url = apiResponse.post_view.post.url;
+
+                            fetch('https://lemmy.ca/api/v3/search?q='+encodeURIComponent(og_title)+'&type_=Posts', options)
+                                .then(response => response.json())
+                                .then(apiResponse => {
+
+                                    let filteredPosts = apiResponse.posts.filter(post =>
+                                        post.community.name === og_communityName &&
+                                        post.creator.name === og_creatorName &&
+                                        post.post.name === og_title
+                                    );
+
+                                    if (filteredPosts.length > 0) {
+                                        const newPostId = filteredPosts[0].post.id;
+                                        window.location.href = selectedInstance + '/post/' + newPostId;
+                                    } else {
+                                        alert("Post not found in home instance");
+                                    }
+                                })
+                                .catch(err => console.error(err));
+                        })
+                        .catch(err => console.error(err));
+
+
+                    
 
 
                     // from the meta, get the title
                     // search this instance with that title, then filter the results withthe post ID, and pass that post object to the next function
 
                     // next function will run a new search. It will search in the home instance using the title, and then filter the results with the other values from the post object
-
-                    const postId = (window.location.pathname).split('/post/')[1];
-
-                    const searchURLPrefix = 'https://' + (window.location.hostname) + "/api/v3/search?q=" + postId + "&sort=hot";
-
-                    console.log(searchURLPrefix);
 
 
 
@@ -237,11 +272,11 @@ setTimeout(() => {
                     TARGET_ELEMENT.appendChild(txtHomeInstance);
                     TARGET_ELEMENT.appendChild(txtChangeInstance);
                 }
-                //if (isLemmyPost(pageURL)) {
-                //    TARGET_ELEMENT.appendChild(btnToPostLemmy);
-                //    TARGET_ELEMENT.appendChild(txtHomeInstance);
-                //    TARGET_ELEMENT.appendChild(txtChangeInstance);
-                //}
+                if (isLemmyPost(pageURL)) {
+                    TARGET_ELEMENT.appendChild(btnToPostLemmy);
+                    TARGET_ELEMENT.appendChild(txtHomeInstance);
+                    TARGET_ELEMENT.appendChild(txtChangeInstance);
+                }
                 if (isKbinCommunity(pageURL)) {
                     TARGET_ELEMENT.appendChild(btnRedirectKbin);
                     TARGET_ELEMENT.appendChild(txtHomeInstance);
