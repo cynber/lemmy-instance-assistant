@@ -220,6 +220,13 @@ setTimeout(() => {
                                     if (filteredPosts.length > 0) {
                                         const newPostId = filteredPosts[0].post.id;
                                         window.location.href = selectedInstance + '/post/' + newPostId;
+                                    } else if (apiResponse.posts.length > 1) {
+                                        const approveOpen = confirm(apiResponse.posts.length+' matching posts were found. Do you want to open them all?');
+                                        if (approveOpen) {
+                                            apiResponse.posts.forEach(post => {
+                                                window.open(selectedInstance + '/post/' + post.post.id);
+                                            });
+                                        }
                                     } else {
                                         alert("Post not found in home instance");
                                     }
@@ -227,21 +234,6 @@ setTimeout(() => {
                                 .catch(err => console.error(err));
                         })
                         .catch(err => console.error(err));
-
-
-                    
-
-
-                    // from the meta, get the title
-                    // search this instance with that title, then filter the results withthe post ID, and pass that post object to the next function
-
-                    // next function will run a new search. It will search in the home instance using the title, and then filter the results with the other values from the post object
-
-
-
-
-
-
                 } else { alert('No valid instance has been set.') }
             });
 
