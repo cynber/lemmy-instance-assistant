@@ -135,15 +135,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 };
 
                 const postTitleInput = document.querySelector("#post-title");
+                const postURLInput = document.querySelector("#post-url");
+
                 postTitleInput.select();
                 postTitleInput.value = "${postData.title}";
                 postTitleInput.dispatchEvent(EVENTS.INPUT);
-              `
-              });
 
-              browser.tabs.executeScript(createdTab.id, {
-                code: 'document.querySelector("#post-url").value = "' + postData.url + '";'
-              });           
+                postURLInput.select();
+                postURLInput.value = "${postData.url}";
+                postURLInput.dispatchEvent(EVENTS.INPUT);
+              `
+              });         
 
               window.close(); // Close the popup
             }
