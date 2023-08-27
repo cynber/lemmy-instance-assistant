@@ -151,12 +151,22 @@ document.addEventListener("DOMContentLoaded", function () {
           };
           if (lemmyPostData.posts.length <= 0) {
             alert("No posts found for this URL.");
-          } else {
+          } else if (lemmyPostData.posts.length === 1) {
             lemmyPostData.posts.forEach(post => {
               const post_id = post.counts.post_id;
               console.log("Post ID:", post_id);
               browser.tabs.create({ url: selectedInstance + "/post/" + post_id });
             });
+          } else if (lemmyPostData.posts.length > 1) {
+            // tell user how many posts there are and ask if it's ok to open them
+            const confirmOpen = confirm("There are " + lemmyPostData.posts.length + " posts for this URL. Open them all?");
+            if (confirmOpen) {
+              lemmyPostData.posts.forEach(post => {
+                const post_id = post.counts.post_id;
+                console.log("Post ID:", post_id);
+                browser.tabs.create({ url: selectedInstance + "/post/" + post_id });
+              });
+            }
           }
         } else if (selectedType === "kbin") {
           alert("This feature is not yet available for Kbin instances.");
