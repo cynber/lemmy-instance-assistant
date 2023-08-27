@@ -77,38 +77,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // ---------------- Posting Tools -------------- //
     // --------------------------------------------- //
 
-    let txtNumPosts = document.getElementById("btn-tool-num-posts");
     const btn_post_to = document.getElementById("btn-tool-post-to");
     const btnOpenPosts = document.getElementById("btn-tool-open-posts");
-    let lemmyPostData = { posts: [] }
-
-    txtNumPosts.textContent = "0";
-    
-    // Get posts with current URL
-    async function getPostsWithURL() {
-      const queryOptions = { active: true, currentWindow: true };
-      const [tab] = await browser.tabs.query(queryOptions);
-      const testURL = tab.url;
-      const searchURL = selectedInstance + "/api/v3/search?q=" + testURL;
-      const [lemmyPostResponse_URL, lemmyPostResponse_BODY] = await Promise.all([
-        fetch(searchURL + "&type_=Url"),
-        fetch(searchURL + "&type_=All")
-      ]);
-      lemmyPostData = {
-        posts: [
-          ...(await lemmyPostResponse_URL.json()).posts,
-          ...(await lemmyPostResponse_BODY.json()).posts
-        ]
-      };
-      return lemmyPostData;
-    }
-
-    await getPostsWithURL();
-
-    txtNumPosts.textContent = lemmyPostData.posts.length ? lemmyPostData.posts.length : 0;
 
     // Post to Community
-    
     btn_post_to.addEventListener("click", async () => {
       if (await hasSelectedInstance() && await hasSelectedType()) {
         const type = await getSetting("selectedType");
@@ -159,11 +131,24 @@ document.addEventListener("DOMContentLoaded", function () {
       } else { alert("No valid instance has been set. Please select an instance in the popup using 'Change my home instance'.");}
     });
 
-    // Check if a post has already been submitted to Lemmyverse
-    
+    // Open posts from home instance
     btnOpenPosts.addEventListener("click", async () => {
       if (await hasSelectedInstance() && await hasSelectedType()) {
         if (selectedType === "lemmy") {
+          const queryOptions = { active: true, currentWindow: true };
+          const [tab] = await browser.tabs.query(queryOptions);
+          const testURL = tab.url;
+          const searchURL = selectedInstance + "/api/v3/search?q=" + testURL;
+          const [lemmyPostResponse_URL, lemmyPostResponse_BODY] = await Promise.all([
+            fetch(searchURL + "&type_=Url"),
+            fetch(searchURL + "&type_=All")
+          ]);
+          lemmyPostData = {
+            posts: [
+              ...(await lemmyPostResponse_URL.json()).posts,
+              ...(await lemmyPostResponse_BODY.json()).posts
+            ]
+          };
           if (lemmyPostData.posts.length <= 0) {
             alert("No posts found for this URL.");
           } else {

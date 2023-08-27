@@ -28,7 +28,9 @@
   <button id="btn-redirect-instance" class="button">Open this community in my home instance</button>
 
   <div class="page-section">
-    <p class="section-header-text">We found <span id="btn-tool-num-posts"></span> posts about this page.</p>
+    <div class="section-header">
+      <p class="section-header-text">Posts related to this webpage</p>
+    </div>
     <div style="display: flex; align-items: center;">
       <button id="btn-tool-post-to" class="button page-tools">
         Make a post
@@ -37,7 +39,7 @@
         Open posts
       </button>
     </div>
-    <p class="subtle-text">This section is experimental (<a href="https://lemmy.ca/c/instance_assistant">read more</a>).</p>
+    <p class="subtle-text">'Open posts' will pull from your home instance (<a href="https://github.com/cynber/lemmy-instance-assistant/wiki#potential-risks-with-open-posts" class="subtle-text">potential risks</a>)</p>
   </div>
 
   <div class="page-section">
@@ -65,7 +67,7 @@
       <span class="info-icon" title="Press to toggle between Lemmy (default) or Kbin.">&#9432;</span>
     </button>
     <ul id="instance-list"></ul>
-    <p class="subtle-text">TIP: You can modify this list in SETTINGS</p>
+    <p class="subtle-text">You can modify this list in SETTINGS</p>
   </div>
 
 </body>
