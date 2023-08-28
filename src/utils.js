@@ -105,6 +105,7 @@ const defaultSettings = {
   ],
   runOnCommunitySidebar: true,
   runOnCommunityNotFound: true,
+  hideHelp: false,
   selectedInstance: '',           // users are forced to set this
   selectedType: 'lemmy',          // lemmy or kbin
   theme: 'dark',                  // **NOT IMPLEMENTED YET**

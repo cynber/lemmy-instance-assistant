@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   // const hideSidebarKbinCheckbox = document.getElementById('hideSidebarKbin');
   const showSidebarCheckbox = document.getElementById('showSidebarButtons');
   const showCommunityNotFoundCheckbox = document.getElementById('showCommunityNotFound');
+  const hideHelpCheckbox = document.getElementById('hideHelp');
   const searchOpenLemmyverseCheckbox = document.getElementById('searchOpenLemmyverse');
   const instanceListTextArea = document.getElementById('instance-list');
 
@@ -38,6 +39,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       // hideSidebarKbinCheckbox.checked = allSettings.hideSidebarKbin;
       showSidebarCheckbox.checked = allSettings.runOnCommunitySidebar;
       showCommunityNotFoundCheckbox.checked = allSettings.runOnCommunityNotFound;
+      hideHelpCheckbox.checked = allSettings.hideHelp;
       searchOpenLemmyverseCheckbox.checked = allSettings.toolSearchCommunity_openInLemmyverse;
       instanceListTextArea.value = allSettings.instanceList.map(item => `${item.name}, ${item.url}`).join('\n');
     } catch (error) {
@@ -102,6 +104,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     // const hideSidebarKbin = hideSidebarKbinCheckbox.checked;
     const toggleShowSidebarButtons = showSidebarCheckbox.checked;
     const toggleShowCommunityNotFound = showCommunityNotFoundCheckbox.checked;
+    const toggleHideHelp = hideHelpCheckbox.checked;
     const toggleSearchOpenLemmyverse = searchOpenLemmyverseCheckbox.checked;
 
     // Validation check
@@ -131,6 +134,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     // await setSetting('hideSidebarKbin', hideSidebarKbin);
     await setSetting('runOnCommunitySidebar', toggleShowSidebarButtons);
     await setSetting('runOnCommunityNotFound', toggleShowCommunityNotFound);
+    await setSetting('hideHelp', toggleHideHelp);
     await setSetting('toolSearchCommunity_openInLemmyverse', toggleSearchOpenLemmyverse);
     await setSetting('instanceList', websitesArray);
 
