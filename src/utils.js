@@ -243,6 +243,16 @@ function isLemmyAlexandrite() {
   return !!document.querySelector('div.sx-stack.f-row.gap-1.align-items-center.mx-4.sx-badge-gray.sx-font-size-2 a[href="https://github.com/sheodox/alexandrite"]');
 }
 
+function isLemmyPhotonPost(sourceURL) {
+  const CURRENT_PATH = new URL(sourceURL).pathname;
+  return (isLemmyPhoton() && CURRENT_PATH.includes("/post/"))
+}
+
+function isLemmyAlexandritePost(sourceURL) {
+  const CURRENT_PATH = new URL(sourceURL).pathname;
+  return (isLemmyAlexandrite() && CURRENT_PATH.includes("/post/"))
+}
+
 function mayBeFrontend(testURL) {
   let testURLHost = testURL;
 

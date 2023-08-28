@@ -174,10 +174,11 @@ setTimeout(() => {
       const canRedirect = await hasSelectedInstance();
       let redirectURL = '';
 
-      if (!isLemmyPost(window.location.href)) {
-        redirectURL = await getCommunityRedirectURL(window.location.href);
+      if (isLemmyPost(window.location.href) || isLemmyPhotonPost(window.location.href) || isLemmyAlexandritePost(window.location.href)) {
+        // this function doesn't actually get used yet
+        // redirectURL = await getPostRedirectURL(window.location.href);
       } else {
-        redirectURL = await getPostRedirectURL(window.location.href);
+        redirectURL = await getCommunityRedirectURL(window.location.href);
       }
 
       // --------- Add Event Listeners -------- //
@@ -207,7 +208,7 @@ setTimeout(() => {
               og_title = apiResponse.post_view.post.name;
               og_url = apiResponse.post_view.post.url;
 
-              fetch('https://lemmy.ca/api/v3/search?q=' + encodeURIComponent(og_title) + '&type_=Posts', options)
+              fetch(selectedInstance + 'api/v3/search?q=' + encodeURIComponent(og_title) + '&type_=Posts', options)
                 .then(response => response.json())
                 .then(apiResponse => {
 
@@ -282,6 +283,11 @@ setTimeout(() => {
             TARGET_ELEMENT.appendChild(containerRedirectLemmyPhoton);
           }
         }
+        //if (isLemmyPhotonPost(pageURL)) {
+        //  TARGET_ELEMENT.appendChild(btnToPostLemmy);
+        //  TARGET_ELEMENT.appendChild(txtHomeInstance);
+        //  TARGET_ELEMENT.appendChild(txtChangeInstance);
+        //}
         if (isLemmyAlexandrite()) {
           if (!document.querySelector('#instance-assistant-sidebar')) {
             containerRedirectLemmyAlexandrite.appendChild(btnRedirectLemmyAlexandrite);
@@ -290,6 +296,11 @@ setTimeout(() => {
             TARGET_ELEMENT.appendChild(containerRedirectLemmyAlexandrite);
           }
         }
+        //if (isLemmyAlexandritePost(pageURL)) {
+        //  TARGET_ELEMENT.appendChild(btnToPostLemmy);
+        //  TARGET_ELEMENT.appendChild(txtHomeInstance);
+        //  TARGET_ELEMENT.appendChild(txtChangeInstance);
+        //}
       }
     }
     loadSelectedInstance();
