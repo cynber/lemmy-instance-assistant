@@ -198,7 +198,7 @@ function isLemmyCommunityWEAK(sourceURL) {
 
 function isLemmyPost(sourceURL) {
   const CURRENT_PATH = new URL(sourceURL).pathname;
-  return (isLemmySite() && CURRENT_PATH.includes("/post/"))
+  return (isLemmySite() && (CURRENT_PATH.includes("/post/")))
 }
 
 function isLemmyLoadOtherInstance(sourceURL) {
@@ -225,6 +225,11 @@ function isKbinCommunityWEAK(sourceURL) {
   // For when you can't check the meta tag, like when only the URL is available
   const CURRENT_PATH = new URL(sourceURL).pathname;
   return (CURRENT_PATH.includes("/m/"))
+}
+
+function isKbinPost(sourceURL) {
+  const CURRENT_PATH = new URL(sourceURL).pathname;
+  return (isKbinSite() && (CURRENT_PATH.includes("/t/")))
 }
 
 // -------------- Other Frontends ---------------
@@ -278,9 +283,14 @@ function getRealHostname(testURL) {
   } catch (error) {
     // Input is not a valid URL, use it as is
   }
+  // check if testURLHost contains > 1 dot
 
-  const hostParts = testURLHost.split('.');
-  return hostParts.slice(1).join('.');
+  if (testURLHost.split('.').length > 2) {
+    const hostParts = testURLHost.split('.');
+    return hostParts.slice(1).join('.');
+  } else {
+    return testURLHost;
+  }
 }
 
 
@@ -346,6 +356,62 @@ async function toggleInstanceType() {
   const newType = currentType === "lemmy" ? "kbin" : "lemmy";
   await setSetting("selectedType", newType);
 }
+
+// INPUT: instance URL (string), post ID (string)
+// OUTPUT: post object (JSON)
+async function fetchPostFromID(instance, postID) {
+  console.log("fetch request:", instance + '/api/v3/post?id=' + postID)
+  const options = { method: 'GET', headers: { accept: 'application/json' } };
+  try {
+    const response = await fetch(instance + '/api/v3/post?id=' + postID, options);
+    const apiResponse = await response.json();
+    return apiResponse.post_view;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// INPUT: instance URL (string), post title (string)
+// OUTPUT: post search results (JSON)
+async function fetchPostsFromTitle(instance, postTitle) {
+  console.log("fetch request:", instance + '/api/v3/search?q=' + encodeURIComponent(postTitle) + '&type_=Posts');
+  const options = { method: 'GET', headers: { accept: 'application/json' } };
+  try {
+    console.log("fetch request:", instance + '/api/v3/search?q=' + encodeURIComponent(postTitle) + '&type_=Posts');
+    const response = await fetch(instance + '/api/v3/search?q=' + encodeURIComponent(postTitle) + '&type_=Posts', options);
+    const apiResponse = await response.json();
+    return apiResponse.posts;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// INPUT: post object (JSON), post search results (JSON)
+// OUTPUT: filtered post search results (JSON)
+async function filterPostsByPost(testPost, inputPosts) {
+  const og_communityName = testPost.community.name;
+  const og_creatorName = testPost.creator.name;
+  const og_title = testPost.post.name;
+  const og_url = testPost.post.url;
+
+  let filteredPosts = inputPosts.filter(post =>
+    post.community.name === og_communityName &&
+    post.creator.name === og_creatorName &&
+    post.post.name === og_title
+  );
+
+  return filteredPosts;
+}
+
+async function openPostFromID(instance, postID, community) {
+  const type = await getSetting("selectedType");
+
+  (type === "lemmy") ?
+    window.location.href = instance + '/post/' + postID :
+    window.location.href = instance + '/m/' + community + '/t/' + postID;
+}
+
+
 
 
 
@@ -416,6 +482,7 @@ async function p2l_getPostData() {
   });
 }
 
+// when on a webpage, open the matching posts in a new tab
 async function doOpenMatchingPostsLemmy(testURL) {
   const selectedType = await getSetting('selectedType');
 
@@ -464,6 +531,7 @@ async function doOpenMatchingPostsKbin(testURL) {
   alert("This feature is not yet available for Kbin instances.");
 }
 
+// When on a webpage, post it to a community
 async function doCreatePost() {
   if (await hasSelectedInstance() && await hasSelectedType()) {
     const postData = await p2l_getPostData();

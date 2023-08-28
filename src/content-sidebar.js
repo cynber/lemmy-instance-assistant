@@ -3,9 +3,11 @@
 // =========================================================================== //
 
 setTimeout(() => {
-  if (isLemmyCommunity(window.location.href) ||
-    isLemmyPost(window.location.href) ||
-    isKbinCommunity(window.location.href) ||
+  const pageURL = window.location.href;
+  
+  if (isLemmyCommunity(pageURL) ||
+    isLemmyPost(pageURL) ||
+    isKbinCommunity(pageURL) ||
     isLemmyPhoton() ||
     isLemmyAlexandrite()) {
 
@@ -148,6 +150,23 @@ setTimeout(() => {
         `;
       btnToPostLemmy.style.backgroundColor = '#27175a';
 
+      // let btnToPostKbin = createButton('Find in my home instance');
+      // btnToPostKbin.style.cssText = `
+      //       padding: 0.75rem;
+      //       margin: 1rem 0rem .5rem 0rem;
+      //       width: 100%;
+      //       height: 100%;
+      //       display: block;
+      //       border: var(--kbin-button-secondary-border);
+      //       text-align: center;
+      //       color: white;
+      //       font-size: 0.85rem;
+      //       font-weight: 400;
+      //       cursor: pointer;
+      //   `;
+      // btnToPostKbin.style.backgroundColor = '#27175a';
+      
+
       let txtHomeInstance = selectedInstance ? createMessage(`Home Instance: <a href="${selectedInstance}" target="_blank">${selectedInstance}</a>`) : createMessage(`You have not set a home instance yet.`);
 
       const changeInstanceInstructions = [
@@ -158,105 +177,145 @@ setTimeout(() => {
 
       const txtChangeInstance = createDropdown('How to change home instance', changeInstanceInstructions);
 
-      // ---------- Set up functions ---------- //
-      if (isKbinCommunity(window.location.href)) {
-        TARGET_ELEMENT = document.querySelector('.section.intro') || document.querySelector('#sidebar .magazine .row');
-      } else if (isLemmyCommunity(window.location.href)) {
-        TARGET_ELEMENT = document.querySelector('.card-body');
-      } else if (isLemmyPost(window.location.href)) {
-        TARGET_ELEMENT = document.querySelector('#sidebarMain').children[0];
-      } else if (isLemmyPhoton()) {
-        TARGET_ELEMENT = document.querySelector('.hidden.xl\\:block aside').children[2];
-      } else if (isLemmyAlexandrite()) {
-        TARGET_ELEMENT = document.querySelector('.sidebar').children[1];
-      }
+
+
+
+
+
+
+
+
+
 
       const canRedirect = await hasSelectedInstance();
+      let TARGET_ELEMENT;
       let redirectURL = '';
 
-      if (isLemmyPost(window.location.href) || isLemmyPhotonPost(window.location.href) || isLemmyAlexandritePost(window.location.href)) {
-        // this function doesn't actually get used yet
-        // redirectURL = await getPostRedirectURL(window.location.href);
-      } else {
-        redirectURL = await getCommunityRedirectURL(window.location.href);
+      // ---------- Set Target Element -------- //
+      switch (true) {
+        case isKbinCommunity(pageURL) && !isKbinPost(pageURL):
+          TARGET_ELEMENT = document.querySelector('.section.intro') || document.querySelector('#sidebar .magazine .row');
+          break;
+
+        case isKbinPost(pageURL):
+          TARGET_ELEMENT = document.querySelector('.section.intro') || document.querySelector('#sidebar .magazine .row');
+          break;
+
+        case isLemmyCommunity(pageURL) && !isLemmyPost(pageURL):
+          TARGET_ELEMENT = document.querySelector('.card-body');
+          break;
+
+        case isLemmyPost(pageURL):
+          TARGET_ELEMENT = document.querySelector('#sidebarMain').children[0];
+          break;
+
+        case isLemmyPhoton() && !isLemmyPhotonPost(pageURL):
+          TARGET_ELEMENT = document.querySelector('.hidden.xl\\:block aside').children[2];
+          break;
+
+        case isLemmyPhotonPost(pageURL):
+          TARGET_ELEMENT = document.querySelector('main.p-3');
+          break;
+
+        case isLemmyAlexandrite():
+          TARGET_ELEMENT = document.querySelector('.sidebar').children[1];
+          break;
       }
 
-      // --------- Add Event Listeners -------- //
-      btnRedirectLemmy.addEventListener('click', () => {
-        if (canRedirect) {
-          window.location.href = redirectURL;
-        } else { alert('No valid instance has been set.') }
-      });
+      
 
+
+      // ---------- Add Event Listeners -------- //
+
+      // For community redirects
+      if (!(isLemmyPost(pageURL) ||
+        isLemmyPhotonPost(pageURL) ||
+        isLemmyAlexandritePost(pageURL))) {
+        redirectURL = await getCommunityRedirectURL(pageURL);
+      }
+      function redirectToInstance() {
+        canRedirect
+          ? window.location.href = redirectURL
+          : alert('No valid instance has been set.');
+      }
+
+      btnRedirectLemmy.addEventListener('click', redirectToInstance);
+      btnRedirectKbin.addEventListener('click', redirectToInstance);
+      btnRedirectLemmyAlexandrite.addEventListener('click', redirectToInstance);
+      btnRedirectLemmyPhoton.addEventListener('click', redirectToInstance);
+
+      // For post redirects
       btnToPostLemmy.addEventListener('click', async () => {
         if (canRedirect) {
 
-          const og_instance = (window.location.href).split('/post/')[0];
-          const postId = (window.location.pathname).split('/post/')[1];
+          // prepare variables for fetching
+          let og_instance = getRealHostname(pageURL)
+          let postId = (window.location.pathname).split('/post/')[1];
 
-          let og_communityName = '';
-          let og_creatorName = '';
-          let og_title = '';
-          let og_url = '';
+          // if on a photon instance, further split the url
+          if (isLemmyPhotonPost(pageURL)) {
+            postId = window.location.pathname.split('/post/')[1].split('/')[1];
+          }
 
-          const options = { method: 'GET', headers: { accept: 'application/json' } };
-          fetch(og_instance + '/api/v3/post?id=' + postId, options)
-            .then(response => response.json())
-            .then(apiResponse => {
-              og_communityName = apiResponse.post_view.community.name;
-              og_creatorName = apiResponse.post_view.creator.name;
-              og_title = apiResponse.post_view.post.name;
-              og_url = apiResponse.post_view.post.url;
+          // fetch the filtered post list from home instance
+          const og_Post = await fetchPostFromID("https://"+og_instance, postId);
+          const matchingPosts = await fetchPostsFromTitle(selectedInstance, og_Post.post.name);
+          const filteredPosts = await filterPostsByPost(og_Post, matchingPosts);
 
-              fetch(selectedInstance + 'api/v3/search?q=' + encodeURIComponent(og_title) + '&type_=Posts', options)
-                .then(response => response.json())
-                .then(apiResponse => {
+          // if only one post is found, redirect to it
+          // else ask if user wants to open all matching posts
+          if (filteredPosts.length > 0) {
+            console.log(filteredPosts[0]);
+            const newPostId = filteredPosts[0].post.id;
+            const community = filteredPosts[0].community.name;
+            openPostFromID(selectedInstance, newPostId, community);
+            //window.location.href = selectedInstance + '/post/' + newPostId;
+          } else if (filteredPosts.length > 1) {
+            const approve = confirm(filteredPosts.length + ' matching posts were found. Do you want to open them all?');
+            if (approve) {
+              filteredPosts.forEach(post => {
+                console.log(post);
+                const community = post.community.name;
+                openPostFromID(selectedInstance, post.post.id, community);
+                //window.open(selectedInstance + '/post/' + post.post.id);
 
-                  let filteredPosts = apiResponse.posts.filter(post =>
-                    post.community.name === og_communityName &&
-                    post.creator.name === og_creatorName &&
-                    post.post.name === og_title
-                  );
-
-                  if (filteredPosts.length > 0) {
-                    const newPostId = filteredPosts[0].post.id;
-                    window.location.href = selectedInstance + '/post/' + newPostId;
-                  } else if (apiResponse.posts.length > 1) {
-                    const approveOpen = confirm(apiResponse.posts.length + ' matching posts were found. Do you want to open them all?');
-                    if (approveOpen) {
-                      apiResponse.posts.forEach(post => {
-                        window.open(selectedInstance + '/post/' + post.post.id);
-                      });
-                    }
-                  } else {
-                    alert("Post not found in home instance");
-                  }
-                })
-                .catch(err => console.error(err));
-            })
-            .catch(err => console.error(err));
+              });
+            }
+          } else { alert("Post not found in home instance"); }
         } else { alert('No valid instance has been set.') }
       });
 
-      btnRedirectKbin.addEventListener('click', () => {
-        if (canRedirect) {
-          window.location.href = redirectURL;
-        } else { alert('No valid instance has been set.') }
-      });
+      // btnToPostKbin.addEventListener('click', async () => {
+      //   if (canRedirect) {
+      //     console
+      //     let community;
+      //     let instance;
+      //     let postID;
+      //     const pathParts = window.location.pathname.split('/');
+      //     if (pageURL.includes('@')) {
+      //       community = pathParts[2];
+      //       instance = pathParts[3].split('@')[1];
+      //       postID = pathParts[5];
+      //     } else {
+      //       community = pathParts[2];
+      //       instance = window.location.hostname;
+      //       postID = pathParts[4];
+      //     }
+      //     openPostFromID(selectedInstance, postID, community);
+      //   }
+      // });
 
-      btnRedirectLemmyAlexandrite.addEventListener('click', () => {
-        if (canRedirect) {
-          window.location.href = redirectURL;
-        } else { alert('No valid instance has been set.') }
-      });
 
-      btnRedirectLemmyPhoton.addEventListener('click', () => {
-        if (canRedirect) {
-          window.location.href = redirectURL;
-        } else { alert('No valid instance has been set.') }
-      });
 
-      const pageURL = window.location.href;
+
+
+
+
+
+
+
+
+
 
       // ---------- Append elements ----------- //            
       if (!document.querySelector('#instance-assistant-sidebar') && (await getSetting('runOnCommunitySidebar')) && !(await isHomeInstance(pageURL))) { // Prevent duplicate elements
@@ -275,7 +334,12 @@ setTimeout(() => {
           TARGET_ELEMENT.appendChild(txtHomeInstance);
           TARGET_ELEMENT.appendChild(txtChangeInstance);
         }
-        if (isLemmyPhoton()) {
+        // if (isKbinPost(pageURL)) {
+        //   TARGET_ELEMENT.appendChild(btnToPostKbin);
+        //   TARGET_ELEMENT.appendChild(txtHomeInstance);
+        //   TARGET_ELEMENT.appendChild(txtChangeInstance);
+        // }
+        if (isLemmyPhoton() && !isLemmyPhotonPost(pageURL)) {
           if (!document.querySelector('#instance-assistant-sidebar')) {
             containerRedirectLemmyPhoton.appendChild(btnRedirectLemmyPhoton);
             containerRedirectLemmyPhoton.appendChild(txtHomeInstance);
@@ -283,12 +347,10 @@ setTimeout(() => {
             TARGET_ELEMENT.appendChild(containerRedirectLemmyPhoton);
           }
         }
-        //if (isLemmyPhotonPost(pageURL)) {
-        //  TARGET_ELEMENT.appendChild(btnToPostLemmy);
-        //  TARGET_ELEMENT.appendChild(txtHomeInstance);
-        //  TARGET_ELEMENT.appendChild(txtChangeInstance);
-        //}
-        if (isLemmyAlexandrite()) {
+        if (isLemmyPhotonPost(pageURL)) {
+          TARGET_ELEMENT.insertBefore(btnToPostLemmy, TARGET_ELEMENT.firstChild);
+        }
+        if (isLemmyAlexandrite() && !isLemmyAlexandritePost(pageURL)) {
           if (!document.querySelector('#instance-assistant-sidebar')) {
             containerRedirectLemmyAlexandrite.appendChild(btnRedirectLemmyAlexandrite);
             containerRedirectLemmyAlexandrite.appendChild(txtHomeInstance);
@@ -296,11 +358,11 @@ setTimeout(() => {
             TARGET_ELEMENT.appendChild(containerRedirectLemmyAlexandrite);
           }
         }
-        //if (isLemmyAlexandritePost(pageURL)) {
-        //  TARGET_ELEMENT.appendChild(btnToPostLemmy);
-        //  TARGET_ELEMENT.appendChild(txtHomeInstance);
-        //  TARGET_ELEMENT.appendChild(txtChangeInstance);
-        //}
+        if (isLemmyAlexandritePost(pageURL)) {
+          TARGET_ELEMENT.appendChild(btnToPostLemmy);
+          TARGET_ELEMENT.appendChild(txtHomeInstance);
+          TARGET_ELEMENT.appendChild(txtChangeInstance);
+        }
       }
     }
     loadSelectedInstance();
