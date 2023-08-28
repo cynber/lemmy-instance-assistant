@@ -1,3 +1,7 @@
+<!-- THIS PAGE SHOULD BE IDENTICAL TO popup.html except for:
+  - link to sidebar.css instead of popup.css
+  - link to sidebar.js instead of popup.js
+-->
 <!DOCTYPE html>
 <html>
 
@@ -21,7 +25,28 @@
     </button>
   </div>
 
+  <div class="no-instance-warning">
+    <span id="no-instance-warning"></span>
+  </div>
+
   <button id="btn-redirect-instance" class="button">Open this community in my home instance</button>
+
+  <div class="page-section">
+    <div class="section-header">
+      <p class="section-header-text">Posts related to this webpage</p>
+    </div>
+    <div style="display: flex; align-items: center;">
+      <button id="btn-tool-post-to" class="button page-tools">
+        Make a post
+      </button>
+      <button id="btn-tool-open-posts" class="button page-tools" style="margin-left: 10px;">
+        Open posts
+      </button>
+    </div>
+    <p class="subtle-text">'Open posts' will pull from your home instance (<a
+        href="https://github.com/cynber/lemmy-instance-assistant/wiki#potential-risks-with-open-posts"
+        class="subtle-text">potential risks</a>)</p>
+  </div>
 
   <div class="page-section">
     <div class="search-bar-communities" style="display: flex;">
@@ -39,15 +64,16 @@
   </div>
 
   <div class="page-section">
-    <p class="section-header-text">Quick Settings</p>
+    <div class="section-header">
+      <p class="section-header-text">Quick Settings</p>
+    </div>
     <button id="btn-change-instance" class="button">Change my home instance</button>
     <button id="btn-change-type" class="button">
       Toggle home instance type
       <span class="info-icon" title="Press to toggle between Lemmy (default) or Kbin.">&#9432;</span>
     </button>
-    <p>Copy the addresses of some common instances below. Modify from this list by clicking the settings button above:
-    </p>
     <ul id="instance-list"></ul>
+    <p class="subtle-text">You can modify this list in SETTINGS</p>
   </div>
 
 </body>

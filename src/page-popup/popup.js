@@ -1,5 +1,7 @@
+// THIS PAGE SHOULD BE IDENTICAL TO popup.js 
+
 document.addEventListener("DOMContentLoaded", function () {
-  async function createPopup() {
+  async function createPage() {
 
     const instanceList = document.getElementById("instance-list"),
       btnChangeInstance = document.getElementById("btn-change-instance"),
@@ -19,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     txtHomeInstance.textContent = selectedInstance ? selectedInstance : "unknown";
     txtInstanceType.textContent = selectedType ? selectedType : "unknown";
-    txtInstanceWarn.textContent = selectedInstance ? "" : "Instance Not Selected: Some features will not work as expected. Please click 'Change my home instance'.";
+    txtInstanceWarn.textContent = selectedInstance ? "" : "WARN - Instance Not Selected: Some features will not work as expected. Please click 'Change my home instance'.";
 
     let lemmyInstances = await getSetting("instanceList");
 
@@ -39,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Open settings page
     btnOpenSettings.addEventListener("click", (event) => {
-      browser.tabs.create({ url: '../page-settings/settings.html' });
+      doOpenSettings();
     });
 
     // ---------------------------------------------------------
@@ -82,96 +84,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Post to Community
     btn_post_to.addEventListener("click", async () => {
-      if (await hasSelectedInstance() && await hasSelectedType()) {
-        const type = await getSetting("selectedType");
-        const instance = await getSetting("selectedInstance");
-        const postData = await p2l_getPostData();
-
-        if (type === "lemmy") {
-          const url = instance + "/create_post";
-          const createdTab = await browser.tabs.create({ url: url });
-
-          // Listen for tab updates to check for loading completion
-          browser.tabs.onUpdated.addListener(function listener(tabId, changeInfo) {
-            if (tabId === createdTab.id && changeInfo.status === "complete") {
-              browser.tabs.onUpdated.removeListener(listener); // Remove the listener
-
-              // Fill in form after the tab is fully loaded
-              browser.tabs.executeScript(createdTab.id, {
-                code: `
-                const EVENT_OPTIONS = {bubbles: true, cancelable: false, composed: true};
-                const EVENTS = {
-                    BLUR: new Event("blur", EVENT_OPTIONS),
-                    CHANGE: new Event("change", EVENT_OPTIONS),
-                    INPUT: new Event("input", EVENT_OPTIONS),
-                };
-
-                const postTitleInput = document.querySelector("#post-title");
-                const postURLInput = document.querySelector("#post-url");
-
-                postTitleInput.select();
-                postTitleInput.value = "${postData.title}";
-                postTitleInput.dispatchEvent(EVENTS.INPUT);
-
-                postURLInput.select();
-                postURLInput.value = "${postData.url}";
-                postURLInput.dispatchEvent(EVENTS.INPUT);
-              `
-              });         
-
-              window.close(); // Close the popup
-            }
-          });
-
-        } else if (type === "kbin") {
-          const url = instance + "/new?url=" + postData.url + "&title=" + postData.title;
-          await browser.tabs.create({ url: url });
-        }
-
-      } else { alert("No valid instance has been set. Please select an instance in the popup using 'Change my home instance'.");}
+        doCreatePost();       
     });
 
     // Open posts from home instance
     btnOpenPosts.addEventListener("click", async () => {
-      if (await hasSelectedInstance() && await hasSelectedType()) {
-        if (selectedType === "lemmy") {
-          const queryOptions = { active: true, currentWindow: true };
-          const [tab] = await browser.tabs.query(queryOptions);
-          const testURL = tab.url;
-          const searchURL = selectedInstance + "/api/v3/search?q=" + testURL;
-          const [lemmyPostResponse_URL, lemmyPostResponse_BODY] = await Promise.all([
-            fetch(searchURL + "&type_=Url"),
-            fetch(searchURL + "&type_=All")
-          ]);
-          lemmyPostData = {
-            posts: [
-              ...(await lemmyPostResponse_URL.json()).posts,
-              ...(await lemmyPostResponse_BODY.json()).posts
-            ]
-          };
-          if (lemmyPostData.posts.length <= 0) {
-            alert("No posts found for this URL.");
-          } else if (lemmyPostData.posts.length === 1) {
-            lemmyPostData.posts.forEach(post => {
-              const post_id = post.counts.post_id;
-              console.log("Post ID:", post_id);
-              browser.tabs.create({ url: selectedInstance + "/post/" + post_id });
-            });
-          } else if (lemmyPostData.posts.length > 1) {
-            // tell user how many posts there are and ask if it's ok to open them
-            const confirmOpen = confirm("There are " + lemmyPostData.posts.length + " posts for this URL. Open them all?");
-            if (confirmOpen) {
-              lemmyPostData.posts.forEach(post => {
-                const post_id = post.counts.post_id;
-                console.log("Post ID:", post_id);
-                browser.tabs.create({ url: selectedInstance + "/post/" + post_id });
-              });
-            }
-          }
-        } else if (selectedType === "kbin") {
-          alert("This feature is not yet available for Kbin instances.");
-        }
-      } else { alert("No valid instance has been set. Please select an instance in the popup using 'Change my home instance'."); }
+      const queryOptions = { active: true, currentWindow: true };
+      const [tab] = await browser.tabs.query(queryOptions);
+      const testURL = tab.url;
+
+      doOpenMatchingPostsLemmy(testURL);
     });
 
 
@@ -242,5 +164,5 @@ document.addEventListener("DOMContentLoaded", function () {
       } else { alert('No valid instance has been set. Please select an instance in the popup using "Change my home instance".'); }
     });
   }
-  createPopup();
+  createPage();
 });
