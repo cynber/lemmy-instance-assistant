@@ -126,15 +126,15 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
       if (type === "lemmy") {
         const url = instance + "/create_post";
-        const createdTab = await browser.tabs.create({ url: url });
+        const createdTab = await chrome.tabs.create({ url: url });
 
         // Listen for tab updates to check for loading completion
-        browser.tabs.onUpdated.addListener(function listener(tabId, changeInfo) {
+        chrome.tabs.onUpdated.addListener(function listener(tabId, changeInfo) {
           if (tabId === createdTab.id && changeInfo.status === "complete") {
-            browser.tabs.onUpdated.removeListener(listener); // Remove the listener
+            chrome.tabs.onUpdated.removeListener(listener); // Remove the listener
 
             // Fill in form after the tab is fully loaded
-            browser.tabs.executeScript(createdTab.id, {
+            chrome.tabs.executeScript(createdTab.id, {
               code: `
               const EVENT_OPTIONS = {bubbles: true, cancelable: false, composed: true};
               const EVENTS = {
@@ -167,7 +167,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
       } else if (type === "kbin") {
         const url = instance + "/new?url=" + info.srcUrl + "&title=" + postData.title + "&body=Source: " + postData.url;
-        await browser.tabs.create({ url: url });
+        await chrome.tabs.create({ url: url });
       }
 
     } else { alert("No valid instance has been set. Please select an instance in the popup using 'Change my home instance'."); }
@@ -181,15 +181,16 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ["link"],
     targetUrlPatterns: ["http://*/c/*", "https://*/c/*", "http://*/p/*", "https://*/p/*", "http://*/m/*", "https://*/m/*"],
   });
+  chrome.contextMenus.create({
+    id: "post-image",
+    title: "Post this image",
+    contexts: ["image"],
+    targetUrlPatterns: ["http://*/*", "https://*/*"]
+  }, () => void chrome.runtime.lastError,
+  );
 });
 
-browser.contextMenus.create({
-  id: "post-image",
-  title: "Post this image",
-  contexts: ["image"],
-  targetUrlPatterns: ["http://*/*", "https://*/*"]
-}, () => void browser.runtime.lastError,
-);
+
 
 // --------------------------------------
 // Set default values on install/update

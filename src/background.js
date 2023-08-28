@@ -98,12 +98,8 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
         sourcePath.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : sourceHost;
 
       async function loadStorage() {
-        const { selectedInstance } = await browser.storage.local.get('selectedInstance');
 
-        if (!selectedInstance) {
-          browser.tabs.update(tab.id, { url: 'https://github.com/cynber/lemmy-instance-assistant#setup' });
-          return false;
-        }
+        const selectedInstance = await getSetting('selectedInstance');
 
         const { selectedType } = await browser.storage.local.get('selectedType');
         communityPrefix = selectedType ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
