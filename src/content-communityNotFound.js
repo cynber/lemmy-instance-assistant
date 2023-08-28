@@ -137,12 +137,13 @@ setTimeout(() => {
 
       // ---------- Append elements ----------- //
       if (!document.querySelector('#instance-assistant-sidebar') && (await getSetting('runOnCommunityNotFound'))) { // prevent duplicate elements
-        container.appendChild(txtErrorPage);
+        const hideHelp = await getSetting('hideHelp');
+        if (!hideHelp) {container.appendChild(txtErrorPage);}
         container.appendChild(btnOpenSearchLemmy)
         container.appendChild(btnCommunityLemmy);
         container.appendChild(btnHomeLemmy);
         container.appendChild(txtHomeInstance);
-        container.appendChild(txtChangeInstance);
+        if (!hideHelp) {container.appendChild(txtChangeInstance);}
         TARGET_ELEMENT.insertBefore(container, TARGET_ELEMENT.firstChild);
       }
 

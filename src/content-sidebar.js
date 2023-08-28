@@ -14,6 +14,7 @@ setTimeout(() => {
     async function loadSelectedInstance() {
 
       const selectedInstance = await getSetting('selectedInstance');
+      const hideHelp = await getSetting('hideHelp');
 
       // ====================================== //
       // --------- Set up injectables --------- //
@@ -322,28 +323,28 @@ setTimeout(() => {
         if (isLemmyCommunity(pageURL)) {
           TARGET_ELEMENT.appendChild(btnRedirectLemmy);
           TARGET_ELEMENT.appendChild(txtHomeInstance);
-          TARGET_ELEMENT.appendChild(txtChangeInstance);
+          if (!hideHelp) {TARGET_ELEMENT.appendChild(txtChangeInstance);}
         }
         if (isLemmyPost(pageURL)) {
           TARGET_ELEMENT.appendChild(btnToPostLemmy);
           TARGET_ELEMENT.appendChild(txtHomeInstance);
-          TARGET_ELEMENT.appendChild(txtChangeInstance);
+          if (!hideHelp) {TARGET_ELEMENT.appendChild(txtChangeInstance);}
         }
         if (isKbinCommunity(pageURL)) {
           TARGET_ELEMENT.appendChild(btnRedirectKbin);
           TARGET_ELEMENT.appendChild(txtHomeInstance);
-          TARGET_ELEMENT.appendChild(txtChangeInstance);
+          if (!hideHelp) {TARGET_ELEMENT.appendChild(txtChangeInstance);}
         }
         // if (isKbinPost(pageURL)) {
         //   TARGET_ELEMENT.appendChild(btnToPostKbin);
         //   TARGET_ELEMENT.appendChild(txtHomeInstance);
-        //   TARGET_ELEMENT.appendChild(txtChangeInstance);
+        //   if (!hideHelp) {TARGET_ELEMENT.appendChild(txtChangeInstance);}
         // }
         if (isLemmyPhoton() && !isLemmyPhotonPost(pageURL)) {
           if (!document.querySelector('#instance-assistant-sidebar')) {
             containerRedirectLemmyPhoton.appendChild(btnRedirectLemmyPhoton);
             containerRedirectLemmyPhoton.appendChild(txtHomeInstance);
-            containerRedirectLemmyPhoton.appendChild(txtChangeInstance);
+            if (!hideHelp) {TARGET_ELEMENT.appendChild(txtChangeInstance);}
             TARGET_ELEMENT.appendChild(containerRedirectLemmyPhoton);
           }
         }
@@ -354,14 +355,14 @@ setTimeout(() => {
           if (!document.querySelector('#instance-assistant-sidebar')) {
             containerRedirectLemmyAlexandrite.appendChild(btnRedirectLemmyAlexandrite);
             containerRedirectLemmyAlexandrite.appendChild(txtHomeInstance);
-            containerRedirectLemmyAlexandrite.appendChild(txtChangeInstance);
+            if (!hideHelp) {TARGET_ELEMENT.appendChild(txtChangeInstance);}
             TARGET_ELEMENT.appendChild(containerRedirectLemmyAlexandrite);
           }
         }
         if (isLemmyAlexandritePost(pageURL)) {
           TARGET_ELEMENT.appendChild(btnToPostLemmy);
           TARGET_ELEMENT.appendChild(txtHomeInstance);
-          TARGET_ELEMENT.appendChild(txtChangeInstance);
+          if (!hideHelp) {TARGET_ELEMENT.appendChild(txtChangeInstance);}
         }
       }
     }
