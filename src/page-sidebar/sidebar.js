@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
         await setSetting("selectedInstance", inputInstance.trim());
         txtHomeInstance.textContent = inputInstance.trim();
       } else { alert("Invalid URL format, please follow this format: \n 'https://lemmy.ca'"); }
+      window.location.reload();
     });
 
     // Toggle home instance type
