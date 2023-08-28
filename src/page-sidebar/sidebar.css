@@ -108,7 +108,8 @@ body {
 }
 
 /* Flex container for the search bar and button */
-.search-bar-communities, .search-bar-content {
+.search-bar-communities,
+.search-bar-content {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -116,13 +117,15 @@ body {
 }
 
 /* Search bar input */
-#searchInputCommunities, #searchInputContent {
+#searchInputCommunities,
+#searchInputContent {
   flex: 3;
   margin-right: 5px;
 }
 
 /* Search button */
-#btn-tool-search-community, #btn-tool-search-content {
+#btn-tool-search-community,
+#btn-tool-search-content {
   flex: 1;
   margin-left: 5px;
 }

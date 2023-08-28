@@ -51,7 +51,7 @@ async function loadStorage(key) {
 async function p2l_getPostData() {
   const storageAPI = getBrowserAPI();
   return new Promise((resolve, reject) => {
-    storageAPI.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+    storageAPI.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       const activeTab = tabs[0];
       const postData = {
         title: activeTab.title,
@@ -79,7 +79,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     ) {
       chrome.scripting.executeScript({
         target: { tabId: tabId },
-        files: ["utils.js","content-sidebar.js", "content-general.js"]
+        files: ["utils.js", "content-sidebar.js", "content-general.js"]
       });
     }
   }
@@ -123,7 +123,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       const type = await getSetting("selectedType");
       const instance = await getSetting("selectedInstance");
       const postData = await p2l_getPostData();
-      
+
       if (type === "lemmy") {
         const url = instance + "/create_post";
         const createdTab = await browser.tabs.create({ url: url });
@@ -159,7 +159,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
               postBodyInput.value = "Source: ${postData.url}";
               postBodyInput.dispatchEvent(EVENTS.INPUT);
             `
-            });         
+            });
 
             window.close(); // Close the popup
           }
@@ -170,7 +170,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
         await browser.tabs.create({ url: url });
       }
 
-    } else { alert("No valid instance has been set. Please select an instance in the popup using 'Change my home instance'.");}
+    } else { alert("No valid instance has been set. Please select an instance in the popup using 'Change my home instance'."); }
   }
 });
 

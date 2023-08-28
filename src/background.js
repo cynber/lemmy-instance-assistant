@@ -51,7 +51,7 @@ async function loadStorage(key) {
 async function p2l_getPostData() {
   const storageAPI = getBrowserAPI();
   return new Promise((resolve, reject) => {
-    storageAPI.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+    storageAPI.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       const activeTab = tabs[0];
       const postData = {
         title: activeTab.title,
@@ -88,7 +88,7 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 // --------------------------------------
 browser.contextMenus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId === "redirect" && info.linkUrl) {
-    
+
     let sourceHost = new URL(info.linkUrl).hostname;
     let sourcePath = new URL(info.linkUrl).pathname;
 
@@ -122,7 +122,7 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
       const type = await getSetting("selectedType");
       const instance = await getSetting("selectedInstance");
       const postData = await p2l_getPostData();
-      
+
       if (type === "lemmy") {
         const url = instance + "/create_post";
         const createdTab = await browser.tabs.create({ url: url });
@@ -158,7 +158,7 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
               postBodyInput.value = "Source: ${postData.url}";
               postBodyInput.dispatchEvent(EVENTS.INPUT);
             `
-            });         
+            });
 
             window.close(); // Close the popup
           }
@@ -169,7 +169,7 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
         await browser.tabs.create({ url: url });
       }
 
-    } else { alert("No valid instance has been set. Please select an instance in the popup using 'Change my home instance'.");}
+    } else { alert("No valid instance has been set. Please select an instance in the popup using 'Change my home instance'."); }
   }
 });
 
@@ -234,7 +234,7 @@ browser.runtime.onInstalled.addListener(async ({ reason }) => {
     }
     await backgroundInitializeSettings();
   }
-  
+
   // Open settings page when extension is first installed
   if (reason === 'install') {
     browser.tabs.create({ url: 'page-settings/settings.html' });

@@ -44,8 +44,16 @@ function isLoggedInKbin() {
   return !loginLink;
 }
 
-
 const validInstanceURLPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
+
+
+
+
+
+
+
+
+
 
 // ----------------------------------------------
 // SETTINGS FUNCTIONS
@@ -151,6 +159,12 @@ async function initializeSettingsWithDefaults() {
     await setAllSettings(allSettings.settings);
   }
 }
+
+
+
+
+
+
 
 
 
@@ -263,6 +277,13 @@ function getRealHostname(testURL) {
 
 
 
+
+
+
+
+
+
+
 // ----------------------------------------------
 // SELECTED INSTANCE FUNCTIONS
 // ----------------------------------------------
@@ -314,6 +335,15 @@ async function getPostRedirectURL(oldURL) {
 
 // TODO: set up error handling to check the URL
 
+
+
+
+
+
+
+
+
+
 // ----------------------------------------------
 // -------------  External Tool  ----------------
 // ----------------------------------------------
@@ -343,6 +373,15 @@ function toolSearchContentLemmysearch(searchTerm) {
   }
 }
 
+
+
+
+
+
+
+
+
+
 // ----------------------------------------------
 // -------------  Posting Tools  ----------------
 // ----------------------------------------------
@@ -364,6 +403,15 @@ async function p2l_getPostData() {
     });
   });
 }
+
+
+
+
+
+
+
+
+
 
 // ----------------------------------------------
 // ---------- General DOM Manipulation ----------

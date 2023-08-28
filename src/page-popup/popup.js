@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     txtHomeInstance.textContent = selectedInstance ? selectedInstance : "unknown";
     txtInstanceType.textContent = selectedType ? selectedType : "unknown";
-    txtInstanceWarn.textContent = selectedInstance ? "" : "WARNING: No instance selected, and most functions will not. Click the 'Change my home instance' button.";
+    txtInstanceWarn.textContent = selectedInstance ? "" : "Instance Not Selected: Some features will not work as expected. Please click 'Change my home instance'.";
 
     let lemmyInstances = await getSetting("instanceList");
 

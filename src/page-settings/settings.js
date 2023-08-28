@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const toastMessage = document.getElementById('toast-message');
     toastMessage.innerText = text;
     toastMessage.classList.add('show');
-  
+
     setTimeout(() => {
       toastMessage.classList.remove('show');
     }, 3000);
