@@ -13,6 +13,7 @@
   "permissions": [
     "storage",
     "activeTab",
+    "scripting",
     "contextMenus",
     "*://*/c/*",
     "*://*/m/*",

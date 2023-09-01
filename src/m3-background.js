@@ -126,42 +126,60 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
       if (type === "lemmy") {
         const url = instance + "/create_post";
+        console.log(url, postData, info, tab, type, instance)
         const createdTab = await chrome.tabs.create({ url: url });
+        
 
         // Listen for tab updates to check for loading completion
         chrome.tabs.onUpdated.addListener(function listener(tabId, changeInfo) {
-          if (tabId === createdTab.id && changeInfo.status === "complete") {
+          console.log(changeInfo.status)
+          if (tabId === createdTab.id) {
             chrome.tabs.onUpdated.removeListener(listener); // Remove the listener
+            console.log(postData.title);
+            console.log(postData.url);
 
             // Fill in form after the tab is fully loaded
-            chrome.tabs.executeScript(createdTab.id, {
-              code: `
-              const EVENT_OPTIONS = {bubbles: true, cancelable: false, composed: true};
+            chrome.tabs.onUpdated.addListener(function listener(tabId, changeInfo) {
+              if (tabId === createdTab.id && changeInfo.status === "complete") {
+                chrome.tabs.onUpdated.removeListener(listener); // Remove the listener
+            
+                // Fill in form after the tab is fully loaded
+                chrome.scripting.executeScript({
+                  target: { tabId: createdTab.id },
+                  function: fillFormScript,
+                  args: [{
+                    postDataTitle: postData.title,
+                    infoSrcUrl: info.srcUrl,
+                    postDataUrl: postData.url
+                  }]
+                });
+              }
+            });
+            
+            function fillFormScript(args) {
+              const EVENT_OPTIONS = { bubbles: true, cancelable: false, composed: true };
               const EVENTS = {
-                  BLUR: new Event("blur", EVENT_OPTIONS),
-                  CHANGE: new Event("change", EVENT_OPTIONS),
-                  INPUT: new Event("input", EVENT_OPTIONS),
+                BLUR: new Event("blur", EVENT_OPTIONS),
+                CHANGE: new Event("change", EVENT_OPTIONS),
+                INPUT: new Event("input", EVENT_OPTIONS),
               };
-
+            
               const postTitleInput = document.querySelector("#post-title");
               const postURLInput = document.querySelector("#post-url");
               const postBodyInput = document.querySelector("textarea[id^='markdown-textarea-']");
-
+            
               postTitleInput.select();
-              postTitleInput.value = "${postData.title}";
+              postTitleInput.value = args.postDataTitle;
               postTitleInput.dispatchEvent(EVENTS.INPUT);
-
+            
               postURLInput.select();
-              postURLInput.value = "${info.srcUrl}";
+              postURLInput.value = args.infoSrcUrl;
               postURLInput.dispatchEvent(EVENTS.INPUT);
-
+            
               postBodyInput.select();
-              postBodyInput.value = "Source: ${postData.url}";
+              postBodyInput.value = "Source: " + args.postDataUrl;
               postBodyInput.dispatchEvent(EVENTS.INPUT);
-            `
-            });
-
-            window.close(); // Close the popup
+            }
           }
         });
 

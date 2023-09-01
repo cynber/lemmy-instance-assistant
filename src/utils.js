@@ -2,7 +2,7 @@ function testFunction() {
   console.log("This is a test function.");
 }
 
-const validInstanceURLPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
+let validInstanceURLPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
 
 // Utility function to get the appropriate storage API based on the browser
 function getStorageAPI() {
@@ -31,7 +31,8 @@ function getBrowserAPI() {
 }
 
 function doOpenSettings() {
-  browser.tabs.create({ url: '../page-settings/settings.html' });
+  const browserAPI = getBrowserAPI();
+  browserAPI.tabs.create({ url: '../page-settings/settings.html' });
 }
 
 
@@ -429,13 +430,14 @@ async function openPostFromID(instance, postID, community) {
 
 // External Tool: Search Community through Lemmyverse 
 async function toolSearchCommunitiesLemmyverse(searchTerm) {
+  const browserAPI = getBrowserAPI();
   if (searchTerm !== "") {
     if (await getSetting('toolSearchCommunity_openInLemmyverse')) {
       const baseUrl = "https://lemmyverse.net/communities";
       const encodedSearchTerm = encodeURIComponent(searchTerm);
-      browser.tabs.create({ url: `${baseUrl}?query=${encodedSearchTerm}` });
+      browserAPI.tabs.create({ url: `${baseUrl}?query=${encodedSearchTerm}` });
     } else {
-      browser.tabs.create({ url: `../page-search/search.html?query=${encodeURIComponent(searchTerm)}` });
+      browserAPI.tabs.create({ url: `../page-search/search.html?query=${encodeURIComponent(searchTerm)}` });
     }
   } else {
     console.log("CommunitySearch: Search term is empty");
@@ -444,11 +446,12 @@ async function toolSearchCommunitiesLemmyverse(searchTerm) {
 
 // External Tool: Search Content through Lemmysearch
 function toolSearchContentLemmysearch(searchTerm) {
+  const browserAPI = getBrowserAPI();
   if (searchTerm !== "") {
     const baseUrl = "https://www.search-lemmy.com/results";
     const encodedSearchTerm = encodeURIComponent(searchTerm);
     const finalUrl = `${baseUrl}?query=${encodedSearchTerm}`;
-    browser.tabs.create({ url: finalUrl });
+    browserAPI.tabs.create({ url: finalUrl });
   }
 }
 
@@ -470,21 +473,19 @@ function toolSearchContentLemmysearch(searchTerm) {
 // Get the post data from the current tab
 // - returns { title: "title", url: "url" }
 async function p2l_getPostData() {
-  const storageAPI = getBrowserAPI();
-  return new Promise((resolve, reject) => {
-    storageAPI.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-      const activeTab = tabs[0];
-      const postData = {
-        title: activeTab.title,
-        url: activeTab.url
-      };
-      resolve(postData);
-    });
-  });
+  const browserAPI = getBrowserAPI();
+  const tabs = await browserAPI.tabs.query({ active: true, currentWindow: true });
+  const activeTab = tabs[0];
+  const postData = {
+    title: activeTab.title,
+    url: activeTab.url
+  };
+  return postData;
 }
 
 // when on a webpage, open the matching posts in a new tab
 async function doOpenMatchingPostsLemmy(testURL) {
+  const browserAPI = getBrowserAPI();
   const selectedType = await getSetting('selectedType');
 
   if (await hasSelectedInstance() && await hasSelectedType()) {
@@ -508,7 +509,7 @@ async function doOpenMatchingPostsLemmy(testURL) {
         lemmyPostData.posts.forEach(post => {
           const post_id = post.counts.post_id;
           console.log("Post ID:", post_id);
-          browser.tabs.create({ url: selectedInstance + "/post/" + post_id });
+          browserAPI.tabs.create({ url: selectedInstance + "/post/" + post_id });
         });
       } else if (lemmyPostData.posts.length > 1) {
         // tell user how many posts there are and ask if it's ok to open them
@@ -517,7 +518,7 @@ async function doOpenMatchingPostsLemmy(testURL) {
           lemmyPostData.posts.forEach(post => {
             const post_id = post.counts.post_id;
             console.log("Post ID:", post_id);
-            browser.tabs.create({ url: selectedInstance + "/post/" + post_id });
+            browserAPI.tabs.create({ url: selectedInstance + "/post/" + post_id });
           });
         }
       }
@@ -534,6 +535,7 @@ async function doOpenMatchingPostsKbin(testURL) {
 
 // When on a webpage, post it to a community
 async function doCreatePost() {
+  const browserAPI = getBrowserAPI();
   if (await hasSelectedInstance() && await hasSelectedType()) {
     const postData = await p2l_getPostData();
 
@@ -541,44 +543,50 @@ async function doCreatePost() {
     const type = await getSetting("selectedType");
 
     if (type === "lemmy") {
-      const url = instance + "/create_post";
-      const createdTab = await browser.tabs.create({ url: url });
+      const url = instance + "/create_post";      
+      const createdTab = await browserAPI.tabs.create({ url: url });
+      const listener = (tabId, changeInfo) => {
+        if (tabId === createdTab.id && (changeInfo.status === "complete" || changeInfo.status === "loading")) {
+          
 
-      // Listen for tab updates to check for loading completion
-      browser.tabs.onUpdated.addListener(function listener(tabId, changeInfo) {
-
-        if (tabId === createdTab.id && changeInfo.status === "complete") {
-          browser.tabs.onUpdated.removeListener(listener); // Remove the listener
+          browserAPI.tabs.onUpdated.removeListener(listener);
 
           // Fill in form after the tab is fully loaded
-          browser.tabs.executeScript(createdTab.id, {
-            code: `
-            const EVENT_OPTIONS = {bubbles: true, cancelable: false, composed: true};
-            const EVENTS = {
-                BLUR: new Event("blur", EVENT_OPTIONS),
-                CHANGE: new Event("change", EVENT_OPTIONS),
-                INPUT: new Event("input", EVENT_OPTIONS),
-            };
-
-            const postTitleInput = document.querySelector("#post-title");
-            const postURLInput = document.querySelector("#post-url");
-
-            postTitleInput.select();
-            postTitleInput.value = "${postData.title}";
-            postTitleInput.dispatchEvent(EVENTS.INPUT);
-
-            postURLInput.select();
-            postURLInput.value = "${postData.url}";
-            postURLInput.dispatchEvent(EVENTS.INPUT);`
+          browserAPI.scripting.executeScript({
+            target: { tabId: createdTab.id },
+            func: async (postData) => {
+              const EVENT_OPTIONS = {bubbles: true, cancelable: false, composed: true};
+              const EVENTS = {
+                  BLUR: new Event("blur", EVENT_OPTIONS),
+                  CHANGE: new Event("change", EVENT_OPTIONS),
+                  INPUT: new Event("input", EVENT_OPTIONS),
+              };
+          
+              const postTitleInput = document.querySelector("#post-title");
+              const postURLInput = document.querySelector("#post-url");
+          
+              postTitleInput.select();
+              postTitleInput.value = postData.title;
+              postTitleInput.dispatchEvent(EVENTS.INPUT);
+          
+              postURLInput.select();
+              postURLInput.value = postData.url;
+              postURLInput.dispatchEvent(EVENTS.INPUT);
+            },
+            args: [postData]
+          }).catch(error => {
+            console.error("Script execution error:", error);
           });
 
-          window.close(); // Close the popup
+          window.close(); 
         }
-      });
+      };
+
+      browserAPI.tabs.onUpdated.addListener(listener);
 
     } else if (type === "kbin") {
       const url = instance + "/new?url=" + postData.url + "&title=" + postData.title;
-      await browser.tabs.create({ url: url });
+      await browserAPI.tabs.create({ url: url });
     }
   } else { alert("No valid instance has been set. Please select an instance in the popup using 'Change my home instance'."); }
 }
