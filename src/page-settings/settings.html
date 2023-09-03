@@ -19,9 +19,12 @@
       <h2>Instance Assistant Settings</h2>
     </div>
     <nav>
-      <a href="https://github.com/cynber/lemmy-instance-assistant" class="btn-settings-nav">Project GitHub<img src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab."></a>
-      <a href="https://lemmy.ca/c/instance_assistant" class="btn-settings-nav">Support Community<img src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab."></a>
-      <a href="https://ko-fi.com/cynber" class="btn-settings-nav">Contribute<img src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab."></a>
+      <a href="https://github.com/cynber/lemmy-instance-assistant" class="btn-settings-nav">Project GitHub<img
+          src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab."></a>
+      <a href="https://lemmy.ca/c/instance_assistant" class="btn-settings-nav">Support Community<img
+          src="../img/icon-external.png" class="icon-external" alt="External Link" title="Opens in a new tab."></a>
+      <a href="https://ko-fi.com/cynber" class="btn-settings-nav">Contribute<img src="../img/icon-external.png"
+          class="icon-external" alt="External Link" title="Opens in a new tab."></a>
     </nav>
   </header>
 
@@ -48,13 +51,15 @@
 
     <h2>Change Display</h2>
     <hr>
-    <p>You can modify the list of instances in the popup menu by editing this field. This is helpful if you have accounts on more than one instance, or even if you like jumping between instances. Remove the instances that you don't need, and if you make a mistake then you can 'Reset to Default'.</p>
+    <p>You can modify the list of instances in the popup menu by editing this field. This is helpful if you have
+      accounts on more than one instance, or even if you like jumping between instances. Remove the instances that you
+      don't need, and if you make a mistake then you can 'Reset to Default'.</p>
     <p>Please list one instance per line, and use the format "button-text, url"</p>
     <textarea id="instance-list" rows="9" cols="50" placeholder="Enter instances in the format: name, url"></textarea>
 
     <br>
 
-    <p>Show/Hide sections of the site:</p>
+    <h3>Show/Hide sections of original site:</h3>
     <div class="checkbox">
       <input type="checkbox" id="hideSidebarLemmy">
       <label for="hideSidebarLemmy">Hide Lemmy Sidebar</label>
@@ -74,6 +79,10 @@
     <div class="checkbox">
       <input type="checkbox" id="showCommunityNotFound">
       <label for="showCommunityNotFound">Improved 'Community not found' page</label>
+    </div>
+    <div class="checkbox">
+      <input type="checkbox" id="hideHelp">
+      <label for="hideHelp">Hide onboarding / usage tips (ex. how to change home instance, info on 'Community not found')</label>
     </div>
 
     <h2>Miscellaneous</h2>

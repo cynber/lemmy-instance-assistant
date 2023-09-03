@@ -22,18 +22,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return [];
     }
   }
-  
+
   // Function to display search results on the page
   async function displayResults(results) {
 
     // get home instance & type
-    const selectedInstance  = await getSetting('selectedInstance');
+    const selectedInstance = await getSetting('selectedInstance');
     const selectedType = await getSetting('selectedType');
 
     let newURL = '';
     let hasHomeInstance = false;
 
-    if (!(await hasSelectedInstance())||!(await hasSelectedType())) {
+    if (!(await hasSelectedInstance()) || !(await hasSelectedType())) {
       // no instance or type selected, create unique link on each card
     } else {
       hasHomeInstance = true;
@@ -51,11 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
         communityCard.classList.add('community-card');
 
         // If no home instance is selected, use the community's baseurl
-        if (hasHomeInstance == false) { newURL = 'https://' + community.baseurl + '/c/';}
+        if (hasHomeInstance == false) { newURL = 'https://' + community.baseurl + '/c/'; }
 
         // Use placeholder icon if none is provided, or if not tagged sfw
         if (!community.icon) { community.icon = '../img/icon-lemm-noIcon.png'; }
-        if(community.nsfw == true) { community.icon = '../img/icon-lemm-nsf.png'; }
+        if (community.nsfw == true) { community.icon = '../img/icon-lemm-nsf.png'; }
 
         // Create the HTML content for each community card
         const communityHTML = `

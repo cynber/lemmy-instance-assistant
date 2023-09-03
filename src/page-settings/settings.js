@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   // const hideSidebarKbinCheckbox = document.getElementById('hideSidebarKbin');
   const showSidebarCheckbox = document.getElementById('showSidebarButtons');
   const showCommunityNotFoundCheckbox = document.getElementById('showCommunityNotFound');
+  const hideHelpCheckbox = document.getElementById('hideHelp');
   const searchOpenLemmyverseCheckbox = document.getElementById('searchOpenLemmyverse');
   const instanceListTextArea = document.getElementById('instance-list');
 
@@ -38,6 +39,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       // hideSidebarKbinCheckbox.checked = allSettings.hideSidebarKbin;
       showSidebarCheckbox.checked = allSettings.runOnCommunitySidebar;
       showCommunityNotFoundCheckbox.checked = allSettings.runOnCommunityNotFound;
+      hideHelpCheckbox.checked = allSettings.hideHelp;
       searchOpenLemmyverseCheckbox.checked = allSettings.toolSearchCommunity_openInLemmyverse;
       instanceListTextArea.value = allSettings.instanceList.map(item => `${item.name}, ${item.url}`).join('\n');
     } catch (error) {
@@ -86,7 +88,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const toastMessage = document.getElementById('toast-message');
     toastMessage.innerText = text;
     toastMessage.classList.add('show');
-  
+
     setTimeout(() => {
       toastMessage.classList.remove('show');
     }, 3000);
@@ -102,6 +104,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     // const hideSidebarKbin = hideSidebarKbinCheckbox.checked;
     const toggleShowSidebarButtons = showSidebarCheckbox.checked;
     const toggleShowCommunityNotFound = showCommunityNotFoundCheckbox.checked;
+    const toggleHideHelp = hideHelpCheckbox.checked;
     const toggleSearchOpenLemmyverse = searchOpenLemmyverseCheckbox.checked;
 
     // Validation check
@@ -115,10 +118,14 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     const websiteListTextArea = document.getElementById('instance-list');
     const websiteListText = websiteListTextArea.value.trim();
-    const websitesArray = websiteListText.split('\n').map(line => {
-      const [name, url] = line.split(',').map(item => item.trim());
-      return { name, url };
-    });
+    const websitesArray = websiteListText
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line !== "")
+      .map(line => {
+        const [name, url] = line.split(',').map(item => item.trim());
+        return { name, url };
+      });
 
     // Store values to local storage
     await setSetting('selectedInstance', instanceValue);
@@ -127,6 +134,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     // await setSetting('hideSidebarKbin', hideSidebarKbin);
     await setSetting('runOnCommunitySidebar', toggleShowSidebarButtons);
     await setSetting('runOnCommunityNotFound', toggleShowCommunityNotFound);
+    await setSetting('hideHelp', toggleHideHelp);
     await setSetting('toolSearchCommunity_openInLemmyverse', toggleSearchOpenLemmyverse);
     await setSetting('instanceList', websitesArray);
 
