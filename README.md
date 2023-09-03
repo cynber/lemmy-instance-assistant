@@ -44,33 +44,50 @@ If you have thoughts or want to contribute, you can join the discussion here: ht
 
 # Features
 
+<br/>
+
 **Support** for Lemmy and Kbin instances + custom frontends such as Alexandrite and Photon
+
+<br/>
 
 **Post to Lemmy/Kbin:** 
   * Instance Assistant can generate a draft post with autofilled title/link/body
   * For most news sites, videos, and other webpages, you can use the popup menu
   * For images, you can right-click on the image itself
 
+<br/>
+
 **Search for posts:** 
   * Find and open all posts that have a link to the site you are on. Use it to find posts about news articles, videos, and more
+
+<br/>
 
 **Search for communities and content without leaving the page:** 
   * You can use the popup menu or sidebar to search for communities (powered by [lemmyverse.net](https://lemmyverse.net/communities)), and for content (powered by [search-lemmy.com](https://search-lemmy.com))
 
+<br/>
+
 **Redirect to your home instance:** 
   * When you are on a foreign instance, buttons will be available in the sidebar to open the **community** or **post** in your home instance, allowing you to participate immediately
 
+<br/>
+
 **Open links in home instance:** 
   * If you come across a Lemmy/Kbin link anywhere on the web, you can right click to open it in your home instance
+
+<br/>
 
 **Upgraded Pages:** 
   * 'Community not found' pages now have better information and buttons to trigger a fetch, open the community in the source instance, and more. This also supports alternative front-ends. [See it in action here](https://lemmy.ca/c/fakecommunity@example.com)
   * `/communities` pages will have the non-functional 'subscribe' buttons replaced, to make it easier when browsing other instances.
 
+<br/>
+
 **Customizable:** 
   * Customizable list of instances in popup/sidebar to let you quickly switch home instances. This is great for if you have multiple accounts on different instances
   * You can change the behaviour of the extension and customize the actual Lemmy/Kbin site interface, making your browsing experience your own.
 
+<br/>
 <br/>
 
 ### I'm new to Lemmy/Kbin, what is this?
@@ -88,14 +105,14 @@ There are many other features as well, and hopefully many more to come! :)
 # Contributing
 
 You can contribute to this project in a number of ways:
-* 🐛 **Report bugs & suggest features:** 
-  - If you find a bug or want a new feature, you can discuss in the [Support Community](https://lemmy.ca/c/instance_assistant) or open an issue on GitHub.
-* 💻 **Contribute code:** 
-  - You can find guidance [on the wiki](https://github.com/cynber/lemmy-instance-assistant/wiki/Development-Process)
-* 🌐 **Translate:** 
-  - If you want to help translate the extension, you will soon be able to do so. I will update this section once it is ready.
-* 💛 **Donate:**
-  - If you want to support the project financially, you can do so by clicking the sponsor button on this page, or through https://ko-fi.com/cynber
+
+🐛 **Report bugs & suggest features:** If you find a bug or want a new feature, you can discuss in the [Support Community](https://lemmy.ca/c/instance_assistant) or open an issue on GitHub.
+
+💻 **Contribute code:** You can find guidance [on the wiki](https://github.com/cynber/lemmy-instance-assistant/wiki/Development-Process)
+
+🌐 **Translate:** If you want to help translate the extension, you will soon be able to do so. I will update this section once it is ready.
+
+💛 **Donate:** If you want to support the project financially, you can do so by clicking the sponsor button on this page, or through [ko-fi.com/cynber](https://ko-fi.com/cynber)
 
 
 
