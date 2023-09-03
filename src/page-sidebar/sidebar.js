@@ -1,5 +1,7 @@
+// THIS PAGE SHOULD BE IDENTICAL TO popup.js 
+
 document.addEventListener("DOMContentLoaded", function () {
-  async function createSidebar() {
+  async function createPage() {
 
     const instanceList = document.getElementById("instance-list"),
       btnChangeInstance = document.getElementById("btn-change-instance"),
@@ -8,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
       btnOpenSettings = document.getElementById("btn-open-settings"),
       txtHomeInstance = document.getElementById("homeInstance"),
       txtInstanceType = document.getElementById("instance-type");
+      txtInstanceWarn = document.getElementById("no-instance-warning");
 
     // ---------------------------------------------------------
     // ------------------- Setup Display -----------------------
@@ -18,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     txtHomeInstance.textContent = selectedInstance ? selectedInstance : "unknown";
     txtInstanceType.textContent = selectedType ? selectedType : "unknown";
+    txtInstanceWarn.textContent = selectedInstance ? "" : "WARN - Instance Not Selected: Some features will not work as expected. Please click 'Change my home instance'.";
 
     let lemmyInstances = await getSetting("instanceList");
 
@@ -31,14 +35,13 @@ document.addEventListener("DOMContentLoaded", function () {
       instanceList.appendChild(listItem);
     });
 
-
     // ---------------------------------------------------------
     // ------------------- Basic Functions ---------------------
     // ---------------------------------------------------------
 
     // Open settings page
     btnOpenSettings.addEventListener("click", (event) => {
-      browser.tabs.create({ url: '../page-settings/settings.html' });
+      doOpenSettings();
     });
 
     // ---------------------------------------------------------
@@ -53,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
         await setSetting("selectedInstance", inputInstance.trim());
         txtHomeInstance.textContent = inputInstance.trim();
       } else { alert("Invalid URL format, please follow this format: \n 'https://lemmy.ca'"); }
+      window.location.reload();
     });
 
     // Toggle home instance type
@@ -71,6 +75,34 @@ document.addEventListener("DOMContentLoaded", function () {
         navigator.clipboard.writeText(url);
       }
     });
+
+    // --------------------------------------------- //
+    // ---------------- Posting Tools -------------- //
+    // --------------------------------------------- //
+
+    const btn_post_to = document.getElementById("btn-tool-post-to");
+    const btnOpenPosts = document.getElementById("btn-tool-open-posts");
+
+    // Post to Community
+    btn_post_to.addEventListener("click", async () => {
+        doCreatePost();       
+    });
+
+    // Open posts from home instance
+    btnOpenPosts.addEventListener("click", async () => {
+      const queryOptions = { active: true, currentWindow: true };
+      const [tab] = await browser.tabs.query(queryOptions);
+      const testURL = tab.url;
+
+      doOpenMatchingPostsLemmy(testURL);
+    });
+
+
+
+
+
+
+
 
     // --------------------------------------------- //
     // ---------------- Search Tools --------------- //
@@ -130,8 +162,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
           } else { alert('You are already on your home instance.'); }
         } else { alert('You are not on a Lemmy or Kbin community. Please navigate to a community page and try again.\n\nThe extension checks for links that have "/c/" or "/m/" in the URL'); }
-      } else { alert('No valid instance has been set. Please select an instance in the sidebar using "Change my home instance".'); }
+      } else { alert('No valid instance has been set. Please select an instance in the popup using "Change my home instance".'); }
     });
   }
-  createSidebar();
+  createPage();
 });

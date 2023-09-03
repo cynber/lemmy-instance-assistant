@@ -2,6 +2,8 @@ function testFunction() {
   console.log("This is a test function.");
 }
 
+let validInstanceURLPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
+
 // Utility function to get the appropriate storage API based on the browser
 function getStorageAPI() {
   let storageAPI;
@@ -16,24 +18,30 @@ function getStorageAPI() {
   return storageAPI;
 }
 
-function isLoggedInLemmy() {
-  // TODO: NOT TESTED
-  const loginLink = document.querySelector('a[href="/login"]');
-  const signupLink = document.querySelector('a[href="/signup"]');
-  
-  // If both login and signup links exist, user is not logged in
-  return !(loginLink && signupLink);
+function getBrowserAPI() {
+  let browserAPI;
+  if (typeof browser !== 'undefined' && browser.storage && browser.storage.local) {
+    browserAPI = browser;
+  } else if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+    browserAPI = chrome;
+  } else {
+    throw new Error('Browser API is not supported in this browser.');
+  }
+  return browserAPI;
 }
 
-function isLoggedInKbin() {
-  const loginLink = document.querySelectorAll('a.login[href="/login"]');
-
-  // If login link exists, user is not logged in
-  return !loginLink;
+function doOpenSettings() {
+  const browserAPI = getBrowserAPI();
+  browserAPI.tabs.create({ url: '../page-settings/settings.html' });
 }
 
 
-const validInstanceURLPattern = /^(http|https):\/\/(?:[\w-]+\.)?[\w.-]+\.[a-zA-Z]{2,}$/;
+
+
+
+
+
+
 
 // ----------------------------------------------
 // SETTINGS FUNCTIONS
@@ -93,15 +101,12 @@ const defaultSettings = {
   instanceList: [
     { name: "lemmy.world", url: "https://lemmy.world" },
     { name: "lemmy.ca", url: "https://lemmy.ca" },
-    { name: "lemmy.one", url: "https://lemmy.one" },
-    { name: "programming.dev", url: "https://programming.dev" },
-    { name: "lemmy.ml", url: "https://lemmy.ml" },
-    { name: "feddit.de", url: "https://feddit.de" },
     { name: "lemm.ee", url: "https://lemm.ee" },
     { name: "kbin.social", url: "https://kbin.social" },
   ],
   runOnCommunitySidebar: true,
   runOnCommunityNotFound: true,
+  hideHelp: false,
   selectedInstance: '',           // users are forced to set this
   selectedType: 'lemmy',          // lemmy or kbin
   theme: 'dark',                  // **NOT IMPLEMENTED YET**
@@ -147,9 +152,26 @@ async function initializeSettingsWithDefaults() {
 
 
 
+
+
+
+
+
+
 // ----------------------------------------------
 // Determine type of page
 // ----------------------------------------------
+
+function isLoggedInLemmy() {
+  const loginLink = document.querySelector('a[href="/login"]');
+  const signupLink = document.querySelector('a[href="/signup"]');
+  return !(loginLink && signupLink);
+}
+
+function isLoggedInKbin() {
+  const loginLink = document.querySelectorAll('a.login[href="/login"]');
+  return !loginLink;
+}
 
 function isLemmySite() {
   const metaTag = document.querySelector('meta[name="Description"]');
@@ -178,7 +200,7 @@ function isLemmyCommunityWEAK(sourceURL) {
 
 function isLemmyPost(sourceURL) {
   const CURRENT_PATH = new URL(sourceURL).pathname;
-  return (isLemmySite() && CURRENT_PATH.includes("/post/"))
+  return (isLemmySite() && (CURRENT_PATH.includes("/post/")))
 }
 
 function isLemmyLoadOtherInstance(sourceURL) {
@@ -207,6 +229,11 @@ function isKbinCommunityWEAK(sourceURL) {
   return (CURRENT_PATH.includes("/m/"))
 }
 
+function isKbinPost(sourceURL) {
+  const CURRENT_PATH = new URL(sourceURL).pathname;
+  return (isKbinSite() && (CURRENT_PATH.includes("/t/")))
+}
+
 // -------------- Other Frontends ---------------
 
 function isLemmyPhoton() {
@@ -221,6 +248,16 @@ function isLemmyPhoton() {
 
 function isLemmyAlexandrite() {
   return !!document.querySelector('div.sx-stack.f-row.gap-1.align-items-center.mx-4.sx-badge-gray.sx-font-size-2 a[href="https://github.com/sheodox/alexandrite"]');
+}
+
+function isLemmyPhotonPost(sourceURL) {
+  const CURRENT_PATH = new URL(sourceURL).pathname;
+  return (isLemmyPhoton() && CURRENT_PATH.includes("/post/"))
+}
+
+function isLemmyAlexandritePost(sourceURL) {
+  const CURRENT_PATH = new URL(sourceURL).pathname;
+  return (isLemmyAlexandrite() && CURRENT_PATH.includes("/post/"))
 }
 
 function mayBeFrontend(testURL) {
@@ -248,10 +285,22 @@ function getRealHostname(testURL) {
   } catch (error) {
     // Input is not a valid URL, use it as is
   }
+  // check if testURLHost contains > 1 dot
 
-  const hostParts = testURLHost.split('.');
-  return hostParts.slice(1).join('.');
+  if (testURLHost.split('.').length > 2) {
+    const hostParts = testURLHost.split('.');
+    return hostParts.slice(1).join('.');
+  } else {
+    return testURLHost;
+  }
 }
+
+
+
+
+
+
+
 
 
 
@@ -300,7 +349,80 @@ async function getCommunityRedirectURL(oldURL) {
   return newURL;
 }
 
-// TODO: set up error handling to check the URL
+async function getPostRedirectURL(oldURL) {
+  return oldURL;
+}
+
+async function toggleInstanceType() {
+  const currentType = await getSetting("selectedType");
+  const newType = currentType === "lemmy" ? "kbin" : "lemmy";
+  await setSetting("selectedType", newType);
+}
+
+// INPUT: instance URL (string), post ID (string)
+// OUTPUT: post object (JSON)
+async function fetchPostFromID(instance, postID) {
+  console.log("fetch request:", instance + '/api/v3/post?id=' + postID)
+  const options = { method: 'GET', headers: { accept: 'application/json' } };
+  try {
+    const response = await fetch(instance + '/api/v3/post?id=' + postID, options);
+    const apiResponse = await response.json();
+    return apiResponse.post_view;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// INPUT: instance URL (string), post title (string)
+// OUTPUT: post search results (JSON)
+async function fetchPostsFromTitle(instance, postTitle) {
+  console.log("fetch request:", instance + '/api/v3/search?q=' + encodeURIComponent(postTitle) + '&type_=Posts');
+  const options = { method: 'GET', headers: { accept: 'application/json' } };
+  try {
+    console.log("fetch request:", instance + '/api/v3/search?q=' + encodeURIComponent(postTitle) + '&type_=Posts');
+    const response = await fetch(instance + '/api/v3/search?q=' + encodeURIComponent(postTitle) + '&type_=Posts', options);
+    const apiResponse = await response.json();
+    return apiResponse.posts;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// INPUT: post object (JSON), post search results (JSON)
+// OUTPUT: filtered post search results (JSON)
+async function filterPostsByPost(testPost, inputPosts) {
+  const og_communityName = testPost.community.name;
+  const og_creatorName = testPost.creator.name;
+  const og_title = testPost.post.name;
+  const og_url = testPost.post.url;
+
+  let filteredPosts = inputPosts.filter(post =>
+    post.community.name === og_communityName &&
+    post.creator.name === og_creatorName &&
+    post.post.name === og_title
+  );
+
+  return filteredPosts;
+}
+
+async function openPostFromID(instance, postID, community) {
+  const type = await getSetting("selectedType");
+
+  (type === "lemmy") ?
+    window.location.href = instance + '/post/' + postID :
+    window.location.href = instance + '/m/' + community + '/t/' + postID;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 // ----------------------------------------------
 // -------------  External Tool  ----------------
@@ -308,13 +430,14 @@ async function getCommunityRedirectURL(oldURL) {
 
 // External Tool: Search Community through Lemmyverse 
 async function toolSearchCommunitiesLemmyverse(searchTerm) {
+  const browserAPI = getBrowserAPI();
   if (searchTerm !== "") {
     if (await getSetting('toolSearchCommunity_openInLemmyverse')) {
       const baseUrl = "https://lemmyverse.net/communities";
       const encodedSearchTerm = encodeURIComponent(searchTerm);
-      browser.tabs.create({ url: `${baseUrl}?query=${encodedSearchTerm}` });
+      browserAPI.tabs.create({ url: `${baseUrl}?query=${encodedSearchTerm}` });
     } else {
-      browser.tabs.create({ url: `../page-search/search.html?query=${encodeURIComponent(searchTerm)}` });
+      browserAPI.tabs.create({ url: `../page-search/search.html?query=${encodeURIComponent(searchTerm)}` });
     }
   } else {
     console.log("CommunitySearch: Search term is empty");
@@ -323,13 +446,159 @@ async function toolSearchCommunitiesLemmyverse(searchTerm) {
 
 // External Tool: Search Content through Lemmysearch
 function toolSearchContentLemmysearch(searchTerm) {
+  const browserAPI = getBrowserAPI();
   if (searchTerm !== "") {
     const baseUrl = "https://www.search-lemmy.com/results";
     const encodedSearchTerm = encodeURIComponent(searchTerm);
     const finalUrl = `${baseUrl}?query=${encodedSearchTerm}`;
-    browser.tabs.create({ url: finalUrl });
+    browserAPI.tabs.create({ url: finalUrl });
   }
 }
+
+
+
+
+
+
+
+
+
+
+// ----------------------------------------------
+// -------------  Posting Tools  ----------------
+// ----------------------------------------------
+
+// Helper functions to post a webpage to a community
+
+// Get the post data from the current tab
+// - returns { title: "title", url: "url" }
+async function p2l_getPostData() {
+  const browserAPI = getBrowserAPI();
+  const tabs = await browserAPI.tabs.query({ active: true, currentWindow: true });
+  const activeTab = tabs[0];
+  const postData = {
+    title: activeTab.title,
+    url: activeTab.url
+  };
+  return postData;
+}
+
+// when on a webpage, open the matching posts in a new tab
+async function doOpenMatchingPostsLemmy(testURL) {
+  const browserAPI = getBrowserAPI();
+  const selectedType = await getSetting('selectedType');
+
+  if (await hasSelectedInstance() && await hasSelectedType()) {
+    if (selectedType === "lemmy") {
+      const selectedInstance = await getSetting('selectedInstance');
+
+      const searchURL = selectedInstance + "/api/v3/search?q=" + testURL;
+      const [lemmyPostResponse_URL, lemmyPostResponse_BODY] = await Promise.all([
+        fetch(searchURL + "&type_=Url"),
+        fetch(searchURL + "&type_=All")
+      ]);
+      lemmyPostData = {
+        posts: [
+          ...(await lemmyPostResponse_URL.json()).posts,
+          ...(await lemmyPostResponse_BODY.json()).posts
+        ]
+      };
+      if (lemmyPostData.posts.length <= 0) {
+        alert("No posts found for this URL.");
+      } else if (lemmyPostData.posts.length === 1) {
+        lemmyPostData.posts.forEach(post => {
+          const post_id = post.counts.post_id;
+          console.log("Post ID:", post_id);
+          browserAPI.tabs.create({ url: selectedInstance + "/post/" + post_id });
+        });
+      } else if (lemmyPostData.posts.length > 1) {
+        // tell user how many posts there are and ask if it's ok to open them
+        const confirmOpen = confirm("There are " + lemmyPostData.posts.length + " posts for this URL. Open them all?");
+        if (confirmOpen) {
+          lemmyPostData.posts.forEach(post => {
+            const post_id = post.counts.post_id;
+            console.log("Post ID:", post_id);
+            browserAPI.tabs.create({ url: selectedInstance + "/post/" + post_id });
+          });
+        }
+      }
+    } else if (selectedType === "kbin") {
+      alert("This feature is not yet available for Kbin instances.");
+    }
+  } else { alert("No valid instance has been set. Please select an instance in the popup using 'Change my home instance'."); }
+}
+
+async function doOpenMatchingPostsKbin(testURL) {
+  // TODO: Implement this
+  alert("This feature is not yet available for Kbin instances.");
+}
+
+// When on a webpage, post it to a community
+async function doCreatePost() {
+  const browserAPI = getBrowserAPI();
+  if (await hasSelectedInstance() && await hasSelectedType()) {
+    const postData = await p2l_getPostData();
+
+    const instance = await getSetting("selectedInstance");
+    const type = await getSetting("selectedType");
+
+    if (type === "lemmy") {
+      const url = instance + "/create_post";      
+      const createdTab = await browserAPI.tabs.create({ url: url });
+      const listener = (tabId, changeInfo) => {
+        if (tabId === createdTab.id && (changeInfo.status === "complete" || changeInfo.status === "loading")) {
+          
+
+          browserAPI.tabs.onUpdated.removeListener(listener);
+
+          // Fill in form after the tab is fully loaded
+          browserAPI.scripting.executeScript({
+            target: { tabId: createdTab.id },
+            func: async (postData) => {
+              const EVENT_OPTIONS = {bubbles: true, cancelable: false, composed: true};
+              const EVENTS = {
+                  BLUR: new Event("blur", EVENT_OPTIONS),
+                  CHANGE: new Event("change", EVENT_OPTIONS),
+                  INPUT: new Event("input", EVENT_OPTIONS),
+              };
+          
+              const postTitleInput = document.querySelector("#post-title");
+              const postURLInput = document.querySelector("#post-url");
+          
+              postTitleInput.select();
+              postTitleInput.value = postData.title;
+              postTitleInput.dispatchEvent(EVENTS.INPUT);
+          
+              postURLInput.select();
+              postURLInput.value = postData.url;
+              postURLInput.dispatchEvent(EVENTS.INPUT);
+            },
+            args: [postData]
+          }).catch(error => {
+            console.error("Script execution error:", error);
+          });
+
+          window.close(); 
+        }
+      };
+
+      browserAPI.tabs.onUpdated.addListener(listener);
+
+    } else if (type === "kbin") {
+      const url = instance + "/new?url=" + postData.url + "&title=" + postData.title;
+      await browserAPI.tabs.create({ url: url });
+    }
+  } else { alert("No valid instance has been set. Please select an instance in the popup using 'Change my home instance'."); }
+}
+
+
+
+
+
+
+
+
+
 
 // ----------------------------------------------
 // ---------- General DOM Manipulation ----------

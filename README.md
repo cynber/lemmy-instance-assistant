@@ -2,25 +2,6 @@
 
 <h1 align="center">Instance Assistant</h1>
 
-# Features
-
-* **Support** for Lemmy and Kbin instances, as well as Alexandrite & Photon frontends.
-* **Redirect to your home instance:** 
-  * Buttons will be added to the sidebar of any Lemmy or Kbin community you visit, which will let you open the same community on your home instance.
-* **Search for communities and posts:** 
-  * Popup and sidebar include search fields powered by lemmyverse.net and search-lemmy.com
-* **Open links in home instance:** 
-  * Right click context menu will allow you to open any links in your home instance
-* **Upgraded Pages:** 
-  * 'Community not found' pages now have better information, a button to trigger a fetch, a button to open a community in the source instance, and more. See it [in action here](https://lemmy.ca/c/fakecommunity@example.com)
-  * '/communities' pages had the non-functional 'subscribe' buttons replaced, to make it easier when browsing other instances.
-* **Customizable:** 
-  * Customizable list of instances to let you quickly switch home instances. This is great for if you have multiple accounts on different instances.
-  * Hide parts of the site you don't want to see, such as the default Lemmy sidebar
-* **Settings:** You can change the default behaviour of the extension, customize the popup & sidebar menus, and turn off features you don't want to use.
-
-</br>
-
 # Downloads
 
 <table>
@@ -28,7 +9,6 @@
     <th>Firefox                      </th>
     <th>Google Chrome                </th>
     <th>Microsoft Edge               </th>
-    <th>Opera                        </th>
   </tr>
   <tr>
     <td>
@@ -46,61 +26,110 @@
         <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/26402139/252613780-21b8d61e-831b-459a-b45b-50190afb9cd2.png" alt="Get 'Instance Assistant for Lemmy & Kbin' - Edge">
       </a>
     </td>
-    <td>
-      <p>Coming soon...</p>
-      <a href="#" onclick="return false;">
-        <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/26402139/252613528-85a804d6-0dd0-4fd9-bc0e-26da3a436fbe.png" alt="Get 'Instance Assistant for Lemmy & Kbin' - Opera">
-      </a>
-    </td>
   </tr>
   <tr>
   </tr>
 </table>
 
-#### Other browsers:
-* **Opera:** Waiting for approval by Opera team. In the meantime, you can download the extension from the Chrome store and install it manually.
-* **Safari:** No immediate plans. While there are tools available to port the extension over to Safari, I don't have a new MacOS device which is required to sign the extension. I'm still looking in to this, but if you would like to contribute you can join the discussion here: https://lemmy.ca/c/instance_assistant
-* **Other browsers:** Currently there aren't any plans to add it to any other browsers as you should be able to download from either the Chrome or Firefox stores. If you would like to see this extension on another browser, you can join the discussion here: https://lemmy.ca/c/instance_assistant
+**Safari:** No immediate plans. While I can port the extension to Safari, I can't sign and publish it without a recent MacOS device.
 
-<br/> 
+**Other browsers:** No immediate plans. For most other browsers, you should be able to download from either the Chrome or Firefox stores.
 
-# Note on Permissions
+If you have thoughts or want to contribute, you can join the discussion here: https://lemmy.ca/c/instance_assistant
 
-The current versions request “Access to all sites”. This is because the extension needs access to any page that contains “/c/”, “/m/”, or “/post/” in order to create the sidebar buttons. While the extension only looks for those pages, it will show up as “Access to all sites” when installing. Once I have a proper welcome message and settings page, I plan on making this permission optional so you can just use the popup menu if you would like.
+<br/>
+
+
+
+
+# Features
+
+<br/>
+
+**Support** for Lemmy and Kbin instances + custom frontends such as Alexandrite and Photon
+
+<br/>
+
+**Post to Lemmy/Kbin:** 
+  * Instance Assistant can generate a draft post with autofilled title/link/body
+  * For most news sites, videos, and other webpages, you can use the popup menu
+  * For images, you can right-click on the image itself
+
+<br/>
+
+**Search for posts:** 
+  * Find and open all posts that have a link to the site you are on. Use it to find posts about news articles, videos, and more
+
+<br/>
+
+**Search for communities and content without leaving the page:** 
+  * You can use the popup menu or sidebar to search for communities (powered by [lemmyverse.net](https://lemmyverse.net/communities)), and for content (powered by [search-lemmy.com](https://search-lemmy.com))
+
+<br/>
+
+**Redirect to your home instance:** 
+  * When you are on a foreign instance, buttons will be available in the sidebar to open the **community** or **post** in your home instance, allowing you to participate immediately
+
+<br/>
+
+**Open links in home instance:** 
+  * If you come across a Lemmy/Kbin link anywhere on the web, you can right click to open it in your home instance
+
+<br/>
+
+**Upgraded Pages:** 
+  * 'Community not found' pages now have better information and buttons to trigger a fetch, open the community in the source instance, and more. This also supports alternative front-ends. [See it in action here](https://lemmy.ca/c/fakecommunity@example.com)
+  * `/communities` pages will have the non-functional 'subscribe' buttons replaced, to make it easier when browsing other instances.
+
+<br/>
+
+**Customizable:** 
+  * Customizable list of instances in popup/sidebar to let you quickly switch home instances. This is great for if you have multiple accounts on different instances
+  * You can change the behaviour of the extension and customize the actual Lemmy/Kbin site interface, making your browsing experience your own.
+
+<br/>
+<br/>
+
+### I'm new to Lemmy/Kbin, what is this?
+
+Lemmy and Kbin are a part of the Fediverse, a network of interconnected social media platforms that work similar to Reddit. This extension is designed to make it easier to use these platforms and make the most of decentralized social media while mimizing the difficulties that may come with it.
+
+Say, for example, you may make an account on `lemmy.ca`. You may google a community or topic and come across a page on a different instance (ex. `lemmy.ml/c/technology`). If you want to subscribe to the community, you will need to copy the code (`!technology@lemmy.ml`), open your home instance, and then paste it into the search page. If you want to comment on a post, you would then try to track it down by scrolling through the community.
+
+This extension will let you jump to the version on your home instance, allowing you to subscribe and participate immediately.
+
+There are many other features as well, and hopefully many more to come! :)
 
 <br/> 
 
 # Contributing
 
 You can contribute to this project in a number of ways:
-* **Report bugs & suggest features:** If you find a bug or want a new feature, you can discuss in the Support Community (https://lemmy.ca/c/instance_assistant) or open an issue on GitHub.
-* **Contribute code:** If you want to contribute code, you can open a pull request on GitHub. You can find guidance here: https://github.com/cynber/lemmy-instance-assistant/wiki/Development-Process
-* **Translate:** If you want to help translate the extension, you will soon be able to do so. I will update this section once it is ready.
-* **Donate:** If you want to support the project financially, you can do so by clicking the sponsor button on this page, or through https://ko-fi.com/cynber
+
+🐛 **Report bugs & suggest features:** If you find a bug or want a new feature, you can discuss in the [Support Community](https://lemmy.ca/c/instance_assistant) or open an issue on GitHub.
+
+💻 **Contribute code:** You can find guidance [on the wiki](https://github.com/cynber/lemmy-instance-assistant/wiki/Development-Process)
+
+🌐 **Translate:** If you want to help translate the extension, you will soon be able to do so. I will update this section once it is ready.
+
+💛 **Donate:** If you want to support the project financially, you can do so by clicking the sponsor button on this page, or through [ko-fi.com/cynber](https://ko-fi.com/cynber)
 
 
 
 <br/>
 
 # Other Links
-<table style="width: 100%;">
-  <tr>
-    <td style="width: 50%;"> <h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#recent-updates">Recent Updates</a></h3> </td>
-    <td style="width: 50%;"> <h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#future-plans">Future Plans</a></h3></td>
-  </tr>
-  <tr>
-    <td style="width: 50%;"> <h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#faq">FAQ</a></h3> </td>
-    <td style="width: 50%;"> <h3><a href="https://github.com/cynber/lemmy-instance-assistant/assets/26402139/d3a12821-9fa6-47a8-8c87-fc3d94bd3efb">Demo Video (out of date, new one is planned)</a></h3> </td>
-  </tr>
-  <tr>
-    <td style="width: 50%;"> <h3><a href="https://github.com/cynber/lemmy-instance-assistant/wiki#credits">Credits</a></h3></td>
-    <td style="width: 50%;"> </td>
-  </tr>
-</table>
+
+* [Recent Updates](https://github.com/cynber/lemmy-instance-assistant/wiki#recent-updates)
+* [Open Issues](https://github.com/cynber/lemmy-instance-assistant/issues)
+* [What is being worked on?](https://github.com/users/cynber/projects/1)
+* [Credits](https://github.com/cynber/lemmy-instance-assistant/wiki#credits)
 
 <br/> 
 
 # Screenshots
+
+This is not a complete list of features, but it should give you an idea of what the extension can do. I will update these screenshots every now and then, so the UI may have changed since these were taken.
 
  <table>
  <tr>
