@@ -2,6 +2,20 @@
 
 <h1 align="center">Instance Assistant</h1>
 
+<div style="display: flex; justify-content: center;">
+  <p align="center">
+    <picture><img src="https://img.shields.io/amo/users/lemmy-instance-assistant?style=for-the-badge&logo=firefoxbrowser&label=Users%20(Firefox)&color=007ec6" style="margin-right: 20px;"></picture>
+    &nbsp;&nbsp;&nbsp;
+    <picture><img src="https://img.shields.io/chrome-web-store/users/mbblbalkjcikhpladidpimlfiapdffdh?style=for-the-badge&logo=googlechrome&label=Users%20(Chrome)&color=007ec6" style="margin-right: 20px;"></picture>
+    &nbsp;&nbsp;&nbsp;
+    <picture><img src="https://img.shields.io/badge/20%2B-users?style=for-the-badge&logo=microsoftedge&logoColor=33c2b2&label=Users%20(Edge)&color=007ec6"></picture>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <picture><img src="https://img.shields.io/github/stars/cynber/lemmy-instance-assistant?style=for-the-badge&logo=github&color=e3b341"></picture>
+  </p>
+</div>
+
+<br>
+
 # Downloads
 
 <table>
