@@ -87,7 +87,6 @@ async function setAllSettings(settingsObj) {
   
   const browserAPI = getBrowserAPI();
   const instanceList = settingsObj.instanceList;
-  console.log(instanceList)
 
   for (const instance of instanceList) {
     createContextMenu(instance, browserAPI)
