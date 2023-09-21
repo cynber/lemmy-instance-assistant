@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       hideHelpCheckbox.checked = allSettings.hideHelp;
       searchOpenLemmyverseCheckbox.checked = allSettings.toolSearchCommunity_openInLemmyverse;
       instanceListTextArea.value = allSettings.instanceList.map(item => `${item.name}, ${item.url}, ${item.type}`).join('\n');
+      // TODO: Figure out way to handle item.type == undefined when updated without resetting settings.
     } catch (error) {
       console.error('Error retrieving settings:', error);
     }
