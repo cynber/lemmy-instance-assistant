@@ -224,20 +224,20 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "redirect",
-    title: "Redirect to home instance",
+    title: "Redirect to other instance",
     contexts: ["link"],
     targetUrlPatterns: ["http://*/c/*", "https://*/c/*", "http://*/p/*", "https://*/p/*", "http://*/m/*", "https://*/m/*"],
   });
   chrome.contextMenus.create({
     id: "redirectHome",
-    title: "Redirect to home instance",
+    title: "Home instance",
     contexts: ["link"],
     targetUrlPatterns: ["http://*/c/*", "https://*/c/*", "http://*/p/*", "https://*/p/*", "http://*/m/*", "https://*/m/*"],
     parentId: "redirect"
   })
   chrome.contextMenus.create({
     id: "redirectToOthers",
-    title: "Redirect to other instances",
+    title: "Other instances",
     contexts: ["link"],
     targetUrlPatterns: ["http://*/c/*", "https://*/c/*", "http://*/p/*", "https://*/p/*", "http://*/m/*", "https://*/m/*"],
     parentId: "redirect"
