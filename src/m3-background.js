@@ -90,7 +90,36 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 // Handle context menu clicks
 // --------------------------------------
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-  if (info.menuItemId === "redirect" && info.linkUrl) {
+  if (info.parentMenuItemId === "redirectToOthers" && info.linkUrl) {
+    let sourceHost = new URL(info.linkUrl).hostname;
+    let sourcePath = new URL(info.linkUrl).pathname;
+
+    if (sourcePath.includes("/c/") || sourcePath.includes("/m/")) {
+      const communityName = sourcePath.match(/\/[cm]\/([^/@]+)/)[1];
+      const sourceInstance = sourcePath.includes("@") ?
+        sourcePath.match(/\/[cm]\/[^/@]+@([^/]+)/)[1] : sourceHost;
+        // get settings and make handlers.
+        const instanceList = await getSetting("instanceList");
+        const selectedInstance = await instanceList.find((instance) => "redirectTo" + instance.name === info.menuItemId);
+        console.log(instanceList)
+        console.log(selectedInstance)
+        if (!selectedInstance) {
+          chrome.tabs.update(tab.id, { url: 'https://github.com/cynber/lemmy-instance-assistant#setup' });
+          return false;
+        }
+        const selectedType = selectedInstance.type;
+        
+        const communityPrefix = selectedType ? (selectedType === "lemmy" ? "/c/" : "/m/") : "/c/";
+        const resultPath = communityPrefix + communityName + '@' + sourceInstance;
+        const redirectURL = 'https://' + selectedInstance.name + resultPath // TODO: Figure out way to handle protocol correctly
+        console.log(redirectURL.toString)
+    
+        chrome.tabs.update(tab.id, { url: redirectURL });
+    } else {
+      chrome.tabs.update(tab.id, { url: 'https://github.com/cynber/lemmy-instance-assistant/wiki/Sorry-that-didn\'t-work...' });
+      // TODO: Add a popup to explain this
+    }
+  } else if (info.menuItemId === "redirectHome" && info.linkUrl) {
 
     let sourceHost = new URL(info.linkUrl).hostname;
     let sourcePath = new URL(info.linkUrl).pathname;
@@ -199,6 +228,20 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ["link"],
     targetUrlPatterns: ["http://*/c/*", "https://*/c/*", "http://*/p/*", "https://*/p/*", "http://*/m/*", "https://*/m/*"],
   });
+  chrome.contextMenus.create({
+    id: "redirectHome",
+    title: "Redirect to home instance",
+    contexts: ["link"],
+    targetUrlPatterns: ["http://*/c/*", "https://*/c/*", "http://*/p/*", "https://*/p/*", "http://*/m/*", "https://*/m/*"],
+    parentId: "redirect"
+  })
+  chrome.contextMenus.create({
+    id: "redirectToOthers",
+    title: "Redirect to other instances",
+    contexts: ["link"],
+    targetUrlPatterns: ["http://*/c/*", "https://*/c/*", "http://*/p/*", "https://*/p/*", "http://*/m/*", "https://*/m/*"],
+    parentId: "redirect"
+  })
   chrome.contextMenus.create({
     id: "post-image",
     title: "Post this image",
