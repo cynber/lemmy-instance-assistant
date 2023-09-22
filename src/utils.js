@@ -66,11 +66,31 @@ async function getSetting(settingName) {
   return allSettings.settings[settingName];
 }
 
+function createContextMenu(instance, browserAPI) {
+  const menuId = 'redirectTo' + instance.name;
+
+  browserAPI.contextMenus.create({
+    id: menuId,
+    title: "Redirect to " + instance.name,
+    contexts: ["link"],
+    targetUrlPatterns: ["http://*/c/*", "https://*/c/*", "http://*/p/*", "https://*/p/*", "http://*/m/*", "https://*/m/*"],
+    parentId: "redirectToOthers"
+  });
+
+} // if already exists, pass.
+
 // Set all settings
 // - accepts 
 async function setAllSettings(settingsObj) {
   const storageAPI = getStorageAPI();
   await storageAPI.set({ 'settings': settingsObj });
+  
+  const browserAPI = getBrowserAPI();
+  const instanceList = settingsObj.instanceList;
+
+  for (const instance of instanceList) {
+    createContextMenu(instance, browserAPI)
+  };
 }
 
 // Set a single setting
@@ -99,10 +119,10 @@ const defaultSettings = {
   hideSidebarLemmy: false,
   hideSidebarKbin: false,
   instanceList: [
-    { name: "lemmy.world", url: "https://lemmy.world" },
-    { name: "lemmy.ca", url: "https://lemmy.ca" },
-    { name: "lemm.ee", url: "https://lemm.ee" },
-    { name: "kbin.social", url: "https://kbin.social" },
+    { name: "lemmy.world", url: "https://lemmy.world", type: "lemmy" },
+    { name: "lemmy.ca", url: "https://lemmy.ca", type: "lemmy"},
+    { name: "lemm.ee", url: "https://lemm.ee", type: "lemmy" },
+    { name: "kbin.social", url: "https://kbin.social", type: "kbin" },
   ],
   runOnCommunitySidebar: true,
   runOnCommunityNotFound: true,

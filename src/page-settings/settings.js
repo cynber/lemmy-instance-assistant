@@ -41,7 +41,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       showCommunityNotFoundCheckbox.checked = allSettings.runOnCommunityNotFound;
       hideHelpCheckbox.checked = allSettings.hideHelp;
       searchOpenLemmyverseCheckbox.checked = allSettings.toolSearchCommunity_openInLemmyverse;
-      instanceListTextArea.value = allSettings.instanceList.map(item => `${item.name}, ${item.url}`).join('\n');
+      instanceListTextArea.value = allSettings.instanceList.map(item => `${item.name}, ${item.url}, ${item.type}`).join('\n');
+      // TODO: Figure out way to handle item.type == undefined when updated without resetting settings.
     } catch (error) {
       console.error('Error retrieving settings:', error);
     }
@@ -123,8 +124,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       .map(line => line.trim())
       .filter(line => line !== "")
       .map(line => {
-        const [name, url] = line.split(',').map(item => item.trim());
-        return { name, url };
+        const [name, url, type] = line.split(',').map(item => item.trim());
+        return { name, url, type };
       });
 
     // Store values to local storage
