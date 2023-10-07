@@ -203,6 +203,11 @@ function isLemmyPost(sourceURL) {
   return (isLemmySite() && (CURRENT_PATH.includes("/post/")))
 }
 
+function isLemmyUser(sourceURL) {
+  const CURRENT_PATH = new URL(sourceURL).pathname;
+  return (isLemmySite() && (CURRENT_PATH.includes("/u/")))
+}
+
 function isLemmyLoadOtherInstance(sourceURL) {
   const CURRENT_PATH = new URL(sourceURL).pathname;
   return (isLemmyCommunity(sourceURL) && CURRENT_PATH.includes("@"))
@@ -348,6 +353,27 @@ async function getCommunityRedirectURL(oldURL) {
 
   return newURL;
 }
+
+async function getUserRedirectURL(oldURL) {
+  const selectedInstance = await getSetting('selectedInstance');
+  const selectedType = await getSetting('selectedType');
+
+  const oldHost = new URL(oldURL).hostname;
+  const oldPath = new URL(oldURL).pathname;
+
+  console.log("oldURL:", oldURL, "oldHost:", oldHost, "oldPath:", oldPath);
+
+  const userName = oldPath.match(/\/u\/([^/@]+)/)[1];
+  const userInstance = oldPath.includes("@") ?
+    oldPath.match(/\/u\/[^/@]+@([^/]+)/)[1] : oldHost;
+
+  const newURL = selectedInstance + "/u/" + userName + '@' + userInstance;
+
+  console.log("newURL:", newURL);
+
+  return newURL;
+}
+
 
 async function getPostRedirectURL(oldURL) {
   return oldURL;
