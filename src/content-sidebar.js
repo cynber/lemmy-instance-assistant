@@ -4,9 +4,10 @@
 
 setTimeout(() => {
   const pageURL = window.location.href;
-  
+
   if (isLemmyCommunity(pageURL) ||
     isLemmyPost(pageURL) ||
+    isLemmyUser(pageURL) ||
     isKbinCommunity(pageURL) ||
     isLemmyPhoton() ||
     isLemmyAlexandrite()) {
@@ -151,6 +152,19 @@ setTimeout(() => {
         `;
       btnToPostLemmy.style.backgroundColor = '#27175a';
 
+      let btnToUserLemmy = createButton('Find user in my home instance');
+      btnToUserLemmy.style.cssText = `
+            padding: .375rem .75rem;
+            margin: 1rem 0rem .5rem 0rem;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            font-weight: 400;
+            text-align: center;
+            color: white;
+        `;
+        btnToUserLemmy.style.backgroundColor = '#432684';
+
       // let btnToPostKbin = createButton('Find in my home instance');
       // btnToPostKbin.style.cssText = `
       //       padding: 0.75rem;
@@ -202,7 +216,11 @@ setTimeout(() => {
           TARGET_ELEMENT = document.querySelector('.section.intro') || document.querySelector('#sidebar .magazine .row');
           break;
 
-        case isLemmyCommunity(pageURL) && !isLemmyPost(pageURL):
+        case isLemmyUser(pageURL):
+          TARGET_ELEMENT = document.querySelector('.person-listing');
+          break;
+
+        case (isLemmyCommunity(pageURL) && !isLemmyPost(pageURL) && !isLemmyUser(pageURL)):
           TARGET_ELEMENT = document.querySelector('.card-body');
           break;
 
@@ -231,7 +249,8 @@ setTimeout(() => {
       // For community redirects
       if (!(isLemmyPost(pageURL) ||
         isLemmyPhotonPost(pageURL) ||
-        isLemmyAlexandritePost(pageURL))) {
+        isLemmyAlexandritePost(pageURL) ||
+        isLemmyUser(pageURL))) {
         redirectURL = await getCommunityRedirectURL(pageURL);
       }
       function redirectToInstance() {
@@ -306,10 +325,18 @@ setTimeout(() => {
       //   }
       // });
 
+      // For user redirects
 
+      if(isLemmyUser(pageURL)) {
+        redirectURL = await getUserRedirectURL(pageURL);
+      }
+      function redirectToUser() {
+        canRedirect
+          ? window.location.href = redirectURL
+          : alert('No valid instance has been set.');
+      }
 
-
-
+      btnToUserLemmy.addEventListener('click', redirectToUser);
 
 
 
@@ -320,6 +347,7 @@ setTimeout(() => {
 
       // ---------- Append elements ----------- //            
       if (!document.querySelector('#instance-assistant-sidebar') && (await getSetting('runOnCommunitySidebar')) && !(await isHomeInstance(pageURL))) { // Prevent duplicate elements
+        // append community redirect button to community page
         if (isLemmyCommunity(pageURL)) {
           TARGET_ELEMENT.appendChild(btnRedirectLemmy);
           TARGET_ELEMENT.appendChild(txtHomeInstance);
@@ -348,6 +376,7 @@ setTimeout(() => {
             TARGET_ELEMENT.appendChild(containerRedirectLemmyPhoton);
           }
         }
+        // append post redirect button to post page
         if (isLemmyPhotonPost(pageURL)) {
           TARGET_ELEMENT.insertBefore(btnToPostLemmy, TARGET_ELEMENT.firstChild);
         }
@@ -363,6 +392,20 @@ setTimeout(() => {
           TARGET_ELEMENT.appendChild(btnToPostLemmy);
           TARGET_ELEMENT.appendChild(txtHomeInstance);
           if (!hideHelp) {TARGET_ELEMENT.appendChild(txtChangeInstance);}
+        }
+        // append user redirect button to user page
+        if (isLemmyUser(pageURL)) {
+          const userContainer = document.createElement('div');
+          userContainer.style.cssText = `
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          `;
+          userContainer.appendChild(btnToUserLemmy);
+          userContainer.appendChild(txtHomeInstance);
+          if (!hideHelp) {userContainer.appendChild(txtChangeInstance);}
+          TARGET_ELEMENT.parentElement.appendChild(userContainer);
         }
       }
     }

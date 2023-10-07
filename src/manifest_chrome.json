@@ -4,7 +4,7 @@
   "author": "Cynber",
   "description": "Simplify your Lemmy & Kbin experience with tools for your instance and communities",
   "homepage_url": "https://github.com/cynber/lemmy-instance-assistant",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "manifest_version": 3,
   "icons": {
     "48": "img/lemming48_dev.png",
@@ -36,7 +36,8 @@
         "*://*/communities",
         "*://*/c/*",
         "*://*/m/*",
-        "*://*/post/*"
+        "*://*/post/*",
+        "*://*/u/*"
       ],
       "js": [
         "node_modules/webextension-polyfill/dist/browser-polyfill.js",
