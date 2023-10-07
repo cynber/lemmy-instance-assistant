@@ -82,7 +82,7 @@ If you have thoughts or want to contribute, you can join the discussion here: ht
 <br/>
 
 **Redirect to your home instance:** 
-  * When you are on a foreign instance, buttons will be available in the sidebar to open the **community** or **post** in your home instance, allowing you to participate immediately
+  * When you are on a foreign instance, buttons will be available in the sidebar to open the **community**, **post**, or **user (NEW)** in your home instance, allowing you to participate immediately
 
 <br/>
 
